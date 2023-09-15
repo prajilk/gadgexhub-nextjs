@@ -46,9 +46,9 @@ const navItems = [
 
 const Navbar = () => {
     return (
-        <div className="sticky">
+        <div className="navbar-sticky">
             <Marquee />
-            <div className="navbar container py-3.5">
+            <div className="navbar py-3.5 px-5">
                 <div className="navbar-start w-fit">
                     <Link
                         href="/"
