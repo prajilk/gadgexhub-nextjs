@@ -2,13 +2,25 @@
 
 import { ChevronsLeft, ChevronsRight, Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
+import Slider from "./Slider";
 
 const slides = [
     {
+        title: "Earphone 700 ANC",
+        description: "Get your Earbud now with 20% off!",
+        basePrice: 1999,
+        discountedPrice: 1499,
+        href: "/store/product/earphone-700-anc?pid=twvdhjay",
         url: "/testHero.webp",
         urlSm: "/testHeroSM.webp",
     },
     {
+        title: "Home Theater 3400C",
+        description:
+            "Latest Zebronics Home Theater 3400C, Buy now with 15% off!",
+        basePrice: 14999,
+        discountedPrice: 12999,
+        href: "/store/product/home-theater-3400c?pid=ejalknkud",
         url: "/testHero2.webp",
         urlSm: "/testHero2SM.webp",
     },
@@ -68,19 +80,26 @@ const Header = () => {
     return (
         <section className="w-full bg-gradient-to-tr from-gray-600 to-black pt-32 pb-7 md:pb-10 md:pt-40">
             <div className="container h-[26rem] md:h-[23rem] w-full m-auto px-5 relative group">
-                <div
-                    style={{
-                        backgroundImage: `url(${slides[currentIndex].url})`,
-                    }}
-                    className="relative hidden md:block w-full h-full rounded-2xl bg-center bg-cover duration-500"
-                ></div>
-                <div
-                    style={{
-                        backgroundImage: `url(${slides[currentIndex].urlSm})`,
-                    }}
-                    className="relative md:hidden w-full h-full rounded-2xl bg-center bg-cover duration-500"
-                ></div>
-                <div className="absolute flex items-center gap-2 left-0 bottom-0 ps-10 pb-4 md:right-0 md:pe-10">
+                {/* Slider for Large Screen */}
+                {slides.map(
+                    (slide, i) =>
+                        currentIndex === i && (
+                            <div className="relative hidden md:block w-full h-full rounded-2xl overflow-hidden">
+                                <Slider slide={slide} forLargeScreen={true} />
+                            </div>
+                        )
+                )}
+                {/* Slider for Small Screen */}
+                {slides.map(
+                    (slide, i) =>
+                        currentIndex === i && (
+                            <div className="relative md:hidden w-full h-full rounded-2xl overflow-hidden">
+                                <Slider slide={slide} forLargeScreen={false} />
+                            </div>
+                        )
+                )}
+
+                <div className="absolute z-30 flex items-center gap-2 left-0 bottom-0 ps-10 pb-4 md:left-auto md:right-0 md:pe-10">
                     {/* Slide Numbers */}
                     <div className="flex items-center me-2 gap-2.5">
                         {slides.map((_, index) => (
