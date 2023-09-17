@@ -1,23 +1,14 @@
-import { formatCurrency } from "@/lib/currencyFormatter";
+import { formatCurrency } from "@/lib/utils";
+import { SlideProps } from "@/types";
 import { motion as m } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-
-type Slide = {
-    title: string;
-    description: string;
-    basePrice: number;
-    discountedPrice: number;
-    href: string;
-    url: string;
-    urlSm: string;
-};
+import LinkButton from "../common/LinkButton";
 
 const Slider = ({
     slide,
     forLargeScreen,
 }: {
-    slide: Slide;
+    slide: SlideProps;
     forLargeScreen: boolean;
 }) => {
     return (
@@ -30,6 +21,8 @@ const Slider = ({
             >
                 <Image
                     loading="eager"
+                    priority={true}
+                    sizes="min(1600px, 100vw)"
                     src={forLargeScreen ? slide.url : slide.urlSm}
                     alt="slide images"
                     fill
@@ -68,12 +61,7 @@ const Slider = ({
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1, duration: 0.75 }}
                 >
-                    <Link
-                        href={slide.href}
-                        className="bg-black text-white btn rounded-none hover:bg-slate-800"
-                    >
-                        Buy Now
-                    </Link>
+                    <LinkButton href={slide.href} title="Buy Now" />
                 </m.div>
             </div>
         </>

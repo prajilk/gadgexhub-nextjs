@@ -1,17 +1,9 @@
 import { Menu } from "lucide-react";
 import DropdownItem from "./DropdownItem";
 import Link from "next/link";
+import { NavProps } from "@/types";
 
-type SidebarNavProps = {
-    title: string;
-    subItems?: {
-        title: string;
-        url: string;
-    }[];
-    url?: string;
-};
-
-const SidebarNav = ({ navItems }: { navItems: SidebarNavProps[] }) => {
+const SidebarNav = ({ navItems }: { navItems: NavProps[] }) => {
     return (
         <>
             <input type="checkbox" id="drawer-left" className="drawer-toggle" />

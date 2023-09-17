@@ -1,18 +1,10 @@
 import Link from "next/link";
 import DropdownItem from "./DropdownItem";
+import { NavProps } from "@/types";
 
-type TopNavProps = {
-    title: string;
-    subItems?: {
-        title: string;
-        url: string;
-    }[];
-    url?: string;
-};
-
-const TopNav = ({ navItems }: { navItems: TopNavProps[] }) => {
+const TopNav = ({ navItems }: { navItems: NavProps[] }) => {
     return (
-        <ul className="flex">
+        <ul className="flex items-center">
             {navItems.map((item, i) =>
                 item.subItems ? (
                     <DropdownItem item={item} key={i} />

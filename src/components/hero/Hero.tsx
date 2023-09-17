@@ -26,7 +26,7 @@ const slides = [
     },
 ];
 
-const Header = () => {
+const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [progress, setProgress] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -84,7 +84,10 @@ const Header = () => {
                 {slides.map(
                     (slide, i) =>
                         currentIndex === i && (
-                            <div className="relative hidden md:block w-full h-full rounded-2xl overflow-hidden">
+                            <div
+                                className="relative hidden md:block w-full h-full rounded-2xl overflow-hidden"
+                                key={i}
+                            >
                                 <Slider slide={slide} forLargeScreen={true} />
                             </div>
                         )
@@ -93,7 +96,10 @@ const Header = () => {
                 {slides.map(
                     (slide, i) =>
                         currentIndex === i && (
-                            <div className="relative md:hidden w-full h-full rounded-2xl overflow-hidden">
+                            <div
+                                className="relative md:hidden w-full h-full rounded-2xl overflow-hidden"
+                                key={i}
+                            >
                                 <Slider slide={slide} forLargeScreen={false} />
                             </div>
                         )
@@ -110,6 +116,7 @@ const Header = () => {
                                         : "text-[hsla(0,0%,100%,.60)]"
                                 } hover:text-white cursor-pointer`}
                                 onClick={() => goToSlide(index)}
+                                key={index}
                             >
                                 0{index + 1}
                             </span>
@@ -150,4 +157,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default Hero;

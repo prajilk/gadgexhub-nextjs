@@ -1,13 +1,6 @@
+import { DropdownItemProps } from "@/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-
-type DropdownItemProps = {
-    title: string;
-    subItems?: {
-        title: string;
-        url: string;
-    }[];
-};
 
 const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
     return (

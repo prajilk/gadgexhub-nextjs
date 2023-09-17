@@ -1,13 +1,6 @@
+import { DropdownItemProps } from "@/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-
-type DropdownItemProps = {
-    title: string;
-    subItems?: {
-        title: string;
-        url: string;
-    }[];
-};
 
 const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
     return (
@@ -19,7 +12,7 @@ const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
                 <span>{item.title}</span>
                 <ChevronDown size={15} />
             </label>
-            <div className="dropdown-menu border border-gray-200">
+            <div className="dropdown-menu border border-gray-200 rounded-none bg-white">
                 <ul className="menu-items">
                     {item.subItems &&
                         item.subItems.map((item, i) => (

@@ -1,8 +1,9 @@
 import Navbar from "@/components/navbar/Navbar";
-import "./globals.css";
+import "../globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ShowNavbar from "@/components/navbar/ShowNavbar";
+import { RootLayoutProps } from "@/types";
 
 const inter = Poppins({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -14,11 +15,7 @@ export const metadata: Metadata = {
     description: "Discover the Latest Gadgets: Your One-Stop Gadget Shop!",
 };
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en">
             <body className={inter.className}>

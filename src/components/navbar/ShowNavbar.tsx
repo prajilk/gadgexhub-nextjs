@@ -1,8 +1,4 @@
-import { ReactNode } from "react";
-
-type ShowNavBarProps = {
-    children: ReactNode;
-};
+import { ShowNavBarProps } from "@/types";
 
 const ShowNavbar = ({ children }: ShowNavBarProps) => {
     return <>{children}</>;

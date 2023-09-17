@@ -74,3 +74,19 @@
         @apply bg-background text-foreground;
     }
 }
+
+body {
+    background-color: #f5f5f5;
+}
+body::-webkit-scrollbar {
+    @apply hidden;
+}
+.scrollbar-thin::-webkit-scrollbar {
+    @apply w-1;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 rounded-full;
+}
+.scrollbar-none::-webkit-scrollbar {
+    @apply hidden;
+}
