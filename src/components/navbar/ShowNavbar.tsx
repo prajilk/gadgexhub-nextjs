@@ -1,6 +1,6 @@
-import { ShowNavBarProps } from "@/types";
+import { LayoutProps } from "@/types";
 
-const ShowNavbar = ({ children }: ShowNavBarProps) => {
+const ShowNavbar = ({ children }: LayoutProps) => {
     return <>{children}</>;
 };
 

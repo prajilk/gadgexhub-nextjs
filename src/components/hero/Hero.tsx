@@ -79,7 +79,7 @@ const Hero = () => {
 
     return (
         <section className="w-full bg-gradient-to-tr from-gray-600 to-black pt-32 pb-7 md:pb-10 md:pt-40">
-            <div className="container h-[26rem] md:h-[23rem] w-full m-auto px-5 relative group">
+            <div className="container h-[26rem] md:h-[23rem] w-full m-auto p-5 md:px-14 relative group">
                 {/* Slider for Large Screen */}
                 {slides.map(
                     (slide, i) =>
@@ -105,7 +105,7 @@ const Hero = () => {
                         )
                 )}
 
-                <div className="absolute z-30 flex items-center gap-2 left-0 bottom-0 ps-10 pb-4 md:left-auto md:right-0 md:pe-10">
+                <div className="absolute z-30 flex items-center gap-2 left-0 bottom-0 ps-10 pb-8 md:left-auto md:right-0 md:pe-20">
                     {/* Slide Numbers */}
                     <div className="flex items-center me-2 gap-2.5">
                         {slides.map((_, index) => (
@@ -130,6 +130,7 @@ const Hero = () => {
                             style={{ width: `${progress}%` }}
                         ></span>
                     </span>
+                    {/* Controls */}
                     <ChevronsLeft
                         onClick={prevSlide}
                         className="hidden md:block cursor-pointer text-[hsla(0,0%,100%,.70)] hover:text-white"

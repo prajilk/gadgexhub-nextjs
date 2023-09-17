@@ -3,7 +3,9 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ShowNavbar from "@/components/navbar/ShowNavbar";
-import { RootLayoutProps } from "@/types";
+import { LayoutProps } from "@/types";
+import ShowFooter from "@/components/footer/ShowFooter";
+import Footer from "@/components/footer/Footer";
 
 const inter = Poppins({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
     description: "Discover the Latest Gadgets: Your One-Stop Gadget Shop!",
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: LayoutProps) {
     return (
         <html lang="en">
             <body className={inter.className}>
@@ -23,6 +25,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     <Navbar />
                 </ShowNavbar>
                 {children}
+                <ShowFooter>
+                    <Footer />
+                </ShowFooter>
             </body>
         </html>
     );

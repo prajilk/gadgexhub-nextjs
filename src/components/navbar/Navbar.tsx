@@ -51,7 +51,7 @@ const Navbar = () => {
     return (
         <div className="navbar-sticky">
             <Marquee />
-            <div className="navbar py-3.5 px-5">
+            <div className="navbar py-3.5 px-14">
                 <div className="navbar-start w-fit">
                     <Link
                         href="/"

@@ -26,7 +26,7 @@ const ProductCard = ({
         >
             <Link
                 href={href}
-                className="p-0 md:p-5 bg-gray-100 overflow-hidden"
+                className="p-0 md:p-5 bg-gray-200 overflow-hidden"
             >
                 <div className="aspect-square relative">
                     <Image

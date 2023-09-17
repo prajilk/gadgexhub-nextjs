@@ -1,7 +1,4 @@
-export type RootLayoutProps = {
-    children: React.ReactNode;
-};
-export type ShowNavBarProps = {
+export type LayoutProps = {
     children: React.ReactNode;
 };
 export type DropdownItemProps = {
