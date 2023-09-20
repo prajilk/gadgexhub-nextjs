@@ -11,14 +11,14 @@ const Profile = () => {
                 <div className="flex gap-3 p-5">
                     <UserCircle2 />
                     <Link
-                        href="/sign-up"
+                        href="/authentication"
                         className="hover:text-blue-500 hover:underline duration-100"
                     >
                         Sign up
                     </Link>
                     <span>or</span>
                     <Link
-                        href="/sign-in"
+                        href="/authentication"
                         className="hover:text-blue-500 hover:underline duration-100"
                     >
                         Sign in

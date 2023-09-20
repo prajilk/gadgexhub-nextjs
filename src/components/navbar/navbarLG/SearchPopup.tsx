@@ -52,14 +52,12 @@ const SearchPopup = () => {
             <div className="modal flex items-start pt-16">
                 <label className="modal-overlay" htmlFor="modal-1"></label>
                 <div className="modal-content flex flex-col gap-5 pt-8">
-                    {/* <div> */}
                     <label
                         htmlFor="modal-1"
                         className="absolute inset-0 w-full h-fit p-2 cursor-pointer"
                     >
                         <X className="float-right stroke-neutral" size={20} />
                     </label>
-                    {/* </div> */}
                     <div className="flex w-fit md:w-96 border border-gray-300 items-center">
                         <Search className="ms-3 cursor-pointer" />
                         <form onSubmit={searchProduct} className="w-full">

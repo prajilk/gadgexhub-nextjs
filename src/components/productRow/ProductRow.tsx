@@ -35,7 +35,7 @@ const products = [
 
 const ProductRow = () => {
     return (
-        <section className="container px-5 md:px-14 py-10">
+        <section className="max-w-6xl mx-auto py-10">
             <div className="flex justify-between">
                 <h1 className="text-xl md:text-2xl font-medium">
                     Best of Gadgets

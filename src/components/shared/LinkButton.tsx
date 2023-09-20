@@ -1,4 +1,4 @@
-import { LinkButtonProps } from "@/types";
+import { LinkButtonProps } from "@/lib/types";
 import Link from "next/link";
 
 const LinkButton = ({ href, title, className }: LinkButtonProps) => {
