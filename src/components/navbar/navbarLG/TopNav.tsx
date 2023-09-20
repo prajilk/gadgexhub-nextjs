@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DropdownItem from "./DropdownItem";
-import { NavProps } from "@/types";
+import { NavProps } from "@/lib/types";
 
 const TopNav = ({ navItems }: { navItems: NavProps[] }) => {
     return (

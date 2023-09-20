@@ -1,9 +1,9 @@
 import Navbar from "@/components/navbar/Navbar";
-import "../globals.css";
+import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ShowNavbar from "@/components/navbar/ShowNavbar";
-import { LayoutProps } from "@/types";
+import { LayoutProps } from "@/lib/types";
 import ShowFooter from "@/components/footer/ShowFooter";
 import Footer from "@/components/footer/Footer";
 

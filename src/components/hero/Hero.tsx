@@ -79,7 +79,7 @@ const Hero = () => {
 
     return (
         <section className="w-full bg-gradient-to-tr from-gray-600 to-black pt-32 pb-7 md:pb-10 md:pt-40">
-            <div className="container h-[26rem] md:h-[23rem] w-full m-auto p-5 md:px-14 relative group">
+            <div className="h-[26rem] md:h-[23rem] max-w-6xl m-auto relative group">
                 {/* Slider for Large Screen */}
                 {slides.map(
                     (slide, i) =>

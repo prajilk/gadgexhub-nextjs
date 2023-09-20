@@ -1,7 +1,14 @@
-import { LayoutProps } from "@/types";
+"use client";
+
+import { noNavFooterPages } from "@/lib/utils";
+import { LayoutProps } from "@/lib/types";
+import { usePathname } from "next/navigation";
 
 const ShowNavbar = ({ children }: LayoutProps) => {
-    return <>{children}</>;
+    const pathname = usePathname();
+    const showHeader = !noNavFooterPages.includes(pathname);
+
+    return <>{showHeader && children}</>;
 };
 
 export default ShowNavbar;
