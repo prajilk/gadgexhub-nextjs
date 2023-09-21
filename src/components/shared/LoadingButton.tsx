@@ -12,7 +12,6 @@ const LoadingButton: React.FunctionComponent<LoadingButtonProps> = ({
         <m.button
             initial={{ scale: 1 }}
             whileTap={{ scale: 0.9 }}
-            disabled={loader}
             {...buttonProps}
             className={`btn rounded-full bg-black w-full font-light ${className}`}
         >
