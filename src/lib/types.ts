@@ -1,11 +1,8 @@
 import { JsxElement } from "typescript";
-import { ZodAuthSchema } from "./zodSchemas";
-import { z } from "zod";
 
 export type LayoutProps = {
     children: React.ReactNode;
 };
-export type ValidateFormDataProps = z.infer<typeof ZodAuthSchema>;
 export type DropdownItemProps = {
     title: string;
     subItems?: {

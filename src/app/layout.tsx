@@ -6,6 +6,7 @@ import ShowNavbar from "@/components/navbar/ShowNavbar";
 import { LayoutProps } from "@/lib/types";
 import ShowFooter from "@/components/footer/ShowFooter";
 import Footer from "@/components/footer/Footer";
+import { Toaster } from "react-hot-toast";
 
 const inter = Poppins({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps) {
                 <ShowFooter>
                     <Footer />
                 </ShowFooter>
+                <Toaster />
             </body>
         </html>
     );

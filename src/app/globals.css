@@ -90,3 +90,11 @@ body::-webkit-scrollbar {
 .scrollbar-none::-webkit-scrollbar {
     @apply hidden;
 }
+
+/* Disable the browser's default autofill background color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-clip: text !important;
+}
