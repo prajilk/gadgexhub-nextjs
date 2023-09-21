@@ -8,7 +8,7 @@ import { motion as m } from "framer-motion";
 import { fromZodError } from "zod-validation-error";
 import { ZodAuthSchema } from "@/lib/zodSchemas";
 import { ValidateFormDataProps } from "@/lib/types";
-import LoadingButton from "@/components/shared/LaodingButton";
+import LoadingButton from "@/components/shared/LoadingButton";
 
 const SignUp = () => {
     const emailRef = useRef<string>("");
@@ -115,6 +115,7 @@ const SignUp = () => {
                             type="button"
                             onClick={handleSignIn}
                             loader={signInLoading}
+                            disabled={signInLoading || signUpLoading}
                             className="border text-white hover:bg-gray-700"
                         >
                             Sign in
@@ -123,6 +124,7 @@ const SignUp = () => {
                             type="button"
                             onClick={handleSignUp}
                             loader={signUpLoading}
+                            disabled={signInLoading || signUpLoading}
                             className="bg-white text-black border border-black hover:bg-gray-100"
                         >
                             Create account

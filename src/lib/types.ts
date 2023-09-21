@@ -45,7 +45,7 @@ export type LinkButtonProps = {
 export type ButtonProps = {
     children?: React.ReactNode;
     type?: "button" | "reset" | "submit" | undefined;
-    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    onClick?: () => void;
     className?: string;
     disabled?: boolean;
 };
