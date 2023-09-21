@@ -1,135 +1,16 @@
 "use client";
 
-import { useRef, useState, FormEvent } from "react";
-import CustomInput from "@/components/shared/CustomInput";
-import { Eye, EyeOff } from "lucide-react";
+import { useRef } from "react";
 import Button from "@/components/shared/Button";
-import { motion as m } from "framer-motion";
-import { fromZodError } from "zod-validation-error";
-import { ZodAuthSchema } from "@/lib/zodSchemas";
-import { ValidateFormDataProps } from "@/lib/types";
-import LoadingButton from "@/components/shared/LoadingButton";
+import { AuthForm } from "@/components/form/AuthForm";
 
 const SignUp = () => {
-    const emailRef = useRef<string>("");
-    const passwordRef = useRef<string>("");
-    const [isPassword, setIsPassword] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [signInLoading, setSignInIsLoading] = useState(false);
-    const [signUpLoading, setSignUpIsLoading] = useState(false);
-
-    function validateFormData({ email, password }: ValidateFormDataProps) {
-        const result = ZodAuthSchema.safeParse({
-            email,
-            password,
-        });
-        if (!result.success) {
-            return {
-                isValid: false,
-                data: null,
-                error: fromZodError(result.error).details[0].message,
-            };
-        }
-        return { isValid: true, data: result.data, error: null };
-    }
-
-    const handleSignIn = async () => {
-        setError(null);
-        const { isValid, data, error } = validateFormData({
-            email: emailRef.current,
-            password: passwordRef.current,
-        });
-        if (!isValid) {
-            return setError(error);
-        }
-        setSignInIsLoading(true);
-        // await fetch("/api/auth/signup", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(data),
-        // });
-    };
-    const handleSignUp = () => {
-        setError(null);
-        const { isValid, data, error } = validateFormData({
-            email: emailRef.current,
-            password: passwordRef.current,
-        });
-        if (!isValid) {
-            return setError(error);
-        }
-        setSignInIsLoading(true);
-    };
-
     return (
         <div className="min-h-screen w-full flex justify-center items-start md:py-20">
             <div className="w-full h-screen flex flex-col px-5 py-10 gap-7 md:w-fit md:h-max md:rounded-3xl md:shadow-2xl md:bg-white md:p-14">
                 <h1 className="text-3xl font-light">Sign in/Create account</h1>
                 <div className="flex flex-col gap-5">
-                    <div>
-                        <CustomInput
-                            type="email"
-                            containerStyle="md:bg-[#f5f5f5]"
-                            onChange={(e) =>
-                                (emailRef.current = e.target.value)
-                            }
-                            placeholder="Email"
-                        />
-                        <CustomInput
-                            type={isPassword ? "password" : "text"}
-                            containerStyle="md:bg-[#f5f5f5]"
-                            onChange={(e) =>
-                                (passwordRef.current = e.target.value)
-                            }
-                            placeholder="Password"
-                            icon={
-                                isPassword ? (
-                                    <Eye onClick={() => setIsPassword(false)} />
-                                ) : (
-                                    <EyeOff
-                                        onClick={() => setIsPassword(true)}
-                                    />
-                                )
-                            }
-                        />
-                    </div>
-                    <div className="flex flex-col gap-3">
-                        {error ? (
-                            <m.span
-                                initial={{ opacity: 0, y: -5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.3,
-                                }}
-                                className="error text-xs h-5 text-red-500 text-center"
-                            >
-                                {/* Incorrect email or password. Please try again */}
-                                {error}
-                            </m.span>
-                        ) : (
-                            <span className="error h-5" />
-                        )}
-                        <LoadingButton
-                            type="button"
-                            onClick={handleSignIn}
-                            loader={signInLoading}
-                            disabled={signInLoading || signUpLoading}
-                            className="border text-white hover:bg-gray-700"
-                        >
-                            Sign in
-                        </LoadingButton>
-                        <LoadingButton
-                            type="button"
-                            onClick={handleSignUp}
-                            loader={signUpLoading}
-                            disabled={signInLoading || signUpLoading}
-                            className="bg-white text-black border border-black hover:bg-gray-100"
-                        >
-                            Create account
-                        </LoadingButton>
-                    </div>
+                    <AuthForm />
                     <div className="divider divider-horizontal">OR</div>
                     <Button className="bg-white text-black border border-black hover:bg-gray-100 flex gap-4">
                         <svg

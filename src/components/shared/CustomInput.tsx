@@ -7,8 +7,8 @@ import { X } from "lucide-react";
 const CustomInput = ({
     type,
     placeholder,
-    inputStyle,
     containerStyle,
+    inputStyle,
     icon,
     onChange,
 }: CustomInputProps) => {
