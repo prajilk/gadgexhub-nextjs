@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import Button from "./Button";
