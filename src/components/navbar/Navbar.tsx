@@ -74,7 +74,7 @@ const Profile = async () => {
             <div className="flex flex-col">
               <Link href="/account">{session.user.username}</Link>
               <Link
-                href="/authentication/signout"
+                href="/signout"
                 className="text-xs hover:text-destructive hover:underline"
               >
                 Sign out
