@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, ChangeEvent } from "react";
-import { CustomInputProps } from "@/lib/types";
+import { CustomInputProps } from "@/lib/types/ui";
 import { X } from "lucide-react";
 
 const CustomInput = ({

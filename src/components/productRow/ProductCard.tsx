@@ -4,7 +4,7 @@ import { formatCurrency, textTruncate } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { motion as m } from "framer-motion";
-import { ProductCardProps } from "@/lib/types";
+import { ProductCardProps } from "@/lib/types/ui";
 import LinkButton from "../shared/LinkButton";
 
 const ProductCard = ({

@@ -1,5 +1,5 @@
 import { formatCurrency } from "@/lib/utils";
-import { SlideProps } from "@/lib/types";
+import { SlideProps } from "@/lib/types/ui";
 import { motion as m } from "framer-motion";
 import Image from "next/image";
 import LinkButton from "../shared/LinkButton";

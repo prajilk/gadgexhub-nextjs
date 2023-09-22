@@ -1,4 +1,4 @@
-import { DropdownItemProps } from "@/lib/types";
+import { DropdownItemProps } from "@/lib/types/ui";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 

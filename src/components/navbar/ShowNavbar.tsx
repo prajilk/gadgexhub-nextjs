@@ -1,7 +1,7 @@
 "use client";
 
 import { noNavFooterPages } from "@/lib/utils";
-import { LayoutProps } from "@/lib/types";
+import { LayoutProps } from "@/lib/types/ui";
 import { usePathname } from "next/navigation";
 
 const ShowNavbar = ({ children }: LayoutProps) => {
