@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react";
 import DropdownItem from "./DropdownItem";
 import Link from "next/link";
-import { NavProps } from "@/lib/types";
+import { NavProps } from "@/lib/types/ui";
 
 const SidebarNav = ({ navItems }: { navItems: NavProps[] }) => {
     return (

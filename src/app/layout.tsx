@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ShowNavbar from "@/components/navbar/ShowNavbar";
-import { LayoutProps } from "@/lib/types";
+import { LayoutProps } from "@/lib/types/ui";
 import ShowFooter from "@/components/footer/ShowFooter";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from "react-hot-toast";

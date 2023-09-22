@@ -21,7 +21,6 @@ model Customer {
   google_id   String?
   addresses   Address[]
   created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
   last_login  DateTime  @default(now())
 }
 

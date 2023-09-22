@@ -1,4 +1,4 @@
-import { LoadingButtonProps } from "@/lib/types";
+import { LoadingButtonProps } from "@/lib/types/ui";
 import { cn } from "@/lib/utils";
 import { motion as m } from "framer-motion";
 import { Loader2 } from "lucide-react";
