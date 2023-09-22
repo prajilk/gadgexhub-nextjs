@@ -55,8 +55,10 @@ export function AuthForm() {
       }
 
       toast.success("Signed in successfully.");
-      router.refresh();
-      router.back();
+      setTimeout(() => {
+        router.refresh();
+        router.back();
+      }, 2000);
     } catch (error: any) {
       setError(error.message);
     } finally {
