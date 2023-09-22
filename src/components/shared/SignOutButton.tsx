@@ -11,7 +11,7 @@ const SignOutButton = () => {
         redirect: true,
         callbackUrl: "/",
       });
-      toast.success("Signed Out successfully.");
+      toast.success("Sign out successfully.");
     } catch (error) {
       toast.error("Something went wrong");
     }
