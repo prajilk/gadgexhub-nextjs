@@ -44,13 +44,6 @@ const Hero = () => {
     setCurrentIndex(newIndex);
   }, [currentIndex]);
 
-  //   const nextSlide = () => {
-  //     setProgress(0);
-  //     const isLastSlide = currentIndex === slides.length - 1;
-  //     const newIndex = isLastSlide ? 0 : currentIndex + 1;
-  //     setCurrentIndex(newIndex);
-  //   };
-
   const goToSlide = (slideIndex: number) => {
     setProgress(0);
     setCurrentIndex(slideIndex);
