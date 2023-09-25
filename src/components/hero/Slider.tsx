@@ -61,7 +61,7 @@ const Slider = ({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1, duration: 0.75 }}
         >
-          <LinkButton href={slide.href} title="Buy Now" />
+          <LinkButton href={slide.href}>Buy Now</LinkButton>
         </m.div>
       </div>
     </>
