@@ -33,24 +33,24 @@ export const authOptions: NextAuthOptions = {
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
-        const customer = await db.customer.findUnique({
+        const user = await db.user.findUnique({
           where: {
             email: credentials.email,
           },
         });
-        if (!customer) return null;
+        if (!user) return null;
 
-        if (customer.password) {
+        if (user.password) {
           const passwordMatch = await bcrypt.compare(
             credentials.password,
-            customer.password,
+            user.password,
           );
           if (!passwordMatch) return null;
         }
 
-        await db.customer.update({
+        await db.user.update({
           data: {
-            last_login: new Date(),
+            lastLogin: new Date(),
           },
           where: {
             email: credentials.email,
@@ -58,11 +58,9 @@ export const authOptions: NextAuthOptions = {
         });
 
         return {
-          id: customer.customer_id,
-          username: customer.username,
-          email: customer.email,
-          gender: customer.gender,
-          phone: customer.phone,
+          id: user.id,
+          name: user.name,
+          email: user.email,
         };
       },
     }),
@@ -72,7 +70,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         return {
           ...token,
-          username: user.username,
+          id: user.id,
         };
       }
       return token;
@@ -82,7 +80,7 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-          username: token.username,
+          id: token.sub,
         },
       };
     },
