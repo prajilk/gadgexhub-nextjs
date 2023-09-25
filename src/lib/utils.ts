@@ -21,7 +21,11 @@ export function textTruncate(text: string, length: number) {
   return text;
 }
 
-export const noNavFooterPages = ["/authentication", "/signout"];
+export const noNavFooterPages = [
+  "/authentication",
+  "/signout",
+  "/account/profile",
+];
 
 interface SWRError extends Error {
   status: number;

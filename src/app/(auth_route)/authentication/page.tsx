@@ -2,8 +2,18 @@
 
 import Button from "@/components/shared/Button";
 import { AuthForm } from "@/components/form/AuthForm";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
+  const signInWithGoogle = async () => {
+    try {
+      await signIn("google");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="flex min-h-screen w-full items-start justify-center md:py-20">
       <div className="flex h-screen w-full flex-col gap-7 px-5 py-10 md:h-max md:w-fit md:rounded-3xl md:bg-white md:p-14 md:shadow-2xl">
@@ -11,7 +21,10 @@ const SignUp = () => {
         <div className="flex flex-col gap-5">
           <AuthForm />
           <div className="divider divider-horizontal">OR</div>
-          <Button className="flex gap-4 border border-black bg-white text-black hover:bg-gray-100">
+          <Button
+            onClick={signInWithGoogle}
+            className="flex gap-4 border border-black bg-white text-black hover:bg-gray-100"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24"

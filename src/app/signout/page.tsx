@@ -9,7 +9,7 @@ const SignOut = async () => {
   if (!session) redirect("/");
 
   return (
-    <div className="flex min-h-screen min-w-full items-center justify-center">
+    <div className="flex min-h-screen min-w-full items-center justify-center px-5">
       <div className="space-y-5 rounded-3xl bg-white p-10 text-center shadow-lg">
         <div className="space-y-2">
           <h1 className="text-3xl font-light">Sign out</h1>

@@ -49,8 +49,7 @@ export function AuthForm() {
       });
 
       if (signInResponse?.error) {
-        form.setValue("email", "");
-        form.setValue("password", "");
+        form.reset();
         throw new Error("Invalid credentials.");
       }
 

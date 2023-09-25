@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { LayoutProps } from "@/lib/types/ui";
+import { LayoutProps } from "@/lib/types/types";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

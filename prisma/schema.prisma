@@ -11,23 +11,74 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Customer {
-  customer_id String    @id @default(cuid())
-  username    String
-  gender      String?
-  email       String    @unique
-  phone       String?
-  password    String?
-  google_id   String?
-  addresses   Address[]
-  created_at  DateTime  @default(now())
-  last_login  DateTime  @default(now())
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  image         String?
+  emailVerified DateTime?
+  gender        String?
+  phone         String?
+  password      String?
+  addresses     Address[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLogin     DateTime  @default(now())
+  accounts      Account[]
+  sessions      Session[]
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// model Customer {
+//   customer_id       String    @id @default(cuid())
+//   username          String
+//   gender            String?
+//   email             String    @unique
+//   phone             String?
+//   password          String?
+//   addresses         Address[]
+//   created_at        DateTime  @default(now())
+//   last_login        DateTime  @default(now())
+// }
+
 model Address {
-  address_id      Int      @id @default(autoincrement())
-  customer        Customer @relation(fields: [customerId], references: [customer_id])
-  customerId      String
+  address_id      Int     @id @default(autoincrement())
+  user            User    @relation(fields: [userId], references: [id])
+  userId          String
   name            String
   phone           String?
   address         String
@@ -37,6 +88,6 @@ model Address {
   pincode         String
   landmark        String?
   alternate_phone String?
-  is_default      Boolean  @default(true)
-  is_deleted      Boolean  @default(false)
+  is_default      Boolean @default(true)
+  is_deleted      Boolean @default(false)
 }

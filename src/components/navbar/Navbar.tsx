@@ -4,10 +4,9 @@ import Link from "next/link";
 import TopNav from "./navbarLG/TopNav";
 import SidebarNav from "./navbarSM/SidebarNav";
 import SearchPopup from "./navbarLG/SearchPopup";
-import { ChevronRight, ShoppingCart, UserCircle2 } from "lucide-react";
+import { ChevronRight, ShoppingCart, UserCircle } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import SignOutButton from "../shared/SignOutButton";
 
 const navItems = [
   {
@@ -65,14 +64,14 @@ const Profile = async () => {
   return (
     <div className="dropdown dropdown-hover cursor-pointer">
       <label tabIndex={0}>
-        <UserCircle2 />
+        <UserCircle />
       </label>
       <div className="dropdown-menu w-72 cursor-default rounded-none border border-gray-200 bg-white p-0 pb-3 md:w-80">
         <div className="flex items-center gap-3 p-5">
-          <UserCircle2 />
+          <UserCircle />
           {session ? (
             <div className="flex flex-col">
-              <Link href="/account">{session.user.username}</Link>
+              <Link href="/account">{session.user.name}</Link>
               <Link
                 href="/signout"
                 className="text-xs hover:text-destructive hover:underline"

@@ -1,8 +1,8 @@
-import { LinkButtonProps } from "@/lib/types/ui";
+import { LinkButtonProps } from "@/lib/types/types";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-const LinkButton = ({ href, title, className }: LinkButtonProps) => {
+const LinkButton = ({ children, href, className }: LinkButtonProps) => {
   return (
     <Link
       href={href}
@@ -11,7 +11,7 @@ const LinkButton = ({ href, title, className }: LinkButtonProps) => {
         className,
       )}
     >
-      {title}
+      {children}
     </Link>
   );
 };
