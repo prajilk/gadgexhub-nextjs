@@ -47,9 +47,8 @@ const ProductCard = ({
         <div className="card-footer">
           <LinkButton
             href={href}
-            title={`From ${formatCurrency(price)}`}
             className="w-full text-xs md:text-sm"
-          />
+          >{`From ${formatCurrency(price)}`}</LinkButton>
         </div>
       </div>
     </m.div>
