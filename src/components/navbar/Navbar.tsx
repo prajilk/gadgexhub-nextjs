@@ -62,7 +62,7 @@ const Cart = () => {
 const Profile = async () => {
   const session = await getServerSession(authOptions);
   return (
-    <div className="dropdown dropdown-hover cursor-pointer">
+    <div className="dropdown cursor-pointer">
       <label tabIndex={0}>
         <UserCircle />
       </label>
@@ -108,6 +108,7 @@ const Profile = async () => {
         <div className="divider m-0 h-0"></div>
         <Link
           href="/account"
+          tabIndex={-5}
           className="flex justify-between gap-3 px-5 py-3 hover:bg-gray-100"
         >
           Account
