@@ -97,7 +97,7 @@ const ProfileForm = () => {
             <FormItem>
               <FormLabel>Fullname</FormLabel>
               <FormControl>
-                <InputContainer className="max-w-lg md:bg-[#f5f5f5]">
+                <InputContainer className="max-w-lg bg-[#f5f5f5]">
                   <Input placeholder="Fullname" {...field} />
                 </InputContainer>
               </FormControl>
@@ -148,7 +148,7 @@ const ProfileForm = () => {
             <FormItem>
               <FormLabel>Phone number</FormLabel>
               <FormControl>
-                <InputContainer className="max-w-lg md:bg-[#f5f5f5]">
+                <InputContainer className="max-w-lg bg-[#f5f5f5]">
                   <Input placeholder="Phone number" {...field} />
                 </InputContainer>
               </FormControl>
@@ -160,7 +160,7 @@ const ProfileForm = () => {
           loader={isSubmitting}
           type="submit"
           className="max-w-lg"
-          disabled={!form.formState.isDirty || !form.formState.isValid}
+          disabled={!form.formState.isDirty}
         >
           Save profile
         </LoadingButton>
