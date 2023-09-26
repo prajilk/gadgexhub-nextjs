@@ -2,65 +2,63 @@ import { Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {
-    return (
-        <footer className="w-full bg-black text-white">
-            <div className="max-w-6xl px-4 mx-auto py-10 flex justify-between flex-col-reverse gap-7 sm:flex-row">
-                <div className="flex flex-col ms-3">
-                    <h1 className="text-xl sm:text-3xl font-bold mb-3">
-                        GadgeXhub
-                    </h1>
-                    <p className="text-sm text-[#828282] mb-10">
-                        &copy; 2023 - {new Date().getFullYear()} GadgeXhub. All
-                        Rights Reserved.
-                    </p>
-                    <div className="flex gap-5 items-center">
-                        <Link
-                            href="#"
-                            className="text-[#828282] hover:text-white w-fit block duration-200"
-                        >
-                            <Instagram />
-                        </Link>
-                        <Link
-                            href="#"
-                            className="text-[#828282] hover:text-white w-fit block duration-200"
-                        >
-                            <Youtube size={30} />
-                        </Link>
-                    </div>
-                </div>
-                <div className="flex justify-around sm:justify-evenly flex-1">
-                    <div>
-                        <h2>Store</h2>
-                        <ul className="text-[#828282] mt-5">
-                            <li className="hover:text-white duration-200 w-fit my-3 text-sm">
-                                <Link href="#">Accessories</Link>
-                            </li>
-                            <li className="hover:text-white duration-200 w-fit my-3 text-sm">
-                                <Link href="#">Gadgets</Link>
-                            </li>
-                            <li className="hover:text-white duration-200 w-fit my-3 text-sm">
-                                <Link href="#">Audio/Video</Link>
-                            </li>
-                            <li className="hover:text-white duration-200 w-fit my-3 text-sm">
-                                <Link href="#">Cases & Protections</Link>
-                            </li>
-                            <li className="hover:text-white duration-200 w-fit my-3 text-sm">
-                                <Link href="#">Power & Cables</Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2>Support</h2>
-                        <ul className="text-[#828282] mt-5">
-                            <li className="hover:text-white duration-200 w-fit my-3 text-sm">
-                                <Link href="/contact-us">Contact us</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    );
+  return (
+    <footer className="mt-auto w-full bg-black text-white">
+      <div className="mx-auto flex max-w-6xl flex-col-reverse justify-between gap-7 px-4 py-10 sm:flex-row">
+        <div className="ms-3 flex flex-col">
+          <h1 className="mb-3 text-xl font-bold sm:text-3xl">GadgeXhub</h1>
+          <p className="mb-10 text-sm text-[#828282]">
+            &copy; 2023 - {new Date().getFullYear()} GadgeXhub. All Rights
+            Reserved.
+          </p>
+          <div className="flex items-center gap-5">
+            <Link
+              href="#"
+              className="block w-fit text-[#828282] duration-200 hover:text-white"
+            >
+              <Instagram />
+            </Link>
+            <Link
+              href="#"
+              className="block w-fit text-[#828282] duration-200 hover:text-white"
+            >
+              <Youtube size={30} />
+            </Link>
+          </div>
+        </div>
+        <div className="flex flex-1 justify-around sm:justify-evenly">
+          <div>
+            <h2>Store</h2>
+            <ul className="mt-5 text-[#828282]">
+              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+                <Link href="#">Accessories</Link>
+              </li>
+              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+                <Link href="#">Gadgets</Link>
+              </li>
+              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+                <Link href="#">Audio/Video</Link>
+              </li>
+              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+                <Link href="#">Cases & Protections</Link>
+              </li>
+              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+                <Link href="#">Power & Cables</Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h2>Support</h2>
+            <ul className="mt-5 text-[#828282]">
+              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+                <Link href="/contact-us">Contact us</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

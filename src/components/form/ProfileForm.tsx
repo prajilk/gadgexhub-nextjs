@@ -10,29 +10,24 @@ import {
   FormMessage,
 } from "../ui/form";
 import { z } from "zod";
-import useSWR from "swr";
 import { ZodProfileSchema } from "@/lib/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { fetcher } from "@/lib/utils";
 import { Input, InputContainer } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio";
-import { UserProps } from "@/lib/types/types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "../shared/Button";
 import { Loader2, Unplug } from "lucide-react";
+import useUser from "@/lib/swr/use-user";
+import { UserProps } from "@/lib/types/types";
+import { useSession } from "next-auth/react";
+import LoadingButton from "../shared/LoadingButton";
+import toast from "react-hot-toast";
 
-const ProfileForm = ({ id }: { id: string }) => {
-  const { data, error, isLoading } = useSWR<UserProps>(
-    // `/api/user?id=${id}`,
-    `/api/user/${id}`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      refreshWhenHidden: false,
-      refreshInterval: 0,
-    },
-  );
+const ProfileForm = () => {
+  const { data, error, isLoading } = useUser();
+  const { data: session, update } = useSession();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof ZodProfileSchema>>({
     resolver: zodResolver(ZodProfileSchema),
@@ -41,11 +36,40 @@ const ProfileForm = ({ id }: { id: string }) => {
       gender: data?.user.gender || "",
       phone: data?.user.phone || "",
     },
-    mode: "onChange",
   });
 
-  function onSubmit(values: z.infer<typeof ZodProfileSchema>) {
-    console.log(values);
+  async function updateSession(updatedData: z.infer<typeof ZodProfileSchema>) {
+    await update({
+      ...session,
+      user: {
+        ...session?.user,
+        name: updatedData.name,
+      },
+    });
+  }
+
+  async function onSubmit(values: z.infer<typeof ZodProfileSchema>) {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const result: UserProps = await response.json();
+      if (result.success) {
+        updateSession(values);
+        toast.success("Profile updated successfully.");
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   useEffect(() => {
@@ -64,7 +88,7 @@ const ProfileForm = ({ id }: { id: string }) => {
 
   return (
     <Form {...form}>
-      <h1 className="my-2 text-xl font-medium">Personal Information</h1>
+      <h1 className="my-2 text-xl font-semibold">Personal Information</h1>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
@@ -132,13 +156,14 @@ const ProfileForm = ({ id }: { id: string }) => {
             </FormItem>
           )}
         />
-        <Button
+        <LoadingButton
+          loader={isSubmitting}
           type="submit"
           className="max-w-lg"
           disabled={!form.formState.isDirty || !form.formState.isValid}
         >
           Save profile
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );
