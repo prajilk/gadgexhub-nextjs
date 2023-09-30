@@ -12,7 +12,7 @@ const TopNav = ({ navItems }: { navItems: NavProps[] }) => {
           <div className="navbar-item" key={i}>
             <Link
               href={item.url ? item.url : "/"}
-              className="p-0 font-medium hover:text-gray-500"
+              className="p-0 text-sm font-medium hover:text-gray-500"
             >
               {item.title}
             </Link>

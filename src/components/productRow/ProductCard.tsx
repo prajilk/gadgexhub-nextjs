@@ -37,17 +37,18 @@ const ProductCard = ({
       </Link>
       <div className="card-body flex-1 p-3">
         <div className="flex-1">
-          <Link href={href} className="card-header text-sm md:text-xl">
+          <Link
+            href={href}
+            className="card-header text-xs font-medium md:text-sm"
+          >
             {textTruncate(title, 35)}
           </Link>
         </div>
-        <p className="text-xs font-medium text-content2 md:text-base">
-          {description}
-        </p>
+        <p className="text-xs font-medium text-content2">{description}</p>
         <div className="card-footer">
           <LinkButton
             href={href}
-            className="w-full text-xs md:text-sm"
+            className="w-full text-xs"
           >{`From ${formatCurrency(price)}`}</LinkButton>
         </div>
       </div>

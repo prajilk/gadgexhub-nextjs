@@ -6,7 +6,7 @@ const AddressCard = ({ address }: { address: AddressProps }) => {
     <>
       <div className="relative space-y-2 rounded-md border bg-white p-4 text-sm">
         {address.is_default && (
-          <span className="rounded-sm bg-gray-200 px-2 py-1 text-xs font-light text-gray-600">
+          <span className="rounded-sm bg-gray-200 px-2 py-1 text-xs font-normal text-gray-600">
             Default
           </span>
         )}

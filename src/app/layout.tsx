@@ -10,8 +10,9 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/context/AuthProvider";
 
 const inter = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

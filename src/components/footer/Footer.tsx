@@ -6,8 +6,8 @@ const Footer = () => {
     <footer className="mt-auto w-full bg-black text-white">
       <div className="mx-auto flex max-w-6xl flex-col-reverse justify-between gap-7 px-4 py-10 sm:flex-row">
         <div className="ms-3 flex flex-col">
-          <h1 className="mb-3 text-xl font-bold sm:text-3xl">GadgeXhub</h1>
-          <p className="mb-10 text-sm text-[#828282]">
+          <h1 className="mb-3 text-lg font-bold sm:text-xl">GadgeXhub</h1>
+          <p className="mb-10 text-xs text-[#828282]">
             &copy; 2023 - {new Date().getFullYear()} GadgeXhub. All Rights
             Reserved.
           </p>
@@ -28,29 +28,29 @@ const Footer = () => {
         </div>
         <div className="flex flex-1 justify-around sm:justify-evenly">
           <div>
-            <h2>Store</h2>
-            <ul className="mt-5 text-[#828282]">
-              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+            <h2 className="text-sm">Store</h2>
+            <ul className="mt-5 text-xs text-[#828282]">
+              <li className="my-3 w-fit duration-200 hover:text-white">
                 <Link href="#">Accessories</Link>
               </li>
-              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+              <li className="my-3 w-fit duration-200 hover:text-white">
                 <Link href="#">Gadgets</Link>
               </li>
-              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+              <li className="my-3 w-fit duration-200 hover:text-white">
                 <Link href="#">Audio/Video</Link>
               </li>
-              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+              <li className="my-3 w-fit duration-200 hover:text-white">
                 <Link href="#">Cases & Protections</Link>
               </li>
-              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+              <li className="my-3 w-fit duration-200 hover:text-white">
                 <Link href="#">Power & Cables</Link>
               </li>
             </ul>
           </div>
           <div>
-            <h2>Support</h2>
-            <ul className="mt-5 text-[#828282]">
-              <li className="my-3 w-fit text-sm duration-200 hover:text-white">
+            <h2 className="text-sm">Support</h2>
+            <ul className="mt-5 text-xs text-[#828282]">
+              <li className="my-3 w-fit duration-200 hover:text-white">
                 <Link href="/contact-us">Contact us</Link>
               </li>
             </ul>
