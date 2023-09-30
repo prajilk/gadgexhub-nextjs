@@ -12,7 +12,7 @@ const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="mx-3 outline-none" asChild>
-        <span className="flex cursor-pointer items-center gap-2 font-medium hover:text-gray-500">
+        <span className="flex cursor-pointer items-center gap-2 text-sm font-medium hover:text-gray-500">
           {item.title}
           <ChevronDown size={15} />
         </span>

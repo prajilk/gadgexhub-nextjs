@@ -1,9 +1,11 @@
+import Container from "@/components/Container";
+
 const ProductPage = ({ params }: { params: { productName: string } }) => {
-    return (
-        <div className="mt-40">
-            <h1>{params.productName}</h1>
-        </div>
-    );
+  return (
+    <Container>
+      <h1>{params.productName}</h1>
+    </Container>
+  );
 };
 
 export default ProductPage;

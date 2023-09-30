@@ -41,8 +41,8 @@ const navItems = [
     ],
   },
   {
-    title: "Contact Us",
-    url: "/contact-us",
+    title: "Store",
+    url: "/store",
   },
 ];
 
@@ -61,12 +61,12 @@ const Navbar = () => {
   return (
     <div className="navbar-sticky">
       <Marquee />
-      <div className="navbar py-3.5">
+      <div className="navbar border-b py-3.5 shadow-none">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           <div className="navbar-start w-fit">
             <Link
               href="/"
-              className="navbar-item p-0 text-2xl font-bold md:text-3xl"
+              className="navbar-item p-0 text-base font-bold md:text-2xl"
             >
               GadgeXhub
             </Link>
