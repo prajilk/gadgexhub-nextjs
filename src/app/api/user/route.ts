@@ -6,9 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  const userId = session?.user.id;
 
-  if (!userId) {
+  if (!session || !session.user || !session.user.id) {
     return NextResponse.json(
       {
         success: false,
@@ -18,6 +17,7 @@ export async function GET(req: NextRequest) {
       { status: 400 },
     );
   }
+  const userId = session.user.id;
 
   try {
     // Get user data from database
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
         user: {
           id: user.id,
           email: user.email,
-          fullname: user.name,
+          name: user.name,
           gender: user.gender,
           phone: user.phone,
         },

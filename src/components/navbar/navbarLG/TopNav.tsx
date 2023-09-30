@@ -10,7 +10,10 @@ const TopNav = ({ navItems }: { navItems: NavProps[] }) => {
           <DropdownItem item={item} key={i} />
         ) : (
           <div className="navbar-item" key={i}>
-            <Link href={item.url ? item.url : "/"} className="p-0 font-medium">
+            <Link
+              href={item.url ? item.url : "/"}
+              className="p-0 font-medium hover:text-gray-500"
+            >
               {item.title}
             </Link>
           </div>

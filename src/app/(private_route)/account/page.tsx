@@ -32,7 +32,7 @@ const Account = async () => {
         <Link href="/orders">
           <Card icon={<Package />} title="My Orders" />
         </Link>
-        <Link href="/account/addresses">
+        <Link href="/account/address">
           <Card icon={<MapPin />} title="Manage Address" />
         </Link>
       </div>

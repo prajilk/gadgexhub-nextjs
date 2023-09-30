@@ -63,26 +63,14 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// model Customer {
-//   customer_id       String    @id @default(cuid())
-//   username          String
-//   gender            String?
-//   email             String    @unique
-//   phone             String?
-//   password          String?
-//   addresses         Address[]
-//   created_at        DateTime  @default(now())
-//   last_login        DateTime  @default(now())
-// }
-
 model Address {
   address_id      Int     @id @default(autoincrement())
   user            User    @relation(fields: [userId], references: [id])
-  userId          String
+  userId          String  @map("userId")
   name            String
   phone           String?
   address         String
-  city            String
+  locality        String
   district        String
   state           String
   pincode         String
@@ -90,4 +78,6 @@ model Address {
   alternate_phone String?
   is_default      Boolean @default(true)
   is_deleted      Boolean @default(false)
+
+  @@index([userId], name: "user_id_index")
 }

@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, InputContainer } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio";
 import { useEffect, useState } from "react";
-import Button from "../shared/Button";
 import { Loader2, Unplug } from "lucide-react";
 import useUser from "@/lib/swr/use-user";
 import { UserProps } from "@/lib/types/types";
@@ -32,7 +31,7 @@ const ProfileForm = () => {
   const form = useForm<z.infer<typeof ZodProfileSchema>>({
     resolver: zodResolver(ZodProfileSchema),
     defaultValues: {
-      name: data?.user.fullname || "",
+      name: data?.user.name || "",
       gender: data?.user.gender || "",
       phone: data?.user.phone || "",
     },
@@ -62,6 +61,11 @@ const ProfileForm = () => {
       if (result.success) {
         updateSession(values);
         toast.success("Profile updated successfully.");
+        form.reset({
+          name: result.user.name,
+          gender: result.user.gender || "",
+          phone: result.user.phone || "",
+        });
       } else {
         toast.error(result.message);
       }
@@ -76,7 +80,7 @@ const ProfileForm = () => {
     // Update the form default values when data is available
     if (data) {
       form.reset({
-        name: data.user.fullname,
+        name: data.user.name,
         gender: data.user.gender || "",
         phone: data.user.phone || "",
       });
@@ -89,6 +93,10 @@ const ProfileForm = () => {
   return (
     <Form {...form}>
       <h1 className="my-2 text-xl font-semibold">Personal Information</h1>
+      <p className="my-5 text-sm">
+        Email:{" "}
+        <span className="text-muted-foreground">{session?.user.email}</span>
+      </p>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
@@ -124,7 +132,9 @@ const ProfileForm = () => {
                         checked={form.getValues("gender") === "male"}
                       />
                     </FormControl>
-                    <FormLabel className="font-normal">Male</FormLabel>
+                    <FormLabel className="cursor-pointer font-normal">
+                      Male
+                    </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
@@ -133,7 +143,9 @@ const ProfileForm = () => {
                         checked={form.getValues("gender") === "female"}
                       />
                     </FormControl>
-                    <FormLabel className="font-normal">Female</FormLabel>
+                    <FormLabel className="cursor-pointer font-normal">
+                      Female
+                    </FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -160,7 +172,7 @@ const ProfileForm = () => {
           loader={isSubmitting}
           type="submit"
           className="max-w-lg"
-          disabled={!form.formState.isDirty}
+          disabled={!form.formState.isDirty || isSubmitting}
         >
           Save profile
         </LoadingButton>

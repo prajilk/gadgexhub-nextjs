@@ -1,4 +1,6 @@
 import { JsxElement } from "typescript";
+import { number, z } from "zod";
+import { ZodAddressSchema } from "../zodSchemas";
 
 export type LayoutProps = {
   children: React.ReactNode;
@@ -63,11 +65,20 @@ export type AccountCardProps = {
 export type UserProps = {
   success: boolean;
   user: {
-    id: string;
-    email: string;
-    fullname: string;
-    gender: string | null;
-    phone: string | null;
+    id?: string;
+    email?: string;
+    name?: string;
+    gender?: string | null;
+    phone?: string | null;
   };
+  message: string;
+};
+export type AddressProps = z.infer<typeof ZodAddressSchema> & {
+  address_id: number;
+};
+
+export type AddressResProps = {
+  success: boolean;
+  addresses: AddressProps[] | null;
   message: string;
 };

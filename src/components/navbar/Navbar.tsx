@@ -1,12 +1,10 @@
-import React from "react";
 import Marquee from "./Marquee";
 import Link from "next/link";
 import TopNav from "./navbarLG/TopNav";
 import SidebarNav from "./navbarSM/SidebarNav";
 import SearchPopup from "./navbarLG/SearchPopup";
-import { ChevronRight, ShoppingCart, UserCircle } from "lucide-react";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+import { ShoppingCart } from "lucide-react";
+import Profile from "./Profile";
 
 const navItems = [
   {
@@ -56,66 +54,6 @@ const Cart = () => {
         <span className="absolute inset-0 translate-y-[20%]">1</span>
       </div>
     </Link>
-  );
-};
-
-const Profile = async () => {
-  const session = await getServerSession(authOptions);
-  return (
-    <div className="dropdown cursor-pointer">
-      <label tabIndex={0}>
-        <UserCircle />
-      </label>
-      <div className="dropdown-menu w-72 cursor-default rounded-none border border-gray-200 bg-white p-0 pb-3 md:w-80">
-        <div className="flex items-center gap-3 p-5">
-          <UserCircle />
-          {session ? (
-            <div className="flex flex-col">
-              <Link href="/account">{session.user.name}</Link>
-              <Link
-                href="/signout"
-                className="text-xs hover:text-destructive hover:underline"
-              >
-                Sign out
-              </Link>
-            </div>
-          ) : (
-            <>
-              <Link
-                href="/authentication"
-                className="duration-100 hover:text-blue-500 hover:underline"
-              >
-                Sign up
-              </Link>
-              <span>or</span>
-              <Link
-                href="/authentication"
-                className="duration-100 hover:text-blue-500 hover:underline"
-              >
-                Sign in
-              </Link>
-            </>
-          )}
-        </div>
-        <div className="divider m-0 h-0"></div>
-        <Link
-          href="/orders"
-          className="flex justify-between gap-3 px-5 py-3 hover:bg-gray-100"
-        >
-          Orders
-          <ChevronRight />
-        </Link>
-        <div className="divider m-0 h-0"></div>
-        <Link
-          href="/account"
-          tabIndex={-5}
-          className="flex justify-between gap-3 px-5 py-3 hover:bg-gray-100"
-        >
-          Account
-          <ChevronRight />
-        </Link>
-      </div>
-    </div>
   );
 };
 
