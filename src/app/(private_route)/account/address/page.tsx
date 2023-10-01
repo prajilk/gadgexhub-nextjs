@@ -2,12 +2,17 @@ import AddressCard from "@/components/AddressCard";
 import AddressDialog from "@/components/dialog/AddressDialog";
 import { AddressResProps } from "@/lib/types/types";
 import { MapPinOff } from "lucide-react";
-// import { headers } from "next/headers";
+import { headers } from "next/headers";
 
 async function getAddress() {
+  const headerSequence = headers();
+  const cookie = headerSequence.get("cookie");
+
   const res = await fetch(process.env.URL + "/api/user/address", {
     method: "GET",
-    // headers: headers(),
+    headers: {
+      Cookie: `${cookie}`,
+    },
   });
   return res.json();
 }
