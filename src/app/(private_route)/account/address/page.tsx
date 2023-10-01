@@ -2,14 +2,18 @@ import AddressCard from "@/components/AddressCard";
 import AddressDialog from "@/components/dialog/AddressDialog";
 import { AddressResProps } from "@/lib/types/types";
 import { MapPinOff } from "lucide-react";
-import { headers } from "next/headers";
+// import { headers } from "next/headers";
+
+async function getAddress() {
+  const res = await fetch(process.env.URL + "/api/user/address", {
+    method: "GET",
+    // headers: headers(),
+  });
+  return res.json();
+}
 
 const Address = async () => {
-  const result = await fetch(process.env.URL + "/api/user/address", {
-    method: "GET",
-    headers: headers(),
-  });
-  const addresses: AddressResProps = await result.json();
+  const addresses: AddressResProps = await getAddress();
 
   return (
     <div className="mx-auto max-w-6xl px-3">
