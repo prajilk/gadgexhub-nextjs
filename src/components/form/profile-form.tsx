@@ -85,7 +85,7 @@ const ProfileForm = () => {
         phone: data.user.phone || "",
       });
     }
-  }, [data]);
+  }, [data, form]);
 
   if (error) return Failed();
   if (isLoading) return Loading();
