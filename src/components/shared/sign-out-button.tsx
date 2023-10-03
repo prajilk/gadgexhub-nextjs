@@ -2,7 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
-import Button from "./Button";
+import Button from "./button";
 
 const SignOutButton = () => {
   async function handleSignOut() {

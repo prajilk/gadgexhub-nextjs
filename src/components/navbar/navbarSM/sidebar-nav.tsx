@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import DropdownItem from "./DropdownItem";
+import DropdownItem from "./dropdown-item";
 import Link from "next/link";
 import { NavProps } from "@/lib/types/types";
 

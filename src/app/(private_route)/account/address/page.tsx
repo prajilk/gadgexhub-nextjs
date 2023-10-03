@@ -1,5 +1,5 @@
-import AddressCard from "@/components/AddressCard";
-import AddressDialog from "@/components/dialog/AddressDialog";
+import AddressCard from "@/components/address-card";
+import AddressDialog from "@/components/dialog/address-dialog";
 import { AddressResProps } from "@/lib/types/types";
 import { MapPinOff } from "lucide-react";
 import { headers } from "next/headers";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DropdownItem from "./DropdownItem";
+import DropdownItem from "./dropdown-item";
 import { NavProps } from "@/lib/types/types";
 
 const TopNav = ({ navItems }: { navItems: NavProps[] }) => {

@@ -93,9 +93,6 @@ body::-webkit-scrollbar {
 .scrollbar-thin::-webkit-scrollbar-thumb {
   @apply rounded-full bg-gray-200;
 }
-.scrollbar-none::-webkit-scrollbar {
-  @apply hidden;
-}
 
 /* Disable the browser's default autofill background color */
 input:-webkit-autofill,

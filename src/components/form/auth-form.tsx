@@ -14,7 +14,7 @@ import { Input, InputContainer } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { ZodAuthSchema } from "@/lib/zodSchemas";
-import LoadingButton from "@/components/shared/LoadingButton";
+import LoadingButton from "@/components/shared/loading-button";
 import { motion as m } from "framer-motion";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";

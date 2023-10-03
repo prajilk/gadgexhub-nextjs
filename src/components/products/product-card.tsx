@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion as m } from "framer-motion";
 import { ProductCardProps } from "@/lib/types/types";
-import LinkButton from "../shared/LinkButton";
+import LinkButton from "../shared/link-button";
 
 const ProductCard = ({
   title,

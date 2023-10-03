@@ -2,7 +2,7 @@
 
 import { ChevronsLeft, ChevronsRight, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import Slider from "./Slider";
+import Slider from "./slider";
 
 const slides = [
   {

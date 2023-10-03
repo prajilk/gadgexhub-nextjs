@@ -1,4 +1,4 @@
-import LinkButton from "@/components/shared/LinkButton";
+import LinkButton from "@/components/shared/link-button";
 import { authOptions } from "@/lib/auth";
 import { AccountCardProps } from "@/lib/types/types";
 import { ChevronRight, MapPin, Package, User2 } from "lucide-react";

@@ -19,7 +19,7 @@ import { Loader2, Unplug } from "lucide-react";
 import useUser from "@/lib/swr/use-user";
 import { UserProps } from "@/lib/types/types";
 import { useSession } from "next-auth/react";
-import LoadingButton from "../shared/LoadingButton";
+import LoadingButton from "../shared/loading-button";
 import toast from "react-hot-toast";
 
 const ProfileForm = () => {
