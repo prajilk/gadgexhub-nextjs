@@ -22,7 +22,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
 
   useEffect(() => {
     changeImage(images[0].url);
-  }, [images]);
+  }, [images, changeImage]);
 
   return (
     <div className="relative flex flex-col-reverse items-start gap-5 md:flex-row">
