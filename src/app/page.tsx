@@ -1,8 +1,7 @@
-import Banner from "@/components/Banner";
-import BannerSM from "@/components/BannerSM";
-import Latest from "@/components/Latest";
-import Hero from "@/components/hero/Hero";
-import ProductRow from "@/components/productRow/ProductRow";
+import Banner from "@/components/banner";
+import Latest from "@/components/latest";
+import Hero from "@/components/hero/hero";
+import ProductRow from "@/components/products/product-row";
 
 export default function page() {
   return (
@@ -10,7 +9,6 @@ export default function page() {
       <Hero />
       <Latest />
       <Banner />
-      <BannerSM />
       <ProductRow />
       <ProductRow />
       <ProductRow />

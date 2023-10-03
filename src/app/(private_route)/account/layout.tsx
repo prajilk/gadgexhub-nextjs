@@ -1,4 +1,4 @@
-import Profile from "@/components/navbar/Profile";
+import Profile from "@/components/navbar/profile";
 import { LayoutProps } from "@/lib/types/types";
 import Link from "next/link";
 

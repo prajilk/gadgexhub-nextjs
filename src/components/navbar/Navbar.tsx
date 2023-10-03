@@ -1,10 +1,10 @@
-import Marquee from "./Marquee";
+import Marquee from "./marquee";
 import Link from "next/link";
-import TopNav from "./navbarLG/TopNav";
-import SidebarNav from "./navbarSM/SidebarNav";
-import SearchPopup from "./navbarLG/SearchPopup";
+import TopNav from "./navbarLG/top-nav";
+import SidebarNav from "./navbarSM/sidebar-nav";
+import SearchPopup from "./navbarLG/search-popup";
 import { ShoppingCart } from "lucide-react";
-import Profile from "./Profile";
+import Profile from "./profile";
 
 const navItems = [
   {
@@ -66,7 +66,7 @@ const Navbar = () => {
           <div className="navbar-start w-fit">
             <Link
               href="/"
-              className="navbar-item p-0 text-base font-bold md:text-2xl"
+              className="navbar-item p-0 text-base font-semibold md:text-2xl"
             >
               GadgeXhub
             </Link>

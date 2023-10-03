@@ -7,7 +7,7 @@ const Container = ({
 }: LayoutProps & { className?: string }) => {
   return (
     <div
-      className={cn("mx-auto w-full max-w-6xl px-5 py-32 md:py-40", className)}
+      className={cn("mx-auto w-full max-w-6xl px-2 py-32 md:py-40", className)}
     >
       {children}
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@/components/shared/Button";
-import { AuthForm } from "@/components/form/AuthForm";
+import Button from "@/components/shared/button";
+import { AuthForm } from "@/components/form/auth-form";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 

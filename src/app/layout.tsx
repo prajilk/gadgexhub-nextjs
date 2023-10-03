@@ -1,11 +1,11 @@
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/navbar/navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import ShowNavbar from "@/components/navbar/ShowNavbar";
+import ShowNavbar from "@/components/navbar/show-navbar";
 import { LayoutProps } from "@/lib/types/types";
-import ShowFooter from "@/components/footer/ShowFooter";
-import Footer from "@/components/footer/Footer";
+import ShowFooter from "@/components/footer/show-footer";
+import Footer from "@/components/footer/footer";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/context/AuthProvider";
 

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 const ShowFooter = ({ children }: LayoutProps) => {
   const pathname = usePathname();
-  // const ShowFooter = !noNavFooterPages.includes(pathname);
   const showFooter = !noNavFooterPages.some((path) =>
     pathname.startsWith(path),
   );

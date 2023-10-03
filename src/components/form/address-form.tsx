@@ -24,7 +24,7 @@ import {
 } from "../ui/select";
 import { stateList } from "@/lib/utils";
 import { DialogClose, DialogFooter } from "../ui/dialog";
-import LoadingButton from "../shared/LoadingButton";
+import LoadingButton from "../shared/loading-button";
 import { AddressProps, AddressResProps } from "@/lib/types/types";
 import toast from "react-hot-toast";
 import {

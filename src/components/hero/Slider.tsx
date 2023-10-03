@@ -2,7 +2,7 @@ import { formatCurrency } from "@/lib/utils";
 import { SlideProps } from "@/lib/types/types";
 import { motion as m } from "framer-motion";
 import Image from "next/image";
-import LinkButton from "../shared/LinkButton";
+import LinkButton from "../shared/link-button";
 
 const Slider = ({
   slide,

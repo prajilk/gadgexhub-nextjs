@@ -1,8 +1,8 @@
 import React from "react";
-import Container from "./Container";
+import Container from "./container";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
-import ProductCard from "./productRow/ProductCard";
+import ProductCard from "./products/product-card";
 
 const Latest = () => {
   return (

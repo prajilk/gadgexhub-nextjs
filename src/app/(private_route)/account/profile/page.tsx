@@ -1,4 +1,4 @@
-import ProfileForm from "@/components/form/ProfileForm";
+import ProfileForm from "@/components/form/profile-form";
 
 const Profile = async () => {
   return (
