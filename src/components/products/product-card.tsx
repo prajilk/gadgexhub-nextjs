@@ -1,9 +1,6 @@
-"use client";
-
 import { formatCurrency, textTruncate } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { motion as m } from "framer-motion";
 import { ProductCardProps } from "@/lib/types/types";
 import LinkButton from "../shared/link-button";
 
@@ -15,15 +12,7 @@ const ProductCard = ({
   href,
 }: ProductCardProps) => {
   return (
-    <m.div
-      initial={{ opacity: 0, y: 100 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.5,
-      }}
-      viewport={{ once: true }}
-      className="card rounded-none border border-gray-100 bg-white"
-    >
+    <div className="card rounded-none border border-gray-100 bg-white">
       <Link href={href} className="overflow-hidden bg-gray-200 p-0 md:p-5">
         <div className="relative aspect-square">
           <Image
@@ -52,7 +41,7 @@ const ProductCard = ({
           >{`From ${formatCurrency(price)}`}</LinkButton>
         </div>
       </div>
-    </m.div>
+    </div>
   );
 };
 

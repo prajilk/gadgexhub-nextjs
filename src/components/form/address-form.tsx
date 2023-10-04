@@ -26,7 +26,7 @@ import { stateList } from "@/lib/utils";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import LoadingButton from "../shared/loading-button";
 import { AddressProps, AddressResProps } from "@/lib/types/types";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -84,10 +84,13 @@ const AddressForm = ({
             ? JSON.stringify(values)
             : JSON.stringify({ address_id: address?.address_id, data: values }),
       });
-      const result: AddressResProps = await response.json();
+      const result: Omit<AddressResProps, "addresses"> & {
+        addresses: AddressProps;
+      } = await response.json();
       if (result.success) {
         toast.success("Address saved successfully.");
-        form.reset();
+        if (action === "edit") form.reset(result.addresses);
+        else form.reset();
         router.refresh();
       } else {
         toast.error(result.message);
@@ -119,7 +122,6 @@ const AddressForm = ({
         if (result.isDefault)
           return toast.error(
             "Default address cannot be deleted before setting another default.",
-            { style: { fontSize: ".8rem" } },
           );
         toast.error("Error in deleting the address.");
       }

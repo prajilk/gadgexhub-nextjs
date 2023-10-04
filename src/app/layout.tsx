@@ -6,7 +6,7 @@ import ShowNavbar from "@/components/navbar/show-navbar";
 import { LayoutProps } from "@/lib/types/types";
 import ShowFooter from "@/components/footer/show-footer";
 import Footer from "@/components/footer/footer";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "sonner";
 import AuthProvider from "@/context/AuthProvider";
 
 const inter = Poppins({
@@ -32,8 +32,8 @@ export default function RootLayout({ children }: LayoutProps) {
           <ShowFooter>
             <Footer />
           </ShowFooter>
-          <Toaster />
         </AuthProvider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

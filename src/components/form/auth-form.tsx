@@ -16,7 +16,7 @@ import { useState } from "react";
 import { ZodAuthSchema } from "@/lib/zodSchemas";
 import LoadingButton from "@/components/shared/loading-button";
 import { motion as m } from "framer-motion";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -54,10 +54,8 @@ export function AuthForm() {
       }
 
       toast.success("Signed in successfully.");
-      setTimeout(() => {
-        router.refresh();
-        router.back();
-      }, 2000);
+      router.refresh();
+      router.back();
     } catch (error: any) {
       setError(error.message);
     } finally {

@@ -20,7 +20,7 @@ import useUser from "@/lib/swr/use-user";
 import { UserProps } from "@/lib/types/types";
 import { useSession } from "next-auth/react";
 import LoadingButton from "../shared/loading-button";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const ProfileForm = () => {
   const { data, error, isLoading } = useUser();
