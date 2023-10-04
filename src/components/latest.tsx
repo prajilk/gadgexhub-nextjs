@@ -27,14 +27,14 @@ const Latest = () => {
         <ProductCard
           title="Test One"
           description="10% off"
-          href="/"
+          href="/store/oneplus-buds-z2?pid=s2d3jhy"
           imgUrl="/oneplus-buds-z2.png"
           price={2000}
         />
         <ProductCard
           title="Test One"
           description="10% off"
-          href="/"
+          href="/store/oneplus-buds-z2?pid=s2d3jhy"
           imgUrl="/oneplus-supervooc-80w-adapter.png"
           price={2000}
         />

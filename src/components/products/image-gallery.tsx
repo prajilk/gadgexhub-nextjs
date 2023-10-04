@@ -45,9 +45,11 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
       </div>
       <div className="mx-auto flex aspect-[29/30] w-full overflow-hidden md:sticky md:top-32 md:w-[80%]">
         {images.map((image, i) => (
-          <div className="relative h-full w-full flex-shrink-0 flex-grow-0">
+          <div
+            className="relative h-full w-full flex-shrink-0 flex-grow-0"
+            key={i}
+          >
             <Image
-              key={i}
               fill
               src={image.url}
               priority
