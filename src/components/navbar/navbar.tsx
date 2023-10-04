@@ -66,7 +66,7 @@ const Navbar = () => {
           <div className="navbar-start w-fit">
             <Link
               href="/"
-              className="navbar-item p-0 text-base font-semibold md:text-2xl"
+              className="navbar-item p-0 text-lg font-semibold md:text-2xl"
             >
               GadgeXhub
             </Link>
