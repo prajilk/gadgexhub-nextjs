@@ -3,7 +3,7 @@
 import Button from "@/components/shared/button";
 import { AuthForm } from "@/components/form/auth-form";
 import { signIn } from "next-auth/react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const signInWithGoogle = async () => {
