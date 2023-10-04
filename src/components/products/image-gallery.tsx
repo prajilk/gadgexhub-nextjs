@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 type Image = {
   id: string;
@@ -13,16 +13,7 @@ type ImageGalleryProps = {
 };
 
 const ImageGallery = ({ images }: ImageGalleryProps) => {
-  const [imageUrl, setImageUrl] = useState(images[0].url);
-
-  const changeImage = (id: string) => {
-    const currImage = images.find((image) => image.id === id);
-    setImageUrl(currImage?.url || images[0].url);
-  };
-
-  useEffect(() => {
-    changeImage(images[0].url);
-  }, [images, changeImage]);
+  const [imageIndex, setImageIndex] = useState(0);
 
   return (
     <div className="relative flex flex-col-reverse items-start gap-5 md:flex-row">
@@ -32,11 +23,9 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             <button
               key={image.id}
               className={`relative h-14 w-14 flex-shrink-0 rounded-md bg-white ${
-                image.url === imageUrl && "border-2 border-gray-600"
+                index === imageIndex && "border-2 border-gray-600"
               }`}
-              onClick={() => {
-                changeImage(image.id);
-              }}
+              onClick={() => setImageIndex(index)}
             >
               <span className="sr-only">Go to image {index + 1}</span>
               <Image
@@ -54,15 +43,21 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           );
         })}
       </div>
-      <div className="relative mx-auto inline-block aspect-[29/30] w-full">
-        <Image
-          fill
-          src={imageUrl}
-          priority
-          sizes="(max-width: 999px) calc(100vw - 48px), 640px"
-          alt="Product image"
-          className="bg-gray-200 md:ms-0"
-        />
+      <div className="mx-auto flex aspect-[29/30] w-full overflow-hidden md:sticky md:top-32 md:w-[80%]">
+        {images.map((image, i) => (
+          <div className="relative h-full w-full flex-shrink-0 flex-grow-0">
+            <Image
+              key={i}
+              fill
+              src={image.url}
+              priority
+              sizes="(max-width: 999px) calc(100vw - 48px), 640px"
+              alt="Product image"
+              style={{ translate: `${-100 * imageIndex}%` }}
+              className="bg-gray-200 transition-[translate] duration-300 ease-in-out md:ms-0"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
