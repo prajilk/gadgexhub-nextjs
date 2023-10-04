@@ -23,6 +23,12 @@ export function textTruncate(text: string, length: number) {
   return text;
 }
 
+const repeat = (times: number) => {
+  return Array.from(Array(times).keys());
+};
+
+export default repeat;
+
 export const noNavFooterPages = ["/authentication", "/signout", "/account/"];
 
 interface SWRError extends Error {
