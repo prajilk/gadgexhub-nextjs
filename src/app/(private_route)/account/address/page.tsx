@@ -1,24 +1,17 @@
-import AddressCard from "@/components/address-card";
+import Addresses from "@/components/address/addresses";
 import AddressDialog from "@/components/dialog/address-dialog";
-import { AddressResProps } from "@/lib/types/types";
-import { MapPinOff } from "lucide-react";
-import { headers } from "next/headers";
-
-async function getAddress() {
-  const headerSequence = headers();
-  const cookie = headerSequence.get("cookie");
-
-  const res = await fetch(process.env.URL + "/api/user/address", {
-    method: "GET",
-    headers: {
-      Cookie: `${cookie}`,
-    },
-  });
-  return res.json();
-}
+import { getAddress } from "@/lib/api/address/get-address";
+// import { AddressResProps } from "@/lib/types/types";
+// import { MapPinOff } from "lucide-react";
+import getQueryClient from "@/lib/query-utils/get-query-client";
+import { dehydrate } from "@tanstack/query-core";
+import Hydrate from "@/lib/query-utils/hydrate-client";
 
 const Address = async () => {
-  const addresses: AddressResProps = await getAddress();
+  // const addresses: AddressResProps = await getAddress();
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(["user", "address"], getAddress);
+  const dehydratedState = dehydrate(queryClient);
 
   return (
     <div className="mx-auto max-w-6xl px-3">
@@ -27,7 +20,10 @@ const Address = async () => {
           <h1 className="text-xl font-semibold">Addresses</h1>
           <AddressDialog action="add" />
         </div>
-        {addresses.addresses === null || addresses.addresses.length === 0 ? (
+        <Hydrate state={dehydratedState}>
+          <Addresses />
+        </Hydrate>
+        {/* {addresses?.addresses === null || addresses?.addresses.length === 0 ? (
           <div className="my-10 flex w-full flex-col items-center justify-center space-y-3">
             <div className="w-fit rounded-full bg-gray-100 p-3">
               <MapPinOff size={60} className="animate-pulse" />
@@ -35,12 +31,9 @@ const Address = async () => {
             <h1>No addresses found!</h1>
           </div>
         ) : (
-          <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
-            {addresses.addresses.map((address, i) => (
-              <AddressCard address={address} key={i} />
-            ))}
-          </div>
-        )}
+          <></>
+          // <Addresses addresses={addresses?.addresses} />
+        )} */}
       </div>
     </div>
   );

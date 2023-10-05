@@ -1,13 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
-import { getServerSession } from "next-auth";
 import { twMerge } from "tailwind-merge";
-import { authOptions } from "./auth";
 
-export function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(amount: number) {
+function formatCurrency(amount: number) {
   const currencyFormatter = Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -16,7 +14,7 @@ export function formatCurrency(amount: number) {
   return price.toString().split(".")[0];
 }
 
-export function textTruncate(text: string, length: number) {
+function textTruncate(text: string, length: number) {
   if (text.length > length) {
     return text.slice(0, length) + "...";
   }
@@ -27,15 +25,11 @@ const repeat = (times: number) => {
   return Array.from(Array(times).keys());
 };
 
-export default repeat;
-
-export const noNavFooterPages = ["/authentication", "/signout", "/account/"];
-
 interface SWRError extends Error {
   status: number;
 }
 
-export async function fetcher<JSON = any>(
+async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit,
 ): Promise<JSON> {
@@ -51,39 +45,4 @@ export async function fetcher<JSON = any>(
   return res.json();
 }
 
-export const stateList = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chandigarh",
-  "Chhattisgarh",
-  "Delhi",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jammu & Kashmir",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Ladakh",
-  "Lakshadweep",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Odisha",
-  "Puducherry",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttarakhand",
-  "Uttar Pradesh",
-  "West Bengal",
-];
+export { cn, formatCurrency, fetcher, repeat, textTruncate };

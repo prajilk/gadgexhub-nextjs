@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { stateList } from "./utils";
+import { stateList } from "./data";
 
 export const ZodAuthSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),

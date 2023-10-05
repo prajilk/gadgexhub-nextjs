@@ -147,7 +147,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        user: null,
+        addresses: null,
         message: "Invalid data format.",
       },
       { status: 400 },
@@ -213,7 +213,7 @@ export async function PUT(req: NextRequest) {
           addresses: address,
           message: "Address updated successfully",
         },
-        { status: 400 },
+        { status: 200 },
       );
     } catch (error) {
       return NextResponse.json(
@@ -254,9 +254,9 @@ export async function DELETE(req: NextRequest) {
     );
   }
   const userId = session.user.id;
-  const body = await req.json();
+  const address_id = parseInt(req.nextUrl.searchParams.get("id") || "");
 
-  if (!body?.address_id) {
+  if (!address_id) {
     return NextResponse.json(
       {
         success: false,
@@ -271,7 +271,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const isDefault = await db.address.findUnique({
       where: {
-        address_id: body.address_id,
+        address_id,
         userId,
       },
     });
@@ -290,7 +290,7 @@ export async function DELETE(req: NextRequest) {
 
     const result = await db.address.delete({
       where: {
-        address_id: body.address_id,
+        address_id,
         userId,
       },
     });

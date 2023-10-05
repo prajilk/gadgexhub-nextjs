@@ -1,4 +1,4 @@
-import repeat from "@/lib/utils";
+import { repeat } from "@/lib/utils";
 import Container from "../container";
 import Skeleton from "./skeleton";
 

@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { stateList } from "@/lib/utils";
+import { stateList } from "@/lib/data";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import LoadingButton from "../shared/loading-button";
 import { AddressProps, AddressResProps } from "@/lib/types/types";
@@ -40,6 +40,10 @@ import {
 } from "../ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { createAddress } from "@/lib/api/address/create-address";
+import { updateAddress } from "@/lib/api/address/update-address";
+import { deleteAddress } from "@/lib/api/address/delete-address";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AddressForm = ({
   address,
@@ -74,19 +78,14 @@ const AddressForm = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/user/address", {
-        method: action === "add" ? "POST" : "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:
-          action === "add"
-            ? JSON.stringify(values)
-            : JSON.stringify({ address_id: address?.address_id, data: values }),
-      });
-      const result: Omit<AddressResProps, "addresses"> & {
-        addresses: AddressProps;
-      } = await response.json();
+      const result =
+        action === "add"
+          ? await createAddress(values)
+          : await updateAddress({
+              address_id: address?.address_id,
+              data: values,
+            });
+
       if (result.success) {
         toast.success("Address saved successfully.");
         if (action === "edit") form.reset(result.addresses);
@@ -96,6 +95,7 @@ const AddressForm = ({
         toast.error(result.message);
       }
     } catch (error) {
+      console.log(error);
       toast.error("Something went wrong!");
     } finally {
       setIsLoading(false);
@@ -103,21 +103,13 @@ const AddressForm = ({
   }
 
   // Delete address function
-  async function deleteAddress() {
+  async function handleDelete() {
     setDeleteLoading(true);
     try {
-      const response = await fetch("/api/user/address", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address_id: address?.address_id }),
-      });
-      const result = await response.json();
-
+      const result = await deleteAddress(address?.address_id);
       if (result.success) {
         toast.success("Address deleted successfully.");
-        router.refresh();
+        // router.refresh();
       } else {
         if (result.isDefault)
           return toast.error(
@@ -131,6 +123,26 @@ const AddressForm = ({
       setDeleteLoading(false);
     }
   }
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: handleDelete,
+    onMutate: async (addressId: number) => {
+      await queryClient.cancelQueries(["user", "address"]);
+      const previousData: AddressResProps | undefined =
+        queryClient.getQueryData(["user", "address"]);
+
+      queryClient.setQueryData(["user", "address"], {
+        ...previousData,
+        addresses: previousData?.addresses?.filter(
+          (address) => address.address_id !== addressId,
+        ),
+      });
+
+      return { previousData };
+    },
+  });
 
   return (
     <Form {...form}>
@@ -311,7 +323,9 @@ const AddressForm = ({
           {action === "edit" && (
             <div className="md:w-full">
               {!deleteLoading ? (
-                <DeleteAddressModal onDelete={deleteAddress} />
+                <DeleteAddressModal
+                  onDelete={() => mutation.mutate(address?.address_id!)}
+                />
               ) : (
                 <Loader2 className="animate-spin text-destructive" />
               )}
