@@ -1,6 +1,6 @@
 "use client";
 
-import { noNavFooterPages } from "@/lib/utils";
+import { noNavFooterPages } from "@/lib/data";
 import { LayoutProps } from "@/lib/types/types";
 import { usePathname } from "next/navigation";
 

@@ -1,5 +1,5 @@
 import { AddressProps } from "@/lib/types/types";
-import AddressDialog from "./dialog/address-dialog";
+import AddressDialog from "../dialog/address-dialog";
 
 const AddressCard = ({ address }: { address: AddressProps }) => {
   return (
