@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import {
   Form,
   FormControl,
@@ -40,10 +39,9 @@ import {
 } from "../ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createAddress } from "@/lib/api/address/create-address";
-import { updateAddress } from "@/lib/api/address/update-address";
 import { useDeleteAddress } from "@/api-hooks/address/delete-address";
-import { useMutation } from "@tanstack/react-query";
+import { useCreateAddress } from "@/api-hooks/address/create-address";
+import { useUpdateAddress } from "@/api-hooks/address/update-address";
 
 const AddressForm = ({
   address,
@@ -52,7 +50,6 @@ const AddressForm = ({
   address?: AddressProps;
   action: "edit" | "add";
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof ZodAddressSchema>>({
@@ -71,37 +68,24 @@ const AddressForm = ({
     },
   });
 
+  const create_mutation = useCreateAddress();
+  const update_mutation = useUpdateAddress();
+
   //  Create and update address function
   async function onSubmit(values: z.infer<typeof ZodAddressSchema>) {
-    setIsLoading(true);
-
-    try {
-      const result =
-        action === "add"
-          ? await createAddress(values)
-          : await updateAddress({
-              address_id: address?.address_id,
-              data: values,
-            });
-
-      if (result.success) {
-        toast.success("Address saved successfully.");
-        if (action === "edit") form.reset(result.addresses);
-        else form.reset();
-        router.refresh();
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong!");
-    } finally {
-      setIsLoading(false);
+    if (action === "add") {
+      create_mutation.mutate(values);
+      form.reset();
+    } else {
+      update_mutation.mutate({
+        address_id: address?.address_id,
+        data: values,
+      });
     }
   }
 
   // Delete address function
-  const mutation = useDeleteAddress();
+  const delete_mutation = useDeleteAddress();
 
   return (
     <Form {...form}>
@@ -204,29 +188,28 @@ const AddressForm = ({
           />
         </div>
         {/* Input state and district */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 items-center gap-2">
           <FormField
             control={form.control}
             name="state"
             render={({ field }) => (
               <FormItem>
-                <Select
-                  onValueChange={field.onChange}
+                <select
+                  onChange={field.onChange}
                   defaultValue={field.value}
+                  name=""
+                  id=""
+                  className="scrollbar-thin select w-full rounded-lg border bg-[#f5f5f5] text-sm"
                 >
-                  <FormControl className="bg-[#f5f5f5] py-3">
-                    <SelectTrigger className="focus:ring-0">
-                      <SelectValue placeholder="State" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="max-h-72">
-                    {stateList.map((state, i) => (
-                      <SelectItem value={state} key={i}>
-                        {state}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <option value="" disabled selected hidden>
+                    State
+                  </option>
+                  {stateList.map((state, i) => (
+                    <option value={state} key={i}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
                 <FormMessage className="text-start" />
               </FormItem>
             )}
@@ -281,9 +264,9 @@ const AddressForm = ({
         <DialogFooter className="flex flex-row items-center justify-between">
           {action === "edit" && (
             <div className="md:w-full">
-              {!mutation.isLoading ? (
+              {!delete_mutation.isLoading ? (
                 <DeleteAddressModal
-                  onDelete={() => mutation.mutate(address?.address_id!)}
+                  onDelete={() => delete_mutation.mutate(address?.address_id!)}
                 />
               ) : (
                 <Loader2 className="animate-spin text-destructive" />
@@ -298,8 +281,12 @@ const AddressForm = ({
               Cancel
             </DialogClose>
             <LoadingButton
-              loader={isLoading}
-              disabled={!form.formState.isDirty || isLoading}
+              loader={create_mutation.isLoading || update_mutation.isLoading}
+              disabled={
+                !form.formState.isDirty ||
+                create_mutation.isLoading ||
+                update_mutation.isLoading
+              }
               type="submit"
               className="w-fit rounded-none"
             >

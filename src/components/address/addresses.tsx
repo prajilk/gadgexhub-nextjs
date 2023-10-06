@@ -4,18 +4,16 @@ import AddressCard from "./address-card";
 import { MapPinOff } from "lucide-react";
 import SkeletonAddressCard from "../skeletons/skeleton-address-card";
 import { useGetAddress } from "@/api-hooks/address/get-address";
-import { AddressResProps } from "@/lib/types/types";
 import FailedFetch from "../failed-fetch";
 
 const Addresses = () => {
-  const { data: response, isLoading, error } = useGetAddress();
+  const { data: addresses, isLoading, error, isFetching } = useGetAddress();
 
-  const addresses: AddressResProps = response?.data;
-
-  if (isLoading)
+  if (isLoading || isFetching)
     return (
       <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
-        <SkeletonAddressCard />;
+        <SkeletonAddressCard />
+        <SkeletonAddressCard />
       </div>
     );
   if (error)

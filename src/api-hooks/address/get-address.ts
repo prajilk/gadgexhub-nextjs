@@ -1,8 +1,10 @@
 import axios from "@/config/axios.config";
+import { AddressResProps } from "@/lib/types/types";
 import { useQuery } from "@tanstack/react-query";
 
-function getAddressClient() {
-  return axios.get("/api/user/address");
+async function getAddressClient() {
+  const { data } = await axios.get("/api/user/address");
+  return data as AddressResProps;
 }
 
 export function useGetAddress() {
