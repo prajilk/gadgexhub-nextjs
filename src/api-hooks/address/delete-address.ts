@@ -1,20 +1,11 @@
-import { AddressProps, AddressResProps } from "@/lib/types/types";
+import { SingleAddressResProps } from "@/lib/types/types";
 import axios from "@/config/axios.config";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-
-type ResponseProps = Omit<AddressResProps, "addresses"> & {
-  addresses: AddressProps;
-  isDefault?: boolean;
-};
 
 async function handleDelete(id: number) {
   const { data } = await axios.delete(`/api/user/address?id=${id}`);
-  return data as ResponseProps;
+  return data as SingleAddressResProps;
 }
 
 export function useDeleteAddress() {

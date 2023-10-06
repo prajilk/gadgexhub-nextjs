@@ -24,7 +24,11 @@ import {
 import { stateList } from "@/lib/data";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import LoadingButton from "../shared/loading-button";
-import { AddressProps } from "@/lib/types/types";
+import {
+  AddressProps,
+  AddressResProps,
+  SingleAddressResProps,
+} from "@/lib/types/types";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -68,14 +72,18 @@ const AddressForm = ({
     },
   });
 
-  const create_mutation = useCreateAddress();
+  const onSuccess = () => {
+    toast.success("Address saved successfully.");
+    form.reset();
+  };
+
+  const create_mutation = useCreateAddress(onSuccess);
   const update_mutation = useUpdateAddress();
 
   //  Create and update address function
   async function onSubmit(values: z.infer<typeof ZodAddressSchema>) {
     if (action === "add") {
       create_mutation.mutate(values);
-      form.reset();
     } else {
       update_mutation.mutate({
         address_id: address?.address_id,

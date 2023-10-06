@@ -14,20 +14,19 @@ import { ZodProfileSchema } from "@/lib/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, InputContainer } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
-import useUser from "@/lib/swr/use-user";
-import { UserProps } from "@/lib/types/types";
+import { UserResProps } from "@/lib/types/types";
 import { useSession } from "next-auth/react";
 import LoadingButton from "../shared/loading-button";
 import { toast } from "sonner";
 import FailedFetch from "../failed-fetch";
+import { useUser } from "@/api-hooks/user/get-user";
+import { useUpdateUser } from "@/api-hooks/user/update-user";
 
 const ProfileForm = () => {
   const { data, error, isLoading } = useUser();
   const { data: session, update } = useSession();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof ZodProfileSchema>>({
     resolver: zodResolver(ZodProfileSchema),
@@ -48,33 +47,26 @@ const ProfileForm = () => {
     });
   }
 
+  const onSuccess = (data: UserResProps) => {
+    toast.success("Profile updated successfully.");
+    const values = {
+      gender: data.user.gender || "",
+      phone: data.user.phone || "",
+    };
+    updateSession({
+      name: data.user.name || "",
+      ...values,
+    });
+    form.reset({
+      name: data.user.name,
+      ...values,
+    });
+  };
+
+  const mutation = useUpdateUser(onSuccess);
+
   async function onSubmit(values: z.infer<typeof ZodProfileSchema>) {
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/user", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-      const result: UserProps = await response.json();
-      if (result.success) {
-        updateSession(values);
-        toast.success("Profile updated successfully.");
-        form.reset({
-          name: result.user.name,
-          gender: result.user.gender || "",
-          phone: result.user.phone || "",
-        });
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      toast.error("Something went wrong!");
-    } finally {
-      setIsSubmitting(false);
-    }
+    mutation.mutate(values);
   }
 
   useEffect(() => {
@@ -170,10 +162,10 @@ const ProfileForm = () => {
           )}
         />
         <LoadingButton
-          loader={isSubmitting}
+          loader={mutation.isLoading}
           type="submit"
           className="max-w-lg"
-          disabled={!form.formState.isDirty || isSubmitting}
+          disabled={!form.formState.isDirty || mutation.isLoading}
         >
           Save profile
         </LoadingButton>
