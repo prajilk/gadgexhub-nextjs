@@ -25,7 +25,7 @@ import {
 import { stateList } from "@/lib/data";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import LoadingButton from "../shared/loading-button";
-import { AddressProps, AddressResProps } from "@/lib/types/types";
+import { AddressProps } from "@/lib/types/types";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -42,8 +42,8 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createAddress } from "@/lib/api/address/create-address";
 import { updateAddress } from "@/lib/api/address/update-address";
-import { deleteAddress } from "@/lib/api/address/delete-address";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDeleteAddress } from "@/api-hooks/address/delete-address";
+import { useMutation } from "@tanstack/react-query";
 
 const AddressForm = ({
   address,
@@ -53,8 +53,6 @@ const AddressForm = ({
   action: "edit" | "add";
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-
   const router = useRouter();
 
   const form = useForm<z.infer<typeof ZodAddressSchema>>({
@@ -103,46 +101,7 @@ const AddressForm = ({
   }
 
   // Delete address function
-  async function handleDelete() {
-    setDeleteLoading(true);
-    try {
-      const result = await deleteAddress(address?.address_id);
-      if (result.success) {
-        toast.success("Address deleted successfully.");
-        // router.refresh();
-      } else {
-        if (result.isDefault)
-          return toast.error(
-            "Default address cannot be deleted before setting another default.",
-          );
-        toast.error("Error in deleting the address.");
-      }
-    } catch (error) {
-      toast.error("Something went wrong!");
-    } finally {
-      setDeleteLoading(false);
-    }
-  }
-
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: handleDelete,
-    onMutate: async (addressId: number) => {
-      await queryClient.cancelQueries(["user", "address"]);
-      const previousData: AddressResProps | undefined =
-        queryClient.getQueryData(["user", "address"]);
-
-      queryClient.setQueryData(["user", "address"], {
-        ...previousData,
-        addresses: previousData?.addresses?.filter(
-          (address) => address.address_id !== addressId,
-        ),
-      });
-
-      return { previousData };
-    },
-  });
+  const mutation = useDeleteAddress();
 
   return (
     <Form {...form}>
@@ -322,7 +281,7 @@ const AddressForm = ({
         <DialogFooter className="flex flex-row items-center justify-between">
           {action === "edit" && (
             <div className="md:w-full">
-              {!deleteLoading ? (
+              {!mutation.isLoading ? (
                 <DeleteAddressModal
                   onDelete={() => mutation.mutate(address?.address_id!)}
                 />

@@ -305,6 +305,14 @@ export async function DELETE(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
+    return NextResponse.json(
+      {
+        success: false,
+        addresses: null,
+        isDefault: false,
+        message: "Something went wrong",
+      },
+      { status: 500 },
+    );
   }
 }

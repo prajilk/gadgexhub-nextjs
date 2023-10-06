@@ -21,6 +21,7 @@ import { UserProps } from "@/lib/types/types";
 import { useSession } from "next-auth/react";
 import LoadingButton from "../shared/loading-button";
 import { toast } from "sonner";
+import FailedFetch from "../failed-fetch";
 
 const ProfileForm = () => {
   const { data, error, isLoading } = useUser();
@@ -87,7 +88,7 @@ const ProfileForm = () => {
     }
   }, [data, form]);
 
-  if (error) return Failed();
+  if (error) return <FailedFetch />;
   if (isLoading) return Loading();
 
   return (
@@ -187,17 +188,6 @@ const Loading = () => {
   return (
     <div className="flex justify-center">
       <Loader2 className="animate-spin" />
-    </div>
-  );
-};
-
-const Failed = () => {
-  return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="w-fit rounded-full bg-gray-100 p-3">
-        <Unplug size={60} className="animate-pulse" />
-      </div>
-      <span className="text-xl font-medium">Failed to fetch data</span>
     </div>
   );
 };

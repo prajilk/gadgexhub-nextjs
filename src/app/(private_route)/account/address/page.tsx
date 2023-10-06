@@ -1,16 +1,28 @@
 import Addresses from "@/components/address/addresses";
 import AddressDialog from "@/components/dialog/address-dialog";
-import { getAddress } from "@/lib/api/address/get-address";
-// import { AddressResProps } from "@/lib/types/types";
-// import { MapPinOff } from "lucide-react";
 import getQueryClient from "@/lib/query-utils/get-query-client";
 import { dehydrate } from "@tanstack/query-core";
 import Hydrate from "@/lib/query-utils/hydrate-client";
+import { headers } from "next/headers";
+import axios from "@/config/axios.config";
+import { AddressResProps } from "@/lib/types/types";
+
+async function getAddressServer() {
+  const headerSequence = headers();
+  const cookie = headerSequence.get("cookie");
+
+  const { data } = await axios.get("/api/user/address", {
+    headers: {
+      Cookie: `${cookie}`,
+    },
+  });
+
+  return data as AddressResProps;
+}
 
 const Address = async () => {
-  // const addresses: AddressResProps = await getAddress();
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(["user", "address"], getAddress);
+  await queryClient.prefetchQuery(["user", "address"], getAddressServer);
   const dehydratedState = dehydrate(queryClient);
 
   return (
@@ -23,17 +35,6 @@ const Address = async () => {
         <Hydrate state={dehydratedState}>
           <Addresses />
         </Hydrate>
-        {/* {addresses?.addresses === null || addresses?.addresses.length === 0 ? (
-          <div className="my-10 flex w-full flex-col items-center justify-center space-y-3">
-            <div className="w-fit rounded-full bg-gray-100 p-3">
-              <MapPinOff size={60} className="animate-pulse" />
-            </div>
-            <h1>No addresses found!</h1>
-          </div>
-        ) : (
-          <></>
-          // <Addresses addresses={addresses?.addresses} />
-        )} */}
       </div>
     </div>
   );
