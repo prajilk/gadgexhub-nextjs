@@ -1,24 +1,29 @@
 "use client";
 
-import { AddressResProps } from "@/lib/types/types";
 import AddressCard from "./address-card";
-import { useQuery } from "@tanstack/react-query";
 import { MapPinOff } from "lucide-react";
-import axios from "@/config/axios.config";
 import SkeletonAddressCard from "../skeletons/skeleton-address-card";
-
-async function getAddressClient() {
-  const { data } = await axios.get("/api/user/address");
-  return data as AddressResProps;
-}
+import { useGetAddress } from "@/api-hooks/address/get-address";
+import { AddressResProps } from "@/lib/types/types";
+import FailedFetch from "../failed-fetch";
 
 const Addresses = () => {
-  const { data: addresses, isLoading } = useQuery(
-    ["user", "address"],
-    getAddressClient,
-  );
+  const { data: response, isLoading, error } = useGetAddress();
 
-  if (isLoading) return <SkeletonAddressCard />;
+  const addresses: AddressResProps = response?.data;
+
+  if (isLoading)
+    return (
+      <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
+        <SkeletonAddressCard />;
+      </div>
+    );
+  if (error)
+    return (
+      <div className="mt-5 flex justify-center py-10">
+        <FailedFetch />
+      </div>
+    );
 
   return (
     <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
