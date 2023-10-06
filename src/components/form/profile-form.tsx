@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, InputContainer } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "../ui/radio";
 import { useEffect, useState } from "react";
-import { Loader2, Unplug } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import useUser from "@/lib/swr/use-user";
 import { UserProps } from "@/lib/types/types";
 import { useSession } from "next-auth/react";

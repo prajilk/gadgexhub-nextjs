@@ -87,6 +87,17 @@ export async function POST(req: NextRequest) {
 
       let data;
 
+      if (addressList.length >= 5) {
+        return NextResponse.json(
+          {
+            success: false,
+            addresses: null,
+            message: "Address creation limit exceeded",
+          },
+          { status: 429 },
+        );
+      }
+
       // Check if there are no addresses in the list or result.data.is_default is false
       if (addressList.length === 0) {
         data = {
@@ -126,7 +137,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: true,
-          user: result.data,
+          addresses: result.data,
           message: "Address saved successfully.",
         },
         { status: 200 },
@@ -135,7 +146,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          user: null,
+          addresses: null,
           message: "Something went wrong",
         },
         { status: 500 },
@@ -184,6 +195,7 @@ export async function PUT(req: NextRequest) {
       { status: 400 },
     );
   }
+
   const result = ZodAddressSchema.safeParse(body.data);
 
   if (result.success) {
