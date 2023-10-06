@@ -45,4 +45,26 @@ async function fetcher<JSON = any>(
   return res.json();
 }
 
-export { cn, formatCurrency, fetcher, repeat, textTruncate };
+function capitalizeSearchParam(text: string) {
+  if (!text) return null;
+
+  const words = text.split(" ");
+  // Capitalize the first letter of each word
+  const capitalizedWords = words.map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+
+  // Join the words back together with hyphens
+  const capitalizedText = capitalizedWords.join(" ");
+
+  return capitalizedText;
+}
+
+export {
+  cn,
+  formatCurrency,
+  fetcher,
+  repeat,
+  textTruncate,
+  capitalizeSearchParam,
+};

@@ -23,10 +23,12 @@ import { toast } from "sonner";
 import FailedFetch from "../failed-fetch";
 import { useUser } from "@/api-hooks/user/get-user";
 import { useUpdateUser } from "@/api-hooks/user/update-user";
+import { useRouter } from "next/navigation";
 
 const ProfileForm = () => {
   const { data, error, isLoading } = useUser();
   const { data: session, update } = useSession();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof ZodProfileSchema>>({
     resolver: zodResolver(ZodProfileSchema),
@@ -61,6 +63,7 @@ const ProfileForm = () => {
       name: data.user.name,
       ...values,
     });
+    router.refresh();
   };
 
   const mutation = useUpdateUser(onSuccess);
