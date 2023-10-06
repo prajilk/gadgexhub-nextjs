@@ -62,7 +62,7 @@ export type AccountCardProps = {
   icon: React.ReactElement<JsxElement>;
   title: string;
 };
-export type UserProps = {
+export type UserResProps = {
   success: boolean;
   user: {
     id?: string;
@@ -81,4 +81,9 @@ export type AddressResProps = {
   success: boolean;
   addresses: AddressProps[] | null;
   message: string;
+};
+
+export type SingleAddressResProps = Omit<AddressResProps, "addresses"> & {
+  addresses: AddressProps;
+  isDefault?: boolean;
 };
