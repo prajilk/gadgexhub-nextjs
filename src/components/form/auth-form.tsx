@@ -19,12 +19,13 @@ import { motion as m } from "framer-motion";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useCreateAccount } from "@/api-hooks/user/create-user-account";
+import { UserResProps } from "@/lib/types/types";
 
 export function AuthForm() {
   const [isPassword, setIsPassword] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [signInLoading, setSignInIsLoading] = useState(false);
-  const [signUpLoading, setSignUpIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -62,26 +63,23 @@ export function AuthForm() {
       setSignInIsLoading(false);
     }
   }
+
+  const onSuccess = (
+    data: UserResProps,
+    variables: z.infer<typeof ZodAuthSchema>,
+  ) => {
+    toast.success("Account created successfully!");
+    handleSignIn(variables); // Auto sign in after account creation.
+  };
+  const onError = ({ response }: { response: any }) => {
+    setError(response.data.message);
+  };
+
+  const mutation = useCreateAccount(onSuccess, onError);
+
   async function handleCreateAccount(data: z.infer<typeof ZodAuthSchema>) {
+    mutation.mutate(data);
     setError(null);
-    setSignUpIsLoading(true);
-    try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const { success, message } = await res.json();
-      if (!success) throw new Error(message);
-      toast.success("Account created successfully!");
-      handleSignIn(data); // Auto sign in after account creation.
-    } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setSignUpIsLoading(false);
-    }
   }
 
   return (
@@ -147,7 +145,7 @@ export function AuthForm() {
             type="button"
             onClick={form.handleSubmit(handleSignIn)}
             loader={signInLoading}
-            disabled={signInLoading || signUpLoading}
+            disabled={signInLoading || mutation.isLoading}
             className="border text-white hover:bg-gray-700"
           >
             Sign in
@@ -155,8 +153,8 @@ export function AuthForm() {
           <LoadingButton
             type="button"
             onClick={form.handleSubmit(handleCreateAccount)}
-            loader={signUpLoading}
-            disabled={signInLoading || signUpLoading}
+            loader={mutation.isLoading}
+            disabled={signInLoading || mutation.isLoading}
             className="border border-black bg-white text-black hover:bg-gray-100"
           >
             Create account
