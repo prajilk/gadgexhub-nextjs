@@ -47,7 +47,7 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
           </div>
           <div className="scrollbar-thin max-h-[100%] overflow-y-scroll">
             {cartItems.length !== 0 ? (
-              cartItems.map((item) => <CartItem {...item} />)
+              cartItems.map((item) => <CartItem {...item} key={item.id} />)
             ) : (
               <NoCartItem />
             )}

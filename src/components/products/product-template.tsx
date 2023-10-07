@@ -41,7 +41,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
     image: "/oneplus-buds-z2.png",
     variant: variant.color,
     url: "http://localhost:3000/store/earphone-700-anc?pid=twvdhjay",
-    quantity: 2,
+    quantity: 1,
   };
 
   return (
@@ -70,7 +70,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
             <ul className="flex flex-wrap gap-3">
               {product.map((_variant, i) => (
                 <li
-                  className={`relative h-14 w-14 flex-shrink-0 cursor-pointer rounded-sm bg-gray-200 ${
+                  className={`flex-shrink-0 cursor-pointer rounded-sm bg-gray-200 ${
                     _variant.images[0].id === variant.images[0].id &&
                     "border-2 border-gray-600"
                   }`}
@@ -82,12 +82,15 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
                       color: _variant.color.toLowerCase(),
                     })}`}
                   >
-                    <Image
-                      alt="image-variant"
-                      src={_variant.images[0].url}
-                      fill
-                      sizes="(max-width: 999px) 72px, 60px"
-                    />
+                    <div className="relative h-14 w-14">
+                      <Image
+                        alt="image-variant"
+                        src={_variant.images[0].url}
+                        fill
+                        priority
+                        sizes="(max-width: 999px) 72px, 60px"
+                      />
+                    </div>
                   </Link>
                 </li>
               ))}
