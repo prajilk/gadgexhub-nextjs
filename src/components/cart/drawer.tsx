@@ -15,7 +15,7 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
     if (itemsJSON) {
       setCartItems(JSON.parse(itemsJSON));
     }
-  }, []);
+  }, [setCartItems]);
 
   return (
     <div>
@@ -67,7 +67,7 @@ export default Drawer;
 
 const NoCartItem = () => {
   return (
-    <div className="flex flex-col items-center space-y-3 pt-10">
+    <div className="flex flex-col items-center pt-10">
       <svg
         width="150"
         height="150"
@@ -118,7 +118,7 @@ const NoCartItem = () => {
           fill="gray"
         />
       </svg>
-      <h1 className="text-xl font-medium">Your shopping cart is empty</h1>
+      <h1 className="my-5 text-xl font-medium">Your shopping cart is empty</h1>
       <Button className="w-fit rounded-sm font-medium uppercase">
         Start Shopping
       </Button>
