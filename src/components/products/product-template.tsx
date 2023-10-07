@@ -2,8 +2,8 @@ import Image from "next/image";
 import Container from "../container";
 import ImageGallery from "./image-gallery";
 import { capitalizeSearchParam, formatCurrency } from "@/lib/utils";
-import Button from "../shared/button";
 import Link from "next/link";
+import ProductActions from "./product-actions";
 
 type ImagesProps = {
   id: string;
@@ -34,6 +34,15 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
   };
 
   const variant = setDefaultVariant();
+
+  const cartItem = {
+    id: productID,
+    title: "OnePlus Buds Z2",
+    image: "/oneplus-buds-z2.png",
+    variant: variant.color,
+    url: "http://localhost:3000/store/earphone-700-anc?pid=twvdhjay",
+    quantity: 2,
+  };
 
   return (
     <Container className="pt-28 md:pt-36">
@@ -84,14 +93,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
               ))}
             </ul>
           </div>
-          <div className="space-y-4">
-            <Button className="rounded-none py-6 text-base uppercase">
-              Add to cart
-            </Button>
-            <Button className="rounded-none bg-secondaryTheme py-6 text-base uppercase hover:bg-secondaryTheme hover:bg-opacity-60">
-              Buy it now
-            </Button>
-          </div>
+          <ProductActions {...cartItem} />
         </div>
       </div>
     </Container>

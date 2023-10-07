@@ -88,10 +88,10 @@ body::-webkit-scrollbar {
   @apply hidden;
 }
 .scrollbar-thin::-webkit-scrollbar {
-  @apply w-2;
+  @apply w-1.5;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-gray-400;
+  @apply rounded-full bg-gray-300;
 }
 
 /* Disable the browser's default autofill background color */

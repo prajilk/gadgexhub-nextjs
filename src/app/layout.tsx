@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import AuthProvider from "@/provider/AuthProvider";
 import QueryProvider from "@/provider/QueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { GlobalContextProvider } from "@/context/store";
 
 const inter = Poppins({
   subsets: ["latin"],
@@ -28,14 +29,16 @@ export default function RootLayout({ children }: LayoutProps) {
       <body className={inter.className}>
         <AuthProvider>
           <QueryProvider>
-            <ShowNavbar>
-              <Navbar />
-            </ShowNavbar>
-            {children}
-            <ShowFooter>
-              <Footer />
-            </ShowFooter>
-            <ReactQueryDevtools />
+            <GlobalContextProvider>
+              <ShowNavbar>
+                <Navbar />
+              </ShowNavbar>
+              {children}
+              <ShowFooter>
+                <Footer />
+              </ShowFooter>
+              <ReactQueryDevtools />
+            </GlobalContextProvider>
           </QueryProvider>
         </AuthProvider>
         <Toaster richColors position="top-center" />
