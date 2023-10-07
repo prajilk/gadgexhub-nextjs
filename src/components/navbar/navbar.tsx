@@ -5,6 +5,7 @@ import SidebarNav from "./navbarSM/sidebar-nav";
 import SearchPopup from "./navbarLG/search-popup";
 import { ShoppingCart } from "lucide-react";
 import Profile from "./profile";
+import Drawer from "../cart/drawer";
 
 const navItems = [
   {
@@ -48,12 +49,12 @@ const navItems = [
 
 const Cart = () => {
   return (
-    <Link href="/cart" className="relative">
+    <div className="relative cursor-pointer">
       <ShoppingCart />
       <div className="badge badge-error badge-xs absolute -right-2 -top-1 translate-y-[-25%] p-2">
         <span className="absolute inset-0 translate-y-[20%]">1</span>
       </div>
-    </Link>
+    </div>
   );
 };
 
@@ -79,7 +80,7 @@ const Navbar = () => {
             </div>
 
             <div className="mx-2 flex items-center gap-5">
-              <Cart />
+              <Drawer trigger={<Cart />} />
               <Profile />
             </div>
 

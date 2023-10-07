@@ -82,7 +82,11 @@ const ProductPage = ({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  return <ProductTemplate product={product} searchParams={searchParams} />;
+  return (
+    <>
+      <ProductTemplate product={product} searchParams={searchParams} />
+    </>
+  );
 };
 
 export default ProductPage;
