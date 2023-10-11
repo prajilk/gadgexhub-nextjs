@@ -53,3 +53,34 @@ export const ZodAddressSchema = z.object({
     })
     .optional(),
 });
+
+export const ZodProductSchema = z.object({
+  title: z
+    .string()
+    .min(5, "Value must be 5 or more characters long")
+    .max(20, "Value must be less than 50 characters long"),
+  slug: z
+    .string()
+    .min(5, "Value must be 5 or more characters long")
+    .max(20, "Value must be less than 50 characters long"),
+  description: z
+    .string()
+    .min(10, "Value must be 10 or more characters long")
+    .max(300, "Value must be less than 300 characters long"),
+  category: z
+    .string()
+    .min(3, "Value must be 3 or more characters long")
+    .max(20, "Value must be less than 50 characters long"),
+  basePrice: z.string().refine((value) => /^\d+$/.test(value), {
+    message: "Enter valid number",
+  }),
+  offerPrice: z.string().refine((value) => /^\d+$/.test(value), {
+    message: "Enter valid number",
+  }),
+  stock: z.string().refine((value) => /^\d+$/.test(value), {
+    message: "Enter valid number",
+  }),
+  color: z.string().optional(),
+  variantName: z.string().optional(),
+  variantValues: z.string().optional(),
+});

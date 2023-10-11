@@ -1,6 +1,7 @@
 import { JsxElement } from "typescript";
 import { number, z } from "zod";
-import { ZodAddressSchema } from "../zodSchemas";
+import { ZodAddressSchema, ZodProductSchema } from "../zodSchemas";
+import { UseFormReturn } from "react-hook-form";
 
 export type LayoutProps = {
   children: React.ReactNode;
@@ -86,4 +87,8 @@ export type AddressResProps = {
 export type SingleAddressResProps = Omit<AddressResProps, "addresses"> & {
   addresses: AddressProps;
   isDefault?: boolean;
+};
+
+export type ProductFormProps = {
+  form: UseFormReturn<z.infer<typeof ZodProductSchema>, any, undefined>;
 };
