@@ -15,7 +15,7 @@ import { GlobalContextProvider } from "@/context/store";
 const inter = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
+  display: "block",
 });
 
 export const metadata: Metadata = {
