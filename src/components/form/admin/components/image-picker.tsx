@@ -91,7 +91,10 @@ const ImagePicker = ({ action, variant, variantIndex }: ImagePickerProps) => {
                   {isDragActive ? (
                     <p>Drop the files here ...</p>
                   ) : (
-                    <p>Drag 'n' drop images here, or click to select files</p>
+                    <p>
+                      Drag &apos;n&apos; drop images here, or click to select
+                      files
+                    </p>
                   )}
                 </div>
               </div>
