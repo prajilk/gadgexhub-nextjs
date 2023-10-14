@@ -104,7 +104,6 @@ const ImagePicker = ({ action, variant, variantIndex }: ImagePickerProps) => {
               <ImagePreview
                 image={image}
                 imageIndex={i}
-                setColorVariants={setColorVariants}
                 action="others"
                 variantIndex={variantIndex}
                 key={i}

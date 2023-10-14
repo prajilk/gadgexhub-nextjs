@@ -39,7 +39,8 @@ const AddColorSection = ({
           Color {index + 1}:{" "}
           {index === 0 && (
             <span className="text-xs text-gray-400">
-              &#40;Type 'default' if there is only a single color variant!&#41;
+              &#40;Type &apos;default&apos; if there is only a single color
+              variant!&#41;
             </span>
           )}
         </h1>
