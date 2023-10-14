@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ColorVariantRes, MakeColorVariant } from "./types/types";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,6 +13,12 @@ function formatCurrency(amount: number) {
   });
   const price = currencyFormatter.format(amount);
   return price.toString().split(".")[0];
+}
+
+function calculatePercentage(basePrice: number, offerPrice: number) {
+  const decrease = basePrice - offerPrice;
+  const percentageDecrease = (decrease / basePrice) * 100;
+  return `${percentageDecrease.toFixed(0)}%`;
 }
 
 function textTruncate(text: string, length: number) {
@@ -60,6 +67,45 @@ function capitalizeSearchParam(text: string) {
   return capitalizedText;
 }
 
+function makeColorVariant({ colors, images }: MakeColorVariant) {
+  const output: ColorVariantRes[] = [];
+  if (colors !== null) {
+    const colorNames = colors.split(",");
+
+    colorNames.forEach((colorName) => {
+      const colorImages = images.filter((img) =>
+        img.imagePublicId.includes(colorName),
+      );
+
+      // Create the output object for the color
+      const colorObject = {
+        color: colorName,
+        images: colorImages
+          .map((img) => ({
+            id: img.id,
+            url: img.imagePublicId,
+          }))
+          .reverse(),
+      };
+
+      output.push(colorObject);
+    });
+  } else {
+    const noColorVariantObject = {
+      color: null,
+      images: images
+        .map((img) => ({
+          id: img.id,
+          url: img.imagePublicId,
+        }))
+        .reverse(),
+    };
+    output.push(noColorVariantObject);
+  }
+
+  return output.reverse();
+}
+
 export {
   cn,
   formatCurrency,
@@ -67,4 +113,6 @@ export {
   repeat,
   textTruncate,
   capitalizeSearchParam,
+  calculatePercentage,
+  makeColorVariant,
 };

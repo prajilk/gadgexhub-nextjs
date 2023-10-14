@@ -17,11 +17,7 @@ import { Checkbox } from "../ui/checkbox";
 import { stateList } from "@/lib/data";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import LoadingButton from "../shared/loading-button";
-import {
-  AddressProps,
-  AddressResProps,
-  SingleAddressResProps,
-} from "@/lib/types/types";
+import { AddressProps } from "@/lib/types/types";
 import { toast } from "sonner";
 import {
   AlertDialog,

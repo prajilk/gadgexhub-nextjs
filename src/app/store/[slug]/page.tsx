@@ -1,90 +1,55 @@
+import NotFound from "@/app/not-found";
 import ProductTemplate from "@/components/products/product-template";
+import { getProduct } from "@/lib/api/products/get-product";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-// import { getProduct } from "@/lib/api/get-product";
-// import { Metadata } from "next";
-// import { notFound } from "next/navigation";
+type Props = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | undefined };
+};
 
-// type Props = {
-//   params: { productName: string };
-//   searchParams: { [key: string]: string | undefined };
-// };
-
-// export async function generateMetadata({
-//   params,
-//   searchParams,
-// }: Props): Promise<Metadata> {
-//   const data = await getProduct(searchParams.pid ?? "", params.productName[0]);
-
-//   const product = data.products[0];
-
-//   if (!product) {
-//     notFound();
-//   }
-
-//   const product = {
-//     title: "Test",
-//   };
-
-//   return {
-//     title: `${product.title} | Acme Store`,
-//     description: `${product.title}`,
-//     openGraph: {
-//       title: `${product.title} | Acme Store`,
-//       description: `${product.title}`,
-//       // images: product.thumbnail ? [product.thumbnail] : [],
-//     },
-//   };
-// }
-
-// product.variants[0].images[0]
-
-const product = [
-  {
-    color: "Matte Black",
-    images: [
-      {
-        id: "126id",
-        url: "/oneplus-buds-z2.png",
-      },
-      {
-        id: "127id",
-        url: "/oneplus-buds-z2-image1.webp",
-      },
-      {
-        id: "128id",
-        url: "/oneplus-buds-z2-image2.webp",
-      },
-    ],
-  },
-  {
-    color: "Pearl White",
-    images: [
-      {
-        id: "123id",
-        url: "/oneplus-buds-z2-white.webp",
-      },
-      {
-        id: "124id",
-        url: "/oneplus-buds-z2-white-image1.webp",
-      },
-      {
-        id: "125id",
-        url: "/oneplus-buds-z2-white-image2.webp",
-      },
-    ],
-  },
-];
-
-const ProductPage = ({
+export async function generateMetadata({
   params,
   searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}: Props): Promise<Metadata> {
+  const data = await getProduct(params.slug, searchParams.pid as string).catch(
+    (_) => notFound(),
+  );
+
+  const product = data?.product;
+
+  if (!product) {
+    notFound();
+  }
+
+  return {
+    metadataBase: new URL(process.env.METADATA_BASE_URL!),
+    title: `${product.title} | GadgeXhub`,
+    description: `${product.description}`,
+    openGraph: {
+      title: `${product.title} | GadgeXhub`,
+      description: `${product.description}`,
+      images: product.colorVariants
+        ? [
+            process.env.NEXT_PUBLIC_IMAGE_URL! +
+              product.colorVariants[0].images[0],
+          ]
+        : [],
+    },
+  };
+}
+
+const ProductPage = async ({ params, searchParams }: Props) => {
+  const product = await getProduct(
+    params.slug,
+    searchParams.pid as string,
+  ).catch((_) => notFound());
+  if (!product?.product) return <NotFound />;
+
   return (
     <>
-      <ProductTemplate product={product} searchParams={searchParams} />
+      <ProductTemplate product={product?.product} searchParams={searchParams} />
     </>
   );
 };

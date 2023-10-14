@@ -1,13 +1,6 @@
-// import { createContext } from "react";
-
-// const UploadsContext = createContext();
-// const ProfileModalContext = createContext();
-
-// export { UploadsContext, ProfileModalContext };
-
 "use client";
 
-import { LayoutProps } from "@/lib/types/types";
+import { CartItemProps, ColorVariant, LayoutProps } from "@/lib/types/types";
 import {
   createContext,
   useContext,
@@ -16,29 +9,27 @@ import {
   Dispatch,
 } from "react";
 
-export type ProductActionsProps = {
-  id: string;
-  title: string;
-  image: string;
-  variant: string;
-  quantity: number;
-  url: string;
-};
-
 type ContextProps = {
-  cartItems: ProductActionsProps[];
-  setCartItems: Dispatch<SetStateAction<ProductActionsProps[]>>;
+  cartItems: CartItemProps[];
+  setCartItems: Dispatch<SetStateAction<CartItemProps[]>>;
+  colorVariants: ColorVariant[];
+  setColorVariants: Dispatch<SetStateAction<ColorVariant[]>>;
 };
 
 const GlobalContext = createContext<ContextProps>({
   cartItems: [],
-  setCartItems: (): ProductActionsProps[] => [],
+  setCartItems: (): CartItemProps[] => [],
+  colorVariants: [],
+  setColorVariants: (): ColorVariant[] => [],
 });
 
 export const GlobalContextProvider = ({ children }: LayoutProps) => {
-  const [cartItems, setCartItems] = useState<ProductActionsProps[] | []>([]);
+  const [cartItems, setCartItems] = useState<CartItemProps[] | []>([]);
+  const [colorVariants, setColorVariants] = useState<ColorVariant[]>([]);
   return (
-    <GlobalContext.Provider value={{ cartItems, setCartItems }}>
+    <GlobalContext.Provider
+      value={{ cartItems, setCartItems, colorVariants, setColorVariants }}
+    >
       {children}
     </GlobalContext.Provider>
   );

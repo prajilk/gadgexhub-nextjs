@@ -83,25 +83,39 @@ model Address {
 }
 
 model Product {
-  id            String   @id @default(cuid())
-  slug          String
-  title         String
-  description   String
-  category      Category @relation(fields: [categoryId], references: [id])
-  categoryId    Int
-  basePrice     Float
-  offerPrice    Float
-  stock         Int
-  color         String? // "Matte black, Clay White"
-  variantName   String? // "Size"
-  variantValues String? // "small, medium, large"
-  createdAt     DateTime @default(now())
+  id               String   @id @default(cuid())
+  slug             String
+  title            String
+  shortDescription String?
+  description      String   @db.Text
+  category         Category @relation(fields: [categoryId], references: [id])
+  categoryId       Int
+  basePrice        Float
+  offerPrice       Float
+  stock            Int
+  color            String? // "Matte black, Clay White" | "NULL"
+  variantName      String? // "Size"
+  variantValues    String? // "small, medium, large"
+  createdAt        DateTime @default(now())
+  images           Image[]
 
   @@index([slug], name: "product_slug_index")
 }
 
+model Image {
+  id            Int     @id @default(autoincrement())
+  imagePublicId String
+  productId     String
+  product       Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, id])
+}
+
 model Category {
-  id      Int       @id @default(autoincrement())
-  name    String
-  Product Product[]
+  id       Int        @id @default(autoincrement())
+  name     String
+  parentId Int?
+  parent   Category?  @relation("Category", fields: [parentId], references: [id])
+  Product  Product[]
+  Category Category[] @relation("Category")
 }

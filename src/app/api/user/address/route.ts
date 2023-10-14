@@ -20,11 +20,16 @@ export async function GET(req: NextRequest) {
   const userId = session.user.id;
 
   try {
-    const addresses = await db.address.findMany({
-      where: {
-        userId: userId,
-      },
-    });
+    const addresses = await db.user
+      .findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          addresses: true,
+        },
+      })
+      .addresses();
 
     if (!addresses) {
       return NextResponse.json(

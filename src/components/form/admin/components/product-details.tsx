@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input, InputContainer } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ProductFormProps } from "@/lib/types/types";
 
 const ProductDetails = ({ form }: ProductFormProps) => {
@@ -26,7 +27,7 @@ const ProductDetails = ({ form }: ProductFormProps) => {
           <FormItem>
             <FormLabel>Title</FormLabel>
             <FormControl>
-              <InputContainer className="bg-[#f5f5f5]">
+              <InputContainer className="bg-gray-50">
                 <Input placeholder="Title" {...field} />
               </InputContainer>
             </FormControl>
@@ -38,11 +39,11 @@ const ProductDetails = ({ form }: ProductFormProps) => {
         control={form.control}
         name="slug"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="mt-3">
             <FormLabel>Slug</FormLabel>
-            <FormControl>
+            <FormControl style={{ margin: "0" }}>
               <div className="flex items-center gap-2">
-                <InputContainer className="w-full bg-[#f5f5f5]">
+                <InputContainer className="w-full bg-gray-50">
                   <Input {...field} />
                 </InputContainer>
                 <button
@@ -60,21 +61,47 @@ const ProductDetails = ({ form }: ProductFormProps) => {
       />
       <FormField
         control={form.control}
-        name="description"
+        name="shortDescription"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description</FormLabel>
+            <FormLabel>
+              Short Description{" "}
+              <span className="text-xs lowercase text-gray-400">
+                &#40;optional&#41;
+              </span>
+            </FormLabel>
             <FormControl>
-              <InputContainer className="bg-[#f5f5f5]">
-                <Input placeholder="Description" {...field} />
+              <InputContainer className="bg-gray-50">
+                <Input
+                  placeholder="Short Description"
+                  {...field}
+                  className=""
+                />
               </InputContainer>
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem className="mt-3">
+            <FormLabel>Description</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Description"
+                {...field}
+                className="bg-gray-50"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <div className="mt-3 grid grid-cols-2 gap-3">
-        {(["category", "stock"] as const).map((item, i) => (
+        {(["categoryId", "stock"] as const).map((item, i) => (
           <FormField
             key={i}
             control={form.control}
@@ -83,7 +110,7 @@ const ProductDetails = ({ form }: ProductFormProps) => {
               <FormItem>
                 <FormLabel className="capitalize">{item}</FormLabel>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
+                  <InputContainer className="max-w-lg bg-gray-50">
                     <Input
                       className="placeholder:capitalize"
                       placeholder={item}
@@ -109,7 +136,7 @@ const ProductDetails = ({ form }: ProductFormProps) => {
                   {item.replace(/([a-z])([A-Z])/g, "$1 $2")}
                 </FormLabel>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
+                  <InputContainer className="max-w-lg bg-gray-50">
                     <Input
                       className="placeholder:capitalize"
                       placeholder={item.replace(/([a-z])([A-Z])/g, "$1 $2")}

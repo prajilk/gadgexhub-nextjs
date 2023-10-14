@@ -29,9 +29,8 @@ const navItems = [
   {
     title: "Gadgets",
     subItems: [
-      { title: "Gadget 1", url: "/store/gadget-1" },
-      { title: "Gadget 2", url: "/store/gadget-2" },
-      { title: "Gadget 3", url: "/store/gadget-3" },
+      { title: "Kitchen Gadgets", url: "/store/kitchen-gadgets" },
+      { title: "Bedroom Gadgets", url: "/store/bedroom-gadgets" },
     ],
   },
   {
