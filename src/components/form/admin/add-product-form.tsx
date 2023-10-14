@@ -6,28 +6,46 @@ import { ZodProductSchema } from "@/lib/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import ProductDetails from "./product-details";
-import ProductOptions from "./product-options";
+import ProductDetails from "./components/product-details";
+import ProductOptions from "./components/product-options";
+import { useGlobalContext } from "@/context/store";
+import { toast } from "sonner";
+import { useAddProduct } from "@/api-hooks/admin/products/add-product";
 
 const AddProductForm = () => {
+  const { colorVariants, setColorVariants } = useGlobalContext();
+
   const form = useForm<z.infer<typeof ZodProductSchema>>({
     resolver: zodResolver(ZodProductSchema),
     defaultValues: {
       title: "",
       slug: "",
+      shortDescription: "",
       description: "",
-      category: "",
+      categoryId: "",
       stock: "",
       basePrice: "",
       offerPrice: "",
-      color: "",
+      colors: [{}],
       variantName: "",
       variantValues: "",
     },
   });
 
+  const onSuccess = () => {
+    toast.success("Product added successfully.");
+    form.reset();
+    setColorVariants([]);
+  };
+
+  const add_product_mutation = useAddProduct(onSuccess);
+
+  function setColors() {
+    form.setValue("colors", colorVariants);
+  }
+
   async function onSubmit(values: z.infer<typeof ZodProductSchema>) {
-    console.log(values);
+    add_product_mutation.mutate(values);
   }
 
   return (
@@ -38,10 +56,11 @@ const AddProductForm = () => {
           <ProductOptions form={form} />
         </div>
         <LoadingButton
-          loader={false}
+          loader={add_product_mutation.isLoading}
           type="submit"
+          onClick={setColors}
           className="max-w-lg"
-          disabled={!form.formState.isDirty || false}
+          disabled={!form.formState.isDirty || add_product_mutation.isLoading}
         >
           Add Product
         </LoadingButton>

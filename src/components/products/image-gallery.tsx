@@ -3,13 +3,11 @@
 import Image from "next/image";
 import { useState } from "react";
 
-type Image = {
-  id: string;
-  url: string;
-};
-
 type ImageGalleryProps = {
-  images: Image[];
+  images: {
+    id: number;
+    url: string;
+  }[];
 };
 
 const ImageGallery = ({ images }: ImageGalleryProps) => {
@@ -22,14 +20,14 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           return (
             <button
               key={image.id}
-              className={`relative h-14 w-14 flex-shrink-0 rounded-md bg-white ${
+              className={`relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-md bg-white ${
                 index === imageIndex && "border-2 border-gray-600"
               }`}
               onClick={() => setImageIndex(index)}
             >
               <span className="sr-only">Go to image {index + 1}</span>
               <Image
-                src={image.url}
+                src={process.env.NEXT_PUBLIC_IMAGE_URL + image.url}
                 className="absolute inset-0"
                 alt="Thumbnail"
                 fill
@@ -51,7 +49,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           >
             <Image
               fill
-              src={image.url}
+              src={process.env.NEXT_PUBLIC_IMAGE_URL + image.url}
               priority
               sizes="(max-width: 999px) calc(100vw - 48px), 640px"
               alt="Product image"

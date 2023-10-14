@@ -1,14 +1,11 @@
 import axios from "@/config/axios.config";
+import { ProductResProps } from "@/lib/types/types";
 
-export async function getProduct(id: string, name: string) {
-  const { data } = await axios.get(`/api/products/${id}?name=${name}`);
-
-  // const res = await fetch(
-  //   process.env.URL + `/api/products/${id}?name=${name}`,
-  //   {
-  //     method: "GET",
-  //   },
-  // );
-  // const result = await res.json();
-  return data;
+export async function getProduct(slug: string, pid: string) {
+  try {
+    const { data } = await axios.get(`/api/product/${slug}?pid=${pid}`);
+    return data as ProductResProps;
+  } catch (error) {
+    return null;
+  }
 }

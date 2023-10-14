@@ -58,19 +58,22 @@ export const ZodProductSchema = z.object({
   title: z
     .string()
     .min(5, "Value must be 5 or more characters long")
-    .max(20, "Value must be less than 50 characters long"),
+    .max(100, "Value must be less than 100 characters long"),
   slug: z
     .string()
     .min(5, "Value must be 5 or more characters long")
-    .max(20, "Value must be less than 50 characters long"),
+    .max(100, "Value must be less than 100 characters long"),
+  shortDescription: z
+    .string()
+    .max(150, "Value must be less than 150 characters long")
+    .optional(),
   description: z
     .string()
     .min(10, "Value must be 10 or more characters long")
-    .max(300, "Value must be less than 300 characters long"),
-  category: z
-    .string()
-    .min(3, "Value must be 3 or more characters long")
-    .max(20, "Value must be less than 50 characters long"),
+    .max(1000, "Value must be less than 1000 characters long"),
+  categoryId: z.string().refine((value) => /^\d+$/.test(value), {
+    message: "invalid category id",
+  }),
   basePrice: z.string().refine((value) => /^\d+$/.test(value), {
     message: "Enter valid number",
   }),
@@ -80,7 +83,13 @@ export const ZodProductSchema = z.object({
   stock: z.string().refine((value) => /^\d+$/.test(value), {
     message: "Enter valid number",
   }),
-  color: z.string().optional(),
+  colors: z
+    .object({
+      color: z.string(),
+      thumbnail: z.string(),
+      others: z.string().array(),
+    })
+    .array(),
   variantName: z.string().optional(),
   variantValues: z.string().optional(),
 });

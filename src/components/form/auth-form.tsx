@@ -91,7 +91,7 @@ export function AuthForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <InputContainer className="md:bg-[#f5f5f5]">
+                <InputContainer className="md:bg-gray-100">
                   <Input placeholder="Email" {...field} />
                 </InputContainer>
               </FormControl>
@@ -106,7 +106,7 @@ export function AuthForm() {
             <FormItem>
               <FormControl>
                 <InputContainer
-                  className="md:bg-[#f5f5f5]"
+                  className="md:bg-gray-100"
                   icon={
                     isPassword ? (
                       <Eye onClick={() => setIsPassword(false)} />
