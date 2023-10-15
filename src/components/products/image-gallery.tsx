@@ -15,7 +15,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
 
   return (
     <div className="relative flex flex-col-reverse items-start gap-5 md:flex-row">
-      <div className="sticky top-32 flex gap-x-4 gap-y-4 overflow-x-scroll hide-scrollbar md:flex-col md:overflow-x-visible">
+      <div className="sticky top-32 flex w-full gap-x-4 gap-y-4 overflow-x-scroll hide-scrollbar md:w-fit md:flex-col md:overflow-x-visible">
         {images.map((image, index) => {
           return (
             <button

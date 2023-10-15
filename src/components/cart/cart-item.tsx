@@ -57,7 +57,7 @@ const CartItem = (item: CartItemProps) => {
       key={item.id}
     >
       <div className="flex items-center gap-5">
-        <Link href={productUrl}>
+        <Link href={productUrl} className="flex-shrink-0">
           <Image
             src={item.image}
             width={110}
@@ -66,10 +66,10 @@ const CartItem = (item: CartItemProps) => {
             alt="Product image"
           />
         </Link>
-        <div>
+        <div className="flex-grow-0">
           <Link href={productUrl}>
-            <h1 className="font-medium md:text-lg">
-              {textTruncate(item.title, 20)}
+            <h1 className="text-sm font-medium md:text-base">
+              {textTruncate(item.title, 25)}
             </h1>
           </Link>
           <p className="nd:text-sm mb-3 text-xs">{item.color}</p>
