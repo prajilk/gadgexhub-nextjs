@@ -54,7 +54,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
           <ImageGallery images={variant.images!} />
         </div>
         <div className="flex w-full flex-col gap-y-1 py-8 md:sticky md:top-20 md:max-w-[344px] md:py-0 lg:max-w-[500px]">
-          <h1 className="text-4xl font-medium">{product.title}</h1>
+          <h1 className="text-xl font-medium md:text-2xl">{product.title}</h1>
           <span className="text-sm">{variant.color}</span>
           <p className="mt-5 flex items-center gap-3 text-2xl">
             {formatCurrency(product.offerPrice)}{" "}
