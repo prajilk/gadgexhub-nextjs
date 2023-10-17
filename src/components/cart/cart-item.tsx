@@ -2,64 +2,116 @@ import { useProductPrice } from "@/api-hooks/cart/get-product-price";
 import { useGlobalContext } from "@/context/store";
 import { CartItemProps } from "@/lib/types/types";
 import { formatCurrency, textTruncate } from "@/lib/utils";
-import { Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "../skeletons/skeleton";
+import { useRemoveFromCart } from "@/api-hooks/cart/remove-cart-item";
+import { Session } from "next-auth";
+import { toast } from "sonner";
+import getQueryClient from "@/lib/query-utils/get-query-client";
+import { useUpdateQuantity } from "@/api-hooks/cart/update-quantity";
 
-const CartItem = (item: CartItemProps) => {
+const CartItem = (item: CartItemProps & { session: Session | null }) => {
   const { cartItems, setCartItems } = useGlobalContext();
+  const queryClient = getQueryClient();
 
   const { data, isLoading } = useProductPrice(item.slug, item.id);
 
   // Function to update cart items in localStorage and state
-  const updateCartItems = (updatedCartItems: CartItemProps[]) => {
-    localStorage.setItem("cart-items", JSON.stringify(updatedCartItems));
-    setCartItems(updatedCartItems);
+  const updateCartItems = (updatedCart: CartItemProps[]) => {
+    localStorage.setItem("cart-items", JSON.stringify(updatedCart));
+    setCartItems(updatedCart);
   };
 
-  const removeFromCart = (id: string) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== id);
-    updateCartItems(updatedCartItems);
+  async function onSuccessOnRemove() {
+    const updatedCart = cartItems.filter((cartItem) => cartItem.id !== item.id);
+    updateCartItems(updatedCart);
+    await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
+    await queryClient.invalidateQueries(["user", "cart"]);
+    toast.success("Product successfully removed from your shopping cart.");
+  }
+
+  async function onSettledOnQuantity() {
+    await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
+    await queryClient.invalidateQueries(["user", "cart"]);
+  }
+
+  const remove_cart_item_mutation = useRemoveFromCart(onSuccessOnRemove);
+  const item_quantity_mutation = useUpdateQuantity(onSettledOnQuantity); // Mutation for increase or decrease quantity
+
+  const removeFromCart = () => {
+    if (item.session?.user) {
+      remove_cart_item_mutation.mutate(item.id);
+    } else {
+      const updatedCart = cartItems.filter(
+        (cartItem) => cartItem.id !== item.id,
+      );
+      updateCartItems(updatedCart);
+      toast.success("Product successfully removed from your shopping cart.");
+    }
   };
 
-  const increaseQuantity = (id: string) => {
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === id) {
+  const increaseQuantity = () => {
+    if (item.session?.user) {
+      item_quantity_mutation.mutate({
+        productId: item.id,
+        quantity: item.quantity + 1,
+      });
+    }
+    const updatedCartItems = cartItems.map((cartItem) => {
+      if (cartItem.id === item.id) {
         // Decrease quantity by one for the matching item
-        const newQuantity = item.quantity + 1 <= 5 ? item.quantity + 1 : 5;
-        return { ...item, quantity: newQuantity };
+        const newQuantity =
+          cartItem.quantity + 1 <= 10 ? cartItem.quantity + 1 : 10;
+        return { ...cartItem, quantity: newQuantity };
       }
-      return item;
+      return cartItem;
     });
     updateCartItems(updatedCartItems);
   };
-  const decreaseQuantity = (id: string) => {
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === id) {
+  const decreaseQuantity = () => {
+    if (item.session?.user) {
+      item_quantity_mutation.mutate({
+        productId: item.id,
+        quantity: item.quantity - 1,
+      });
+    }
+    const updatedCartItems = cartItems.map((cartItem) => {
+      if (cartItem.id === item.id) {
         // Increase quantity by one for the matching item
-        const newQuantity = item.quantity + 1 >= 1 ? item.quantity - 1 : 1;
-        return { ...item, quantity: newQuantity };
+        const newQuantity =
+          cartItem.quantity + 1 >= 1 ? cartItem.quantity - 1 : 1;
+        return { ...cartItem, quantity: newQuantity };
       }
-      return item;
+      return cartItem;
     });
     updateCartItems(updatedCartItems);
   };
 
   const productUrl = `${item.url}${
-    item.color !== null &&
-    "&" + new URLSearchParams({ color: item.color.toLowerCase() })
-  }}`;
+    item.color !== null
+      ? "&" + new URLSearchParams({ color: item.color.toLowerCase() })
+      : ""
+  }`;
 
   return (
     <div
       className="flex items-center justify-between border-b px-5 py-4 md:px-7 md:py-6"
       key={item.id}
     >
-      <div className="flex items-center gap-5">
+      <div className="relative flex items-center gap-5">
+        {(remove_cart_item_mutation.isLoading ||
+          item_quantity_mutation.isLoading) && (
+          <div className="absolute z-10 flex h-full w-[110px] items-center justify-center bg-[rgba(0,0,0,0.1)]">
+            <div className="h-fit w-fit rounded-full bg-white p-1 opacity-100">
+              <Loader2 className="animate-spin text-black" size={25} />
+            </div>
+          </div>
+        )}
         <Link href={productUrl} className="flex-shrink-0">
           <Image
-            src={item.image}
+            src={process.env.NEXT_PUBLIC_IMAGE_URL + item.image}
             width={110}
             height={110}
             className="bg-gray-200"
@@ -76,9 +128,13 @@ const CartItem = (item: CartItemProps) => {
           <div className="flex gap-5">
             <div className="flex w-fit rounded-md border border-[rgba(0,0,0,0.4)]">
               <button
-                className="px-2"
-                disabled={item.quantity <= 1}
-                onClick={() => decreaseQuantity(item.id)}
+                className="px-2 disabled:cursor-not-allowed"
+                disabled={
+                  item.quantity <= 1 ||
+                  remove_cart_item_mutation.isLoading ||
+                  item_quantity_mutation.isLoading
+                }
+                onClick={decreaseQuantity}
               >
                 <Minus size={15} />
               </button>
@@ -86,16 +142,20 @@ const CartItem = (item: CartItemProps) => {
                 {item.quantity}
               </span>
               <button
-                className="px-2"
-                disabled={item.quantity >= 5}
-                onClick={() => increaseQuantity(item.id)}
+                className="px-2 disabled:cursor-not-allowed"
+                disabled={
+                  item.quantity >= 10 ||
+                  remove_cart_item_mutation.isLoading ||
+                  item_quantity_mutation.isLoading
+                }
+                onClick={increaseQuantity}
               >
                 <Plus size={15} />
               </button>
             </div>
             <button
               className="text-xs text-muted-foreground underline"
-              onClick={() => removeFromCart(item.id)}
+              onClick={removeFromCart}
             >
               Remove
             </button>

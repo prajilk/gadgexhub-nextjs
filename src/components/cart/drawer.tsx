@@ -5,17 +5,30 @@ import { ReactNode, useEffect } from "react";
 import Button from "../shared/button";
 import { useGlobalContext } from "@/context/store";
 import CartItem from "./cart-item";
+import { useSession } from "next-auth/react";
+import { useCartItems } from "@/api-hooks/cart/get-cart-items";
+import SkeletonCartItem from "../skeletons/skeleton-cart-item";
 
 const Drawer = ({ trigger }: { trigger: ReactNode }) => {
   const { cartItems, setCartItems } = useGlobalContext();
 
+  const { data: session } = useSession();
+  const { data: cartItemsSVR, isLoading } = useCartItems();
+
   useEffect(() => {
+    if (session?.user) {
+      // Get cartItems from server
+      if (cartItemsSVR?.item) {
+        localStorage.setItem("cart-items", JSON.stringify(cartItemsSVR.item));
+      }
+    }
+
     // Get cart items from localStorage
     const itemsJSON = localStorage.getItem("cart-items");
     if (itemsJSON) {
       setCartItems(JSON.parse(itemsJSON));
     }
-  }, [setCartItems]);
+  }, [session, setCartItems, cartItemsSVR?.item]);
 
   return (
     <div>
@@ -47,7 +60,11 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
           </div>
           <div className="scrollbar-thin max-h-[100%] overflow-y-scroll">
             {cartItems.length !== 0 ? (
-              cartItems.map((item) => <CartItem {...item} key={item.id} />)
+              cartItems.map((item) => (
+                <CartItem {...item} session={session} key={item.id} />
+              ))
+            ) : isLoading ? (
+              <SkeletonCartItem />
             ) : (
               <NoCartItem />
             )}

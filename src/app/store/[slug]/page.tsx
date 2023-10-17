@@ -33,7 +33,9 @@ export async function generateMetadata({
       images: product.colorVariants
         ? [
             process.env.NEXT_PUBLIC_IMAGE_URL! +
-              product.colorVariants[0].images[0],
+              product.colorVariants[0].images.find((image) =>
+                image.url.endsWith("-thumb"),
+              )?.url,
           ]
         : [],
     },

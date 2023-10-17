@@ -39,12 +39,12 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
     id: product.id,
     slug: product.slug,
     title: product.title,
-    image:
-      process.env.NEXT_PUBLIC_IMAGE_URL +
-      product.colorVariants[index].images[0].url,
+    image: product.colorVariants[index].images.find((image) =>
+      image.url.endsWith("-thumb"),
+    )?.url!,
     color: variant.color,
     url: `/store/${product.slug}?pid=${product.id}`,
-    quantity: 1,
+    quantity: 0,
   };
 
   return (
