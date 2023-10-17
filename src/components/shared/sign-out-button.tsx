@@ -1,7 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import Button from "./button";
 
 const SignOutButton = () => {
@@ -11,6 +11,7 @@ const SignOutButton = () => {
         redirect: true,
         callbackUrl: "/",
       });
+      localStorage.removeItem("cart-items");
       toast.success("Sign out successfully.");
     } catch (error) {
       toast.error("Something went wrong");

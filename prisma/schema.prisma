@@ -26,6 +26,7 @@ model User {
   lastLogin     DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
+  cart          Cart?
 }
 
 model Account {
@@ -83,12 +84,12 @@ model Address {
 }
 
 model Product {
-  id               String   @id @default(cuid())
+  id               String     @id @default(cuid())
   slug             String
   title            String
   shortDescription String?
-  description      String   @db.Text
-  category         Category @relation(fields: [categoryId], references: [id])
+  description      String     @db.Text
+  category         Category   @relation(fields: [categoryId], references: [id])
   categoryId       Int
   basePrice        Float
   offerPrice       Float
@@ -96,8 +97,9 @@ model Product {
   color            String? // "Matte black, Clay White" | "NULL"
   variantName      String? // "Size"
   variantValues    String? // "small, medium, large"
-  createdAt        DateTime @default(now())
+  createdAt        DateTime   @default(now())
   images           Image[]
+  cartItems        CartItem[]
 
   @@index([slug], name: "product_slug_index")
 }
@@ -118,4 +120,23 @@ model Category {
   parent   Category?  @relation("Category", fields: [parentId], references: [id])
   Product  Product[]
   Category Category[] @relation("Category")
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  productId String
+  quantity  Int
+  color     String?
+  product   Product @relation(fields: [productId], references: [id])
+  cartId    Int
+  cart      Cart    @relation(fields: [cartId], references: [id])
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    String     @unique
+  cartItems CartItem[]
+  user      User       @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "userId_index")
 }

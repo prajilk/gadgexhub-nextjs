@@ -149,6 +149,16 @@ export type CartItemProps = {
   url: string;
 };
 
+export type CartItemRes = Res & { item: CartItemProps | null };
+export type CartItemsRes = Res & { item: CartItemProps[] | null };
+
+export type CartItemQuantity = {
+  productId: string;
+  quantity: number;
+};
+
+export type CartItemQuantityRes = Res & { item: CartItemQuantity | null };
+
 export type ProductFormProps = {
   form: UseFormReturn<z.infer<typeof ZodProductSchema>, any, undefined>;
 };
