@@ -46,7 +46,7 @@ const ProductActions = (props: CartItemProps) => {
     item: CartItemProps,
     cartItems: CartItemProps[],
   ) {
-    cartItems.push(item);
+    cartItems.push({ ...item, quantity: item.quantity + 1 });
     persistCartItems(cartItems);
   }
 
