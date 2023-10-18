@@ -1,5 +1,4 @@
 import { useProductPrice } from "@/api-hooks/cart/get-product-price";
-import { useGlobalContext } from "@/context/store";
 import { CartItemProps } from "@/lib/types/types";
 import { formatCurrency, textTruncate } from "@/lib/utils";
 import { Loader2, Minus, Plus } from "lucide-react";
@@ -9,24 +8,15 @@ import Skeleton from "../skeletons/skeleton";
 import { useRemoveFromCart } from "@/api-hooks/cart/remove-cart-item";
 import { Session } from "next-auth";
 import { toast } from "sonner";
-import getQueryClient from "@/lib/query-utils/get-query-client";
 import { useUpdateQuantity } from "@/api-hooks/cart/update-quantity";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CartItem = (item: CartItemProps & { session: Session | null }) => {
-  const { cartItems, setCartItems } = useGlobalContext();
-  const queryClient = getQueryClient();
+  const queryClient = useQueryClient();
 
-  const { data, isLoading } = useProductPrice(item.slug, item.id);
-
-  // Function to update cart items in localStorage and state
-  const updateCartItems = (updatedCart: CartItemProps[]) => {
-    localStorage.setItem("cart-items", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-  };
+  const { data, isLoading } = useProductPrice(item.slug, item.pid);
 
   async function onSuccessOnRemove() {
-    const updatedCart = cartItems.filter((cartItem) => cartItem.id !== item.id);
-    updateCartItems(updatedCart);
     await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
     await queryClient.invalidateQueries(["user", "cart"]);
     toast.success("Product successfully removed from your shopping cart.");
@@ -41,52 +31,20 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
   const item_quantity_mutation = useUpdateQuantity(onSettledOnQuantity); // Mutation for increase or decrease quantity
 
   const removeFromCart = () => {
-    if (item.session?.user) {
-      remove_cart_item_mutation.mutate(item.id);
-    } else {
-      const updatedCart = cartItems.filter(
-        (cartItem) => cartItem.id !== item.id,
-      );
-      updateCartItems(updatedCart);
-      toast.success("Product successfully removed from your shopping cart.");
-    }
+    remove_cart_item_mutation.mutate(item.itemId);
   };
 
   const increaseQuantity = () => {
-    if (item.session?.user) {
-      item_quantity_mutation.mutate({
-        productId: item.id,
-        quantity: item.quantity + 1,
-      });
-    }
-    const updatedCartItems = cartItems.map((cartItem) => {
-      if (cartItem.id === item.id) {
-        // Decrease quantity by one for the matching item
-        const newQuantity =
-          cartItem.quantity + 1 <= 10 ? cartItem.quantity + 1 : 10;
-        return { ...cartItem, quantity: newQuantity };
-      }
-      return cartItem;
+    item_quantity_mutation.mutate({
+      itemId: item.itemId,
+      quantity: item.quantity + 1,
     });
-    updateCartItems(updatedCartItems);
   };
   const decreaseQuantity = () => {
-    if (item.session?.user) {
-      item_quantity_mutation.mutate({
-        productId: item.id,
-        quantity: item.quantity - 1,
-      });
-    }
-    const updatedCartItems = cartItems.map((cartItem) => {
-      if (cartItem.id === item.id) {
-        // Increase quantity by one for the matching item
-        const newQuantity =
-          cartItem.quantity + 1 >= 1 ? cartItem.quantity - 1 : 1;
-        return { ...cartItem, quantity: newQuantity };
-      }
-      return cartItem;
+    item_quantity_mutation.mutate({
+      itemId: item.itemId,
+      quantity: item.quantity - 1,
     });
-    updateCartItems(updatedCartItems);
   };
 
   const productUrl = `${item.url}${
@@ -98,7 +56,7 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
   return (
     <div
       className="flex items-center justify-between border-b px-5 py-4 md:px-7 md:py-6"
-      key={item.id}
+      key={item.itemId}
     >
       <div className="relative flex items-center gap-5">
         {(remove_cart_item_mutation.isLoading ||

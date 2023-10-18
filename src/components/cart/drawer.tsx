@@ -8,6 +8,7 @@ import CartItem from "./cart-item";
 import { useSession } from "next-auth/react";
 import { useCartItems } from "@/api-hooks/cart/get-cart-items";
 import SkeletonCartItem from "../skeletons/skeleton-cart-item";
+import { getCookie, setCookie } from "cookies-next";
 
 const Drawer = ({ trigger }: { trigger: ReactNode }) => {
   const { cartItems, setCartItems } = useGlobalContext();
@@ -16,17 +17,19 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
   const { data: cartItemsSVR, isLoading } = useCartItems();
 
   useEffect(() => {
-    if (session?.user) {
-      // Get cartItems from server
-      if (cartItemsSVR?.item) {
-        localStorage.setItem("cart-items", JSON.stringify(cartItemsSVR.item));
+    if (!session?.user) {
+      const guestUserIdCookie = getCookie("guest-id");
+      const guestUserIdLocal = localStorage.getItem("guest-id");
+
+      if (!guestUserIdCookie) {
+        if (guestUserIdLocal) setCookie("guest-id", guestUserIdLocal);
+      } else if (!guestUserIdLocal) {
+        localStorage.setItem("guest-id", guestUserIdCookie);
       }
     }
 
-    // Get cart items from localStorage
-    const itemsJSON = localStorage.getItem("cart-items");
-    if (itemsJSON) {
-      setCartItems(JSON.parse(itemsJSON));
+    if (cartItemsSVR?.item) {
+      setCartItems(cartItemsSVR.item);
     }
   }, [session, setCartItems, cartItemsSVR?.item]);
 
@@ -60,8 +63,8 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
           </div>
           <div className="scrollbar-thin max-h-[100%] overflow-y-scroll">
             {cartItems.length !== 0 ? (
-              cartItems.map((item) => (
-                <CartItem {...item} session={session} key={item.id} />
+              cartItems.map((item, i) => (
+                <CartItem {...item} session={session} key={i} />
               ))
             ) : isLoading ? (
               <SkeletonCartItem />

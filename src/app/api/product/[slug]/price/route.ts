@@ -65,16 +65,4 @@ export async function GET(
       { status: 500 },
     );
   }
-
-  return NextResponse.json(
-    {
-      success: true,
-      message: "Success",
-      data: {
-        basePrice: 5999,
-        offerPrice: 3999,
-      },
-    },
-    { status: 200 },
-  );
 }

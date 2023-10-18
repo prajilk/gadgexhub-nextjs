@@ -1,11 +1,12 @@
 import axios from "@/config/axios.config";
 import { CartItemRes } from "@/lib/types/types";
 import { useMutation } from "@tanstack/react-query";
+import { Session } from "next-auth";
 import { toast } from "sonner";
 
 type UseAddToCartProps = {
+  onMutate?: () => void;
   onSuccess?: () => void;
-  onSettled?: () => void;
 };
 
 async function handleCart(values: {
@@ -17,14 +18,13 @@ async function handleCart(values: {
   return data as CartItemRes;
 }
 
-export function useAddToCart({ onSuccess, onSettled }: UseAddToCartProps) {
+export function useAddToCart({ onMutate, onSuccess }: UseAddToCartProps) {
   return useMutation({
-    mutationKey: ["user", "cart", "add"],
     mutationFn: handleCart,
+    onMutate,
     onSuccess,
     onError: ({ response }) => {
       toast.error(response?.data.message);
     },
-    onSettled,
   });
 }

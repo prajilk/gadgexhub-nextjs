@@ -140,7 +140,8 @@ export type ProductResProps = Res & {
 };
 
 export type CartItemProps = {
-  id: string;
+  itemId: number;
+  pid: string;
   slug: string;
   title: string;
   image: string;
@@ -153,7 +154,7 @@ export type CartItemRes = Res & { item: CartItemProps | null };
 export type CartItemsRes = Res & { item: CartItemProps[] | null };
 
 export type CartItemQuantity = {
-  productId: string;
+  itemId: number;
   quantity: number;
 };
 

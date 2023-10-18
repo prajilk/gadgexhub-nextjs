@@ -28,24 +28,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
     }
     return urlVariant;
   };
-
   const variant = setDefaultVariant();
-
-  const index = product.colorVariants.findIndex(
-    (item) => item.color === variant.color,
-  );
-
-  const cartItem = {
-    id: product.id,
-    slug: product.slug,
-    title: product.title,
-    image: product.colorVariants[index].images.find((image) =>
-      image.url.endsWith("-thumb"),
-    )?.url!,
-    color: variant.color,
-    url: `/store/${product.slug}?pid=${product.id}`,
-    quantity: 0,
-  };
 
   return (
     <Container className="pt-28 md:pt-36">
@@ -107,7 +90,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
               </ul>
             </div>
           )}
-          <ProductActions {...cartItem} />
+          <ProductActions pid={product.id} color={variant.color} quantity={0} />
           <div className="my-5 md:my-10">
             <h1 className="font-medium">Description</h1>
             <hr className="my-2" />

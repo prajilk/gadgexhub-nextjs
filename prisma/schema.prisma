@@ -133,10 +133,19 @@ model CartItem {
 }
 
 model Cart {
-  id        Int        @id @default(autoincrement())
-  userId    String     @unique
-  cartItems CartItem[]
-  user      User       @relation(fields: [userId], references: [id])
+  id          Int        @id @default(autoincrement())
+  userId      String?    @unique
+  guestUserId String?    @unique
+  cartItems   CartItem[]
+  user        User?      @relation(fields: [userId], references: [id])
+  guestUser   GuestUser? @relation(fields: [guestUserId], references: [id])
 
   @@index([userId], name: "userId_index")
+  @@index([guestUserId], name: "guestUserId_index")
+}
+
+model GuestUser {
+  id             String   @id @default(cuid())
+  expirationDate DateTime
+  cart           Cart?
 }
