@@ -2,91 +2,47 @@
 
 import { useSession } from "next-auth/react";
 import Button from "../shared/button";
-import { useGlobalContext } from "@/context/store";
-import { CartItemProps } from "@/lib/types/types";
 import { toast } from "sonner";
 import { useAddToCart } from "@/api-hooks/cart/add-to-cart";
 import LoadingButton from "../shared/loading-button";
-import getQueryClient from "@/lib/query-utils/get-query-client";
+import { useQueryClient } from "@tanstack/react-query";
+import { getCookie, setCookie } from "cookies-next";
 
-const ProductActions = (props: CartItemProps) => {
-  const { setCartItems } = useGlobalContext();
+type ProductActionsProps = {
+  pid: string;
+  quantity: number;
+  color: string | null;
+};
+
+const ProductActions = (props: ProductActionsProps) => {
   const { data: session } = useSession();
-  const queryClient = getQueryClient();
-
-  function addToLocalStorage(values: CartItemProps) {
-    const existingCartItems: CartItemProps[] = getCartItemsFromLocalStorage();
-
-    const existingProduct = existingCartItems.find(
-      (item) => item.id === values.id,
-    );
-
-    if (!existingProduct) {
-      addToCartAndPersist(values, existingCartItems);
-    } else {
-      if (existingProduct.quantity >= 10) {
-        return (
-          !session?.user &&
-          toast.error("Maximum quantity of 10 reached for this item!")
-        );
-      }
-      updateCartItemAndPersist(values, existingCartItems);
-    }
-
-    !session?.user &&
-      toast.success("Product successfully added to your shopping cart.");
-  }
-
-  function getCartItemsFromLocalStorage(): CartItemProps[] {
-    const cartItem = localStorage.getItem("cart-items") || "[]";
-    return JSON.parse(cartItem);
-  }
-
-  function addToCartAndPersist(
-    item: CartItemProps,
-    cartItems: CartItemProps[],
-  ) {
-    cartItems.push({ ...item, quantity: item.quantity + 1 });
-    persistCartItems(cartItems);
-  }
-
-  function updateCartItemAndPersist(
-    updatedItem: CartItemProps,
-    cartItems: CartItemProps[],
-  ) {
-    const updatedCartItems = cartItems.map((item) =>
-      item.id === updatedItem.id
-        ? { ...item, quantity: item.quantity + 1 }
-        : item,
-    );
-    persistCartItems(updatedCartItems);
-  }
-
-  function persistCartItems(cartItems: CartItemProps[]) {
-    localStorage.setItem("cart-items", JSON.stringify(cartItems));
-    setCartItems(cartItems);
-  }
+  const queryClient = useQueryClient();
 
   async function onSuccess() {
-    addToLocalStorage(props);
     await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
     await queryClient.invalidateQueries(["user", "cart"]);
     toast.success("Product successfully added to your shopping cart.");
     cart_mutation.reset();
   }
 
-  const cart_mutation = useAddToCart({ onSuccess });
+  async function onMutate() {
+    if (!session?.user) {
+      const guestUserIdCookie = getCookie("guest-id");
+      if (!guestUserIdCookie) {
+        const guestUserIdLocal = localStorage.getItem("guest-id");
+        if (guestUserIdLocal) setCookie("guest-id", guestUserIdLocal);
+      }
+    }
+  }
+
+  const cart_mutation = useAddToCart({ onMutate, onSuccess });
 
   function addToCart() {
-    if (session?.user) {
-      cart_mutation.mutate({
-        productId: props.id,
-        quantity: props.quantity + 1,
-        color: props.color,
-      });
-    } else {
-      addToLocalStorage(props);
-    }
+    cart_mutation.mutate({
+      productId: props.pid,
+      quantity: props.quantity + 1,
+      color: props.color,
+    });
   }
 
   return (

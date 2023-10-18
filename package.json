@@ -29,6 +29,7 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^1.41.0",
     "clsx": "^2.0.0",
+    "cookies-next": "^4.0.0",
     "cuid": "^3.0.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",

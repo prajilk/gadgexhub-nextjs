@@ -12,7 +12,7 @@ const SignOutButton = () => {
         callbackUrl: "/",
       });
       localStorage.removeItem("cart-items");
-      toast.success("Sign out successfully.");
+      toast.success("Signed out successfully.");
     } catch (error) {
       toast.error("Something went wrong");
     }
