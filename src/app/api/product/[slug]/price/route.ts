@@ -1,5 +1,6 @@
 import { db } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { error400, error500, success200 } from "@/lib/utils";
+import { NextRequest } from "next/server";
 
 export async function GET(
   req: NextRequest,
@@ -9,14 +10,9 @@ export async function GET(
   const pid = req.nextUrl.searchParams.get("pid");
 
   if (!pid || !slug) {
-    return NextResponse.json(
-      {
-        success: false,
-        message:
-          "The request is missing or contains an invalid product ID & Product Slug",
-        data: null,
-      },
-      { status: 400 },
+    return error400(
+      "The request is missing or contains an invalid product ID & Product Slug",
+      { data: null },
     );
   }
 
@@ -33,36 +29,19 @@ export async function GET(
     });
 
     if (!productPrice) {
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            "The request is missing or contains an invalid product ID & Product Slug",
-          data: null,
-        },
-        { status: 400 },
+      return error400(
+        "The request is missing or contains an invalid product ID & Product Slug",
+        { data: null },
       );
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Success",
-        data: {
-          basePrice: productPrice.basePrice,
-          offerPrice: productPrice.offerPrice,
-        },
+    return success200({
+      data: {
+        basePrice: productPrice.basePrice,
+        offerPrice: productPrice.offerPrice,
       },
-      { status: 200 },
-    );
+    });
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to fetch product price",
-        data: null,
-      },
-      { status: 500 },
-    );
+    return error500({ data: null });
   }
 }

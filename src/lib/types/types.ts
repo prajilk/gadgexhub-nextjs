@@ -145,6 +145,8 @@ export type CartItemProps = {
   slug: string;
   title: string;
   image: string;
+  basePrice: number;
+  offerPrice: number;
   color: string | null;
   quantity: number;
   url: string;

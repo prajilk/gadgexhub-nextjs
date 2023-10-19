@@ -1,4 +1,5 @@
 import { db } from "@/lib/prisma";
+import { error500, success200 } from "@/lib/utils";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -33,22 +34,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(
-      {
-        success: true,
-        user: newUser,
-        message: "User created successfully",
-      },
-      { status: 201 },
-    );
+    return success200({ user: newUser });
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        user: null,
-        message: "Something went wrong",
-      },
-      { status: 500 },
-    );
+    return error500({ user: null });
   }
 }

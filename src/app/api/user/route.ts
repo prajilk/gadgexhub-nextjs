@@ -1,68 +1,39 @@
 import { authOptions } from "@/lib/auth";
-import { db } from "@/lib/prisma";
+import { error400, error404, error500, success200 } from "@/lib/utils";
 import { ZodProfileSchema } from "@/lib/zodSchemas";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { getUser, updateUser } from "./helper";
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user || !session.user.id) {
-    return NextResponse.json(
-      {
-        success: false,
-        user: null,
-        message: "Missing user ID in the session.",
-      },
-      { status: 400 },
-    );
+    return error400("Missing user ID in the session.", { user: null });
   }
   const userId = session.user.id;
 
   try {
     // Get user data from database
-    const user = await db.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+    const user = await getUser(userId);
 
     //Return if user not found
     if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          user: null,
-          message: "User not found.",
-        },
-        { status: 404 },
-      );
+      return error404("User not found", { user: null });
     }
 
     // Return user data
-    return NextResponse.json(
-      {
-        success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          gender: user.gender,
-          phone: user.phone,
-        },
-        message: "Success",
+    return success200({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        gender: user.gender,
+        phone: user.phone,
       },
-      { status: 200 },
-    );
+    });
   } catch (error: any) {
-    return NextResponse.json(
-      {
-        success: false,
-        user: null,
-        message: error.message,
-      },
-      { status: 500 },
-    );
+    return error500({ user: null });
   }
 }
 
@@ -70,14 +41,7 @@ export async function PATCH(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user || !session.user.id) {
-    return NextResponse.json(
-      {
-        success: false,
-        user: null,
-        message: "Missing user ID in the session.",
-      },
-      { status: 400 },
-    );
+    return error400("Missing user ID in the session.", { user: null });
   }
 
   const userData = await req.json();
@@ -85,41 +49,14 @@ export async function PATCH(req: NextRequest) {
 
   if (result.success) {
     try {
-      await db.user.update({
-        data: userData,
-        where: {
-          id: session.user.id,
-        },
-      });
-
-      return NextResponse.json(
-        {
-          success: true,
-          user: result.data,
-          message: "Profile updated successfully.",
-        },
-        { status: 200 },
-      );
+      await updateUser(session.user.id, userData);
+      return success200({ user: result.data });
     } catch (error) {
-      return NextResponse.json(
-        {
-          success: false,
-          user: null,
-          message: "Something went wrong",
-        },
-        { status: 500 },
-      );
+      return error500({ user: null });
     }
   }
 
   if (result.error) {
-    return NextResponse.json(
-      {
-        success: false,
-        user: null,
-        message: "Invalid data format.",
-      },
-      { status: 400 },
-    );
+    return error400("Invalid data format.", { user: null });
   }
 }

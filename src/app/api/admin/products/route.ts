@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 import { z } from "zod";
 import cuid from "cuid";
 import { ZodProductSchema } from "@/lib/zodSchemas";
 import { db } from "@/lib/prisma";
 import { ColorVariant } from "@/lib/types/types";
+import { error500, success200 } from "@/lib/utils";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -66,26 +67,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: `Successfully added product ${body.title}`,
-        product: product,
-      },
-      {
-        status: 200,
-      },
-    );
+    return success200({ product: product });
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: `Failed to add product`,
-        product: null,
-      },
-      {
-        status: 500,
-      },
-    );
+    return error500({ product: null });
   }
 }

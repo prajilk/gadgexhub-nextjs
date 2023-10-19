@@ -1,14 +1,21 @@
 import { authOptions } from "@/lib/auth";
-import { db } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 import {
   createCart,
   createCartItem,
+  createCartWithCartItems,
   createGuestUser,
+  deleteCart,
+  deleteCartItem,
   findCart,
+  findCartItem,
+  findCartWithProduct,
   findGuestUser,
+  findGuestUserWithProduct,
   increaseQuantity,
+  updateCartWithCartItem,
+  updateQuantity,
 } from "./helper";
 import { error400, error500, getExpireDate, success200 } from "@/lib/utils";
 import { getImageThumbnail, makeUrl } from "@/lib/cart-utils";
@@ -26,31 +33,12 @@ type PatchBody = {
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
+    const guestId = req.cookies.get("guest-id")?.value;
     if (!session || !session.user || !session.user.id) {
-      const guestId = req.cookies.get("guest-id")?.value;
       if (!guestId) {
         return success200({ item: [] });
       }
-      const guestUser = await db.guestUser.findUnique({
-        where: {
-          id: guestId,
-        },
-        include: {
-          cart: {
-            include: {
-              cartItems: {
-                include: {
-                  product: {
-                    include: {
-                      images: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      });
+      const guestUser = await findGuestUserWithProduct(guestId);
 
       if (!guestUser || !guestUser.cart) {
         const res = error400("Invalid Guest ID.", { item: null });
@@ -67,6 +55,8 @@ export async function GET(req: NextRequest) {
           { images: cartItem.product.images },
           cartItem.color,
         ),
+        basePrice: cartItem.product.basePrice,
+        offerPrice: cartItem.product.offerPrice,
         color: cartItem.color,
         quantity: cartItem.quantity,
         url: makeUrl(cartItem.product.slug, cartItem.productId, cartItem.color),
@@ -76,24 +66,57 @@ export async function GET(req: NextRequest) {
     }
 
     const userId = session.user.id;
-    const cart = await db.cart.findUnique({
-      where: {
-        userId,
-      },
-      include: {
-        cartItems: {
-          include: {
-            product: {
-              include: {
-                images: true,
-              },
-            },
-          },
-        },
-      },
-    });
 
-    if (!cart || cart.cartItems.length === 0) return success200({ item: [] });
+    if (guestId) {
+      // Retrieve the guest user and their cart
+      const guestUser = await findGuestUser(guestId);
+
+      if (guestUser && guestUser.cart) {
+        // Check if the user is logged in (you need to have user's information)
+
+        // Retrieve the user's cart
+        const userCart = await findCart(userId);
+
+        if (userCart) {
+          // Iterate over guest user's cart items and merge into the user's cart
+          guestUser.cart.cartItems.forEach((guestCartItem) => {
+            // Check if the same product (based on productId and color) exists in the user's cart
+            const existingUserCartItem = userCart.cartItems.find(
+              (userCartItem) =>
+                userCartItem.productId === guestCartItem.productId &&
+                userCartItem.color === guestCartItem.color,
+            );
+
+            if (!existingUserCartItem) {
+              // If the same product doesn't exist, add the guest cart item to the user's cart
+              userCart.cartItems.push(guestCartItem);
+            }
+          });
+
+          // Save the updated user's cart
+          await updateCartWithCartItem({
+            cartId: userCart.id,
+            cartItems: userCart.cartItems,
+          });
+        } else {
+          // If the user doesn't have a cart, create a new cart for them
+          await createCartWithCartItems({
+            userId,
+            cartItems: guestUser.cart.cartItems,
+          });
+        }
+        // Delete the guest user's cart
+        await deleteCart(guestUser.cart.id);
+      }
+    }
+
+    const cart = await findCartWithProduct(userId);
+
+    if (!cart || cart.cartItems.length === 0) {
+      const res = success200({ item: [] });
+      res.cookies.delete("guest-id");
+      return res;
+    }
 
     const cartItemsArray = cart.cartItems.map((cartItem) => ({
       itemId: cartItem.id,
@@ -104,12 +127,16 @@ export async function GET(req: NextRequest) {
         { images: cartItem.product.images },
         cartItem.color,
       ),
+      basePrice: cartItem.product.basePrice,
+      offerPrice: cartItem.product.offerPrice,
       color: cartItem.color,
       quantity: cartItem.quantity,
       url: makeUrl(cartItem.product.slug, cartItem.productId, cartItem.color),
     }));
 
-    return success200({ item: cartItemsArray.reverse() });
+    const res = success200({ item: cartItemsArray.reverse() });
+    res.cookies.delete("guest-id");
+    return res;
   } catch (error) {
     return error500({ item: null });
   }
@@ -210,11 +237,7 @@ export async function PATCH(req: NextRequest) {
       return error400("Invalid data format.", { item: null });
     }
 
-    const cartItem = await db.cartItem.findUnique({
-      where: {
-        id: body.itemId,
-      },
-    });
+    const cartItem = await findCartItem(body.itemId);
 
     if (!cartItem) {
       return error400("No matching product found in your cart.", {
@@ -229,14 +252,7 @@ export async function PATCH(req: NextRequest) {
       if (cartItem.quantity < 1 || body.quantity < 1) {
         return error400("Minimum quantity is 1!", { item: null });
       }
-      await db.cartItem.update({
-        where: {
-          id: body.itemId,
-        },
-        data: {
-          quantity: body.quantity,
-        },
-      });
+      await updateQuantity(body.itemId, body.quantity);
 
       return success200({ item: {} });
     }
@@ -254,11 +270,7 @@ export async function DELETE(req: NextRequest) {
       });
     }
 
-    const item = await db.cartItem.delete({
-      where: {
-        id: parseInt(item_id),
-      },
-    });
+    const item = await deleteCartItem(parseInt(item_id));
 
     if (!item) {
       return error400("No such item exists in your cart.", { item: null });

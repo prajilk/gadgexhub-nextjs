@@ -20,10 +20,10 @@ model User {
   gender        String?
   phone         String?
   password      String?
-  addresses     Address[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   lastLogin     DateTime  @default(now())
+  addresses     Address[]
   accounts      Account[]
   sessions      Session[]
   cart          Cart?
@@ -129,7 +129,7 @@ model CartItem {
   color     String?
   product   Product @relation(fields: [productId], references: [id])
   cartId    Int
-  cart      Cart    @relation(fields: [cartId], references: [id])
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
 }
 
 model Cart {
