@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useCartItems } from "@/api-hooks/cart/get-cart-items";
 import SkeletonCartItem from "../skeletons/skeleton-cart-item";
 import { getCookie, setCookie } from "cookies-next";
+import { formatCurrency } from "@/lib/utils";
 
 const Drawer = ({ trigger }: { trigger: ReactNode }) => {
   const { cartItems, setCartItems } = useGlobalContext();
@@ -26,6 +27,8 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
       } else if (!guestUserIdLocal) {
         localStorage.setItem("guest-id", guestUserIdCookie);
       }
+    } else {
+      localStorage.removeItem("guest-id");
     }
 
     if (cartItemsSVR?.item) {
@@ -74,7 +77,12 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
           </div>
           {cartItems.length !== 0 && (
             <div className="w-full border-t p-5">
-              <Button className="rounded-none">Checkout</Button>
+              <Button className="rounded-none font-medium">
+                Checkout{" "}
+                {formatCurrency(
+                  cartItems.reduce((acc, cur) => acc + cur.offerPrice, 0),
+                )}
+              </Button>
             </div>
           )}
         </div>

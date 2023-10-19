@@ -14,7 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 const CartItem = (item: CartItemProps & { session: Session | null }) => {
   const queryClient = useQueryClient();
 
-  const { data, isLoading } = useProductPrice(item.slug, item.pid);
+  // const { data, isLoading } = useProductPrice(item.slug, item.pid);
 
   async function onSuccessOnRemove() {
     await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
@@ -121,21 +121,12 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
         </div>
       </div>
       <div className="text-right">
-        {isLoading ? (
-          <>
-            <Skeleton className="mb-1 h-5 w-14" />
-            <Skeleton className="h-4 w-14" />
-          </>
-        ) : (
-          <>
-            <h1 className="text-xs text-success md:text-base">
-              {formatCurrency(data?.data?.offerPrice ?? 0)}
-            </h1>
-            <span className="text-xs line-through md:text-base">
-              {formatCurrency(data?.data?.basePrice ?? 0)}
-            </span>
-          </>
-        )}
+        <h1 className="text-xs text-success md:text-base">
+          {formatCurrency(item.offerPrice ?? 0)}
+        </h1>
+        <span className="text-xs line-through md:text-base">
+          {formatCurrency(item.basePrice ?? 0)}
+        </span>
       </div>
     </div>
   );

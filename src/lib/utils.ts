@@ -122,6 +122,24 @@ function error400(message: string, data: { [key: string]: any }) {
   return NextResponse.json(resJson, { status: 400 });
 }
 
+function error404(message: string, data: { [key: string]: any }) {
+  const json = {
+    success: false,
+    message,
+  };
+  const resJson = Object.assign({}, json, data);
+  return NextResponse.json(resJson, { status: 404 });
+}
+
+function error429(message: string, data: { [key: string]: any }) {
+  const json = {
+    success: false,
+    message,
+  };
+  const resJson = Object.assign({}, json, data);
+  return NextResponse.json(resJson, { status: 429 });
+}
+
 function error500(data: { [key: string]: any }) {
   const json = {
     success: false,
@@ -151,6 +169,8 @@ export {
   makeColorVariant,
   getExpireDate,
   error400,
+  error404,
+  error429,
   error500,
   success200,
 };

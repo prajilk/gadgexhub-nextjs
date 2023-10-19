@@ -12,6 +12,22 @@ type CreateCartItemProps = {
   cartId: number;
 };
 
+type UpdateCartWithCartItemProps = {
+  cartId: number;
+  cartItems: {
+    id: number;
+    productId: string;
+    quantity: number;
+    color: string | null;
+    cartId: number;
+  }[];
+};
+
+type CreateCartWithCartItemsProps = {
+  userId: string;
+  cartItems: UpdateCartWithCartItemProps["cartItems"];
+};
+
 async function createGuestUser(expirationDate: Date) {
   return await db.guestUser.create({
     data: {
@@ -23,8 +39,24 @@ async function createGuestUser(expirationDate: Date) {
 async function createCart({ userId, guestUserId }: CreateCartProps) {
   return await db.cart.create({
     data: {
-      guestUserId: guestUserId,
-      userId: userId,
+      guestUserId,
+      userId,
+    },
+  });
+}
+
+async function createCartWithCartItems({
+  userId,
+  cartItems,
+}: CreateCartWithCartItemsProps) {
+  return await db.cart.create({
+    data: {
+      userId,
+      cartItems: {
+        createMany: {
+          data: cartItems,
+        },
+      },
     },
   });
 }
@@ -60,6 +92,29 @@ async function findGuestUser(guestId: string) {
   });
 }
 
+async function findGuestUserWithProduct(guestId: string) {
+  return await db.guestUser.findUnique({
+    where: {
+      id: guestId,
+    },
+    include: {
+      cart: {
+        include: {
+          cartItems: {
+            include: {
+              product: {
+                include: {
+                  images: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 async function findCart(userId: string) {
   return await db.cart.findUnique({
     where: {
@@ -67,6 +122,43 @@ async function findCart(userId: string) {
     },
     include: {
       cartItems: true,
+    },
+  });
+}
+
+async function findCartWithProduct(userId: string) {
+  return await db.cart.findUnique({
+    where: {
+      userId,
+    },
+    include: {
+      cartItems: {
+        include: {
+          product: {
+            include: {
+              images: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+async function updateCartWithCartItem({
+  cartId,
+  cartItems,
+}: UpdateCartWithCartItemProps) {
+  return await db.cart.update({
+    where: { id: cartId },
+    data: { cartItems: { set: cartItems } },
+  });
+}
+
+async function findCartItem(itemId: number) {
+  return await db.cartItem.findUnique({
+    where: {
+      id: itemId,
     },
   });
 }
@@ -84,11 +176,42 @@ async function increaseQuantity(id: number) {
   });
 }
 
+async function updateQuantity(itemId: number, quantity: number) {
+  return await db.cartItem.update({
+    where: {
+      id: itemId,
+    },
+    data: {
+      quantity,
+    },
+  });
+}
+
+async function deleteCart(cartId: number) {
+  return await db.cart.delete({ where: { id: cartId } });
+}
+
+async function deleteCartItem(itemId: number) {
+  return await db.cartItem.delete({
+    where: {
+      id: itemId,
+    },
+  });
+}
+
 export {
   createGuestUser,
   createCart,
+  createCartWithCartItems,
   createCartItem,
   findGuestUser,
+  findGuestUserWithProduct,
   findCart,
+  findCartWithProduct,
+  updateCartWithCartItem,
+  findCartItem,
   increaseQuantity,
+  updateQuantity,
+  deleteCart,
+  deleteCartItem,
 };
