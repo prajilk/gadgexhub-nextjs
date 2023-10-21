@@ -35,6 +35,12 @@ const stateList = [
   "West Bengal",
 ];
 
-const noNavFooterPages = ["/authentication", "/signout", "/account/", "/admin"];
+const noNavFooterPages = [
+  "/authentication",
+  "/signout",
+  "/account/",
+  "/admin",
+  "/checkout",
+];
 
 export { stateList, noNavFooterPages };

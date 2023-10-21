@@ -7,7 +7,7 @@ const LinkButton = ({ children, href, className }: LinkButtonProps) => {
     <Link
       href={href}
       className={cn(
-        "btn rounded-none bg-black text-white hover:bg-gray-800",
+        "btn rounded-none bg-black font-light text-white hover:bg-gray-700",
         className,
       )}
     >

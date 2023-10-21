@@ -1,8 +1,5 @@
-"use client";
-
 import { ButtonProps } from "@/lib/types/types";
 import { cn } from "@/lib/utils";
-import { motion as m } from "framer-motion";
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   children,
@@ -10,9 +7,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   ...buttonProps
 }) => {
   return (
-    <m.button
-      initial={{ scale: 1 }}
-      whileTap={{ scale: 0.9 }}
+    <button
       {...buttonProps}
       className={cn(
         "btn w-full rounded-full bg-black font-light text-white hover:bg-gray-700",
@@ -20,7 +15,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       )}
     >
       {children}
-    </m.button>
+    </button>
   );
 };
 

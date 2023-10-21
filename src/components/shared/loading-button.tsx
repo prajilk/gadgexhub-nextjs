@@ -1,6 +1,5 @@
 import { LoadingButtonProps } from "@/lib/types/types";
 import { cn } from "@/lib/utils";
-import { motion as m } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 const LoadingButton: React.FunctionComponent<LoadingButtonProps> = ({
@@ -10,9 +9,7 @@ const LoadingButton: React.FunctionComponent<LoadingButtonProps> = ({
   ...buttonProps
 }) => {
   return (
-    <m.button
-      initial={{ scale: 1 }}
-      whileTap={{ scale: 0.9 }}
+    <button
       {...buttonProps}
       className={cn(
         "btn w-full rounded-full bg-black font-light text-white",
@@ -20,7 +17,7 @@ const LoadingButton: React.FunctionComponent<LoadingButtonProps> = ({
       )}
     >
       {loader ? <Loader2 className="animate-spin" /> : children}
-    </m.button>
+    </button>
   );
 };
 
