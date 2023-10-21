@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar/navbar";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Roboto } from "next/font/google";
 import ShowNavbar from "@/components/navbar/show-navbar";
 import { LayoutProps } from "@/lib/types/types";
 import ShowFooter from "@/components/footer/show-footer";
@@ -12,10 +12,16 @@ import QueryProvider from "@/provider/QueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { GlobalContextProvider } from "@/context/store";
 
-const inter = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   display: "block",
+});
+
+export const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +32,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={poppins.className}>
         <AuthProvider>
           <QueryProvider>
             <GlobalContextProvider>

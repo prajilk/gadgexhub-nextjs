@@ -1,27 +1,12 @@
 import Addresses from "@/components/address/addresses";
 import AddressDialog from "@/components/dialog/address-dialog";
-import getQueryClient from "@/lib/query-utils/get-query-client";
 import { dehydrate } from "@tanstack/query-core";
 import Hydrate from "@/lib/query-utils/hydrate-client";
-import { headers } from "next/headers";
-import axios from "@/config/axios.config";
-import { AddressResProps } from "@/lib/types/types";
-
-async function getAddressServer() {
-  const headerSequence = headers();
-  const cookie = headerSequence.get("cookie");
-
-  const { data } = await axios.get("/api/user/address", {
-    headers: {
-      Cookie: `${cookie}`,
-    },
-  });
-
-  return data as AddressResProps;
-}
+import { QueryClient } from "@tanstack/react-query";
+import { getAddressServer } from "@/lib/api/products/get-address";
 
 const Address = async () => {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["user", "address"], getAddressServer);
   const dehydratedState = dehydrate(queryClient);
 

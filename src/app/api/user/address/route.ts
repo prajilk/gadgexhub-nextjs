@@ -1,32 +1,26 @@
 import { authOptions } from "@/lib/auth";
-import { db } from "@/lib/prisma";
-import {
-  error400,
-  error404,
-  error429,
-  error500,
-  success200,
-} from "@/lib/utils";
+import { error400, error429, error500, success200 } from "@/lib/utils";
 import { ZodAddressSchema } from "@/lib/zodSchemas";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
-import { getAllAddresses } from "./helper";
+import {
+  createAddress,
+  deleteAddress,
+  getAddress,
+  getAllAddresses,
+  setDefaultFalseAddress,
+  updateAddress,
+} from "./helper";
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user || !session.user.id) {
-    return error400("Missing user ID in the session.", { addresses: null });
-  }
-  const userId = session.user.id;
-
   try {
-    const addresses = await getAllAddresses(userId);
+    const session = await getServerSession(authOptions);
 
-    if (!addresses) {
-      return error404("User not found.", { addresses: null });
+    if (!session || !session.user || !session.user.id) {
+      return error400("Missing user ID in the session.", { addresses: null });
     }
-
+    const userId = session.user.id;
+    const addresses = await getAllAddresses(userId);
     return success200({ addresses });
   } catch (error) {
     return error500({ addresses: null });
@@ -49,18 +43,15 @@ export async function POST(req: NextRequest) {
     try {
       // Retrieve a list of addresses associated with the userId
       const addressList = await getAllAddresses(userId);
-      if (!addressList) {
-        return error404("User not found.", { addresses: null });
-      }
 
       let data;
 
-      if (addressList.length >= 5) {
+      if (addressList?.length && addressList.length >= 5) {
         return error429("Address creation limit exceeded", { addresses: null });
       }
 
       // Check if there are no addresses in the list or result.data.is_default is false
-      if (addressList.length === 0) {
+      if (addressList?.length && addressList.length === 0) {
         data = {
           userId: userId,
           ...result.data,
@@ -75,14 +66,7 @@ export async function POST(req: NextRequest) {
             is_deleted: false,
           };
         } else {
-          await db.address.updateMany({
-            data: {
-              is_default: false,
-            },
-            where: {
-              userId: userId,
-            },
-          });
+          await setDefaultFalseAddress(userId);
           data = {
             userId: userId,
             ...result.data,
@@ -91,9 +75,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      await db.address.create({
-        data,
-      });
+      await createAddress(data);
 
       return success200({ addresses: result.data });
     } catch (error) {
@@ -129,23 +111,10 @@ export async function PUT(req: NextRequest) {
   if (result.success) {
     try {
       if (result.data.is_default) {
-        await db.address.updateMany({
-          data: {
-            is_default: false,
-          },
-          where: {
-            userId,
-          },
-        });
+        await setDefaultFalseAddress(userId);
       }
 
-      const address = await db.address.update({
-        data: result.data,
-        where: {
-          address_id: body.address_id,
-          userId,
-        },
-      });
+      const address = await updateAddress(result.data, body.address_id, userId);
 
       return success200({ addresses: address });
     } catch (error) {
@@ -175,12 +144,7 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    const isDefault = await db.address.findUnique({
-      where: {
-        address_id,
-        userId,
-      },
-    });
+    const isDefault = await getAddress(address_id, userId);
 
     if (isDefault?.is_default) {
       return error400("Default address cannot be deleted!", {
@@ -189,12 +153,7 @@ export async function DELETE(req: NextRequest) {
       });
     }
 
-    const result = await db.address.delete({
-      where: {
-        address_id,
-        userId,
-      },
-    });
+    const result = await deleteAddress(address_id, userId);
 
     return success200({ addresses: result, isDefault: false });
   } catch (error) {
