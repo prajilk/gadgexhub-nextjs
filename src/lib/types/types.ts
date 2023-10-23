@@ -136,7 +136,7 @@ export type ProductProps = {
 } & ProductPrice;
 
 export type ProductResProps = Res & {
-  product: ProductProps;
+  product: ProductProps | null;
 };
 
 export type CartItemProps = {
@@ -150,6 +150,23 @@ export type CartItemProps = {
   color: string | null;
   quantity: number;
   url: string;
+};
+
+export type CheckoutItemProps = {
+  productId: string;
+  quantity: number;
+  color: string | null;
+};
+
+export type CheckoutItemRes = Res & { products: ItemSummaryProps[] | null };
+
+export type ItemSummaryProps = {
+  id: string;
+  quantity: number;
+  basePrice: number;
+  offerPrice: number;
+  title: string;
+  image: string;
 };
 
 export type CartItemRes = Res & { item: CartItemProps | null };

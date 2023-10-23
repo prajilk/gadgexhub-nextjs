@@ -26,12 +26,12 @@ const Banner = () => {
               </p>
             </div>
             <div>
-              <span className="mb-3 block text-base">
+              <span className="font-Roboto mb-3 block">
                 At {formatCurrency(5999)}
               </span>
               <LinkButton
                 href="/"
-                className="bg-white text-black hover:bg-gray-300"
+                className="bg-white font-medium text-black hover:bg-gray-300"
               >
                 Buy Now
               </LinkButton>

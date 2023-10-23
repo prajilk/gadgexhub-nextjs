@@ -7,26 +7,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { AddressProps } from "@/lib/types/types";
+import { AddressProps, LayoutProps } from "@/lib/types/types";
 
 const AddressDialog = ({
   action,
   address,
+  children,
 }: {
   action: "edit" | "add";
   address?: AddressProps;
-}) => {
+} & LayoutProps) => {
   return (
     <Dialog>
-      <DialogTrigger>
-        {action === "add" ? (
-          <span className="rounded-sm bg-gray-100 px-3 py-1 text-sm">
-            + Add
-          </span>
-        ) : (
-          <Pencil className="absolute right-3 top-3" size={15} />
-        )}
-      </DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>

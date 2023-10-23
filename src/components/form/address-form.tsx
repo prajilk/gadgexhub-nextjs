@@ -198,7 +198,7 @@ const AddressForm = ({
                   id=""
                   className="scrollbar-thin select w-full rounded-lg border bg-[#f5f5f5] text-sm"
                 >
-                  <option value="" disabled selected hidden>
+                  <option value="" disabled hidden>
                     State
                   </option>
                   {stateList.map((state, i) => (

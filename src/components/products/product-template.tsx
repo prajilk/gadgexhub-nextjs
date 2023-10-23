@@ -39,7 +39,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
         <div className="flex w-full flex-col gap-y-1 py-8 md:sticky md:top-20 md:max-w-[344px] md:py-0 lg:max-w-[500px]">
           <h1 className="text-xl font-medium md:text-2xl">{product.title}</h1>
           <span className="text-sm">{variant.color}</span>
-          <p className="mt-5 flex items-center gap-3 text-2xl">
+          <p className="font-Roboto mt-5 flex items-center gap-3 text-2xl">
             {formatCurrency(product.offerPrice)}{" "}
             <b className="rounded-sm bg-success px-1 py-0.5 text-xs font-medium text-white">
               save {calculatePercentage(product.basePrice, product.offerPrice)}
@@ -47,7 +47,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
           </p>
           <p className="mb-6 text-sm text-slate-500">
             M.R.P.{" "}
-            <span className="line-through">
+            <span className="font-Roboto line-through">
               {formatCurrency(product.basePrice)}
             </span>{" "}
             (inclusive of all taxes){" "}
@@ -90,7 +90,12 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
               </ul>
             </div>
           )}
-          <ProductActions pid={product.id} color={variant.color} quantity={0} />
+          <ProductActions
+            pid={product.id}
+            color={variant.color}
+            quantity={0}
+            slug={product.slug}
+          />
           <div className="my-5 md:my-10">
             <h1 className="font-medium">Description</h1>
             <hr className="my-2" />

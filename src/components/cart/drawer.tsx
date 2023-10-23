@@ -10,12 +10,14 @@ import { useCartItems } from "@/api-hooks/cart/get-cart-items";
 import SkeletonCartItem from "../skeletons/skeleton-cart-item";
 import { getCookie, setCookie } from "cookies-next";
 import { formatCurrency } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const Drawer = ({ trigger }: { trigger: ReactNode }) => {
   const { cartItems, setCartItems } = useGlobalContext();
 
   const { data: session } = useSession();
   const { data: cartItemsSVR, isLoading } = useCartItems();
+  const router = useRouter();
 
   useEffect(() => {
     if (!session?.user) {
@@ -35,6 +37,13 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
       setCartItems(cartItemsSVR.item);
     }
   }, [session, setCartItems, cartItemsSVR?.item]);
+
+  const handleCheckout = () => {
+    if (!session?.user) {
+      return router.push("/authentication");
+    }
+    router.push("/checkout");
+  };
 
   return (
     <div>
@@ -77,11 +86,16 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
           </div>
           {cartItems.length !== 0 && (
             <div className="w-full border-t p-5">
-              <Button className="rounded-none font-medium">
-                Checkout{" "}
-                {formatCurrency(
-                  cartItems.reduce((acc, cur) => acc + cur.offerPrice, 0),
-                )}
+              <Button
+                className="rounded-none font-medium"
+                onClick={handleCheckout}
+              >
+                Checkout
+                <span className="font-Roboto ms-2">
+                  {formatCurrency(
+                    cartItems.reduce((acc, cur) => acc + cur.offerPrice, 0),
+                  )}
+                </span>
               </Button>
             </div>
           )}

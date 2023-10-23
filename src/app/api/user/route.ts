@@ -6,14 +6,13 @@ import { NextRequest } from "next/server";
 import { getUser, updateUser } from "./helper";
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user || !session.user.id) {
-    return error400("Missing user ID in the session.", { user: null });
-  }
-  const userId = session.user.id;
-
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.id) {
+      return error400("Missing user ID in the session.", { user: null });
+    }
+    const userId = session.user.id;
     // Get user data from database
     const user = await getUser(userId);
 
@@ -38,25 +37,25 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
 
-  if (!session || !session.user || !session.user.id) {
-    return error400("Missing user ID in the session.", { user: null });
-  }
+    if (!session || !session.user || !session.user.id) {
+      return error400("Missing user ID in the session.", { user: null });
+    }
 
-  const userData = await req.json();
-  const result = ZodProfileSchema.safeParse(userData);
+    const userData = await req.json();
+    const result = ZodProfileSchema.safeParse(userData);
 
-  if (result.success) {
-    try {
+    if (result.success) {
       await updateUser(session.user.id, userData);
       return success200({ user: result.data });
-    } catch (error) {
-      return error500({ user: null });
     }
-  }
 
-  if (result.error) {
-    return error400("Invalid data format.", { user: null });
+    if (result.error) {
+      return error400("Invalid data format.", { user: null });
+    }
+  } catch (error) {
+    return error500({ user: null });
   }
 }

@@ -51,17 +51,19 @@ const Slider = ({
           transition={{ delay: 0.1, duration: 0.75 }}
         >
           From{" "}
-          <span className="text-slate-200 line-through decoration-white">
+          <span className="font-Roboto font-medium text-slate-200 line-through decoration-white">
             {formatCurrency(slide.basePrice)}
           </span>{" "}
-          <b>{formatCurrency(slide.discountedPrice)}</b>
+          <b className="font-Roboto">{formatCurrency(slide.discountedPrice)}</b>
         </m.p>
         <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1, duration: 0.75 }}
         >
-          <LinkButton href={slide.href}>Buy Now</LinkButton>
+          <LinkButton href={slide.href} className="font-normal">
+            Buy Now
+          </LinkButton>
         </m.div>
       </div>
     </>

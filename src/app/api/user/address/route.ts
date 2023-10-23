@@ -28,19 +28,18 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
 
-  if (!session || !session.user || !session.user.id) {
-    return error400("Missing user ID in the session.", { user: null });
-  }
+    if (!session || !session.user || !session.user.id) {
+      return error400("Missing user ID in the session.", { user: null });
+    }
 
-  const userId = session.user.id;
+    const userId = session.user.id;
 
-  const address = await req.json();
-  const result = ZodAddressSchema.safeParse(address);
-
-  if (result.success) {
-    try {
+    const address = await req.json();
+    const result = ZodAddressSchema.safeParse(address);
+    if (result.success) {
       // Retrieve a list of addresses associated with the userId
       const addressList = await getAllAddresses(userId);
 
@@ -78,38 +77,38 @@ export async function POST(req: NextRequest) {
       await createAddress(data);
 
       return success200({ addresses: result.data });
-    } catch (error) {
-      return error500({ addresses: null });
     }
-  }
 
-  if (result.error) {
-    return error400("Invalid data format", { addresses: null });
+    if (result.error) {
+      return error400("Invalid data format", { addresses: null });
+    }
+  } catch (error) {
+    return error500({ addresses: null });
   }
 }
 
 export async function PUT(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
 
-  if (!session || !session.user || !session.user.id) {
-    return error400("Missing user ID in the session.", { user: null });
-  }
+    if (!session || !session.user || !session.user.id) {
+      return error400("Missing user ID in the session.", { user: null });
+    }
 
-  const userId = session.user.id;
+    const userId = session.user.id;
 
-  const body = await req.json();
+    const body = await req.json();
 
-  if (!body?.address_id) {
-    return error400("Address id missing!", {
-      addresses: null,
-      isDefault: false,
-    });
-  }
+    if (!body?.address_id) {
+      return error400("Address id missing!", {
+        addresses: null,
+        isDefault: false,
+      });
+    }
 
-  const result = ZodAddressSchema.safeParse(body.data);
+    const result = ZodAddressSchema.safeParse(body.data);
 
-  if (result.success) {
-    try {
+    if (result.success) {
       if (result.data.is_default) {
         await setDefaultFalseAddress(userId);
       }
@@ -117,33 +116,32 @@ export async function PUT(req: NextRequest) {
       const address = await updateAddress(result.data, body.address_id, userId);
 
       return success200({ addresses: address });
-    } catch (error) {
-      return error500({ address: null });
     }
-  }
 
-  if (!result.success) {
-    return error400("Invalid data format.", { address: null });
+    if (!result.success) {
+      return error400("Invalid data format.", { address: null });
+    }
+  } catch (error) {
+    return error500({ address: null });
   }
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user || !session.user.id) {
-    return error400("Missing user ID in the session.", { user: null });
-  }
-  const userId = session.user.id;
-  const address_id = parseInt(req.nextUrl.searchParams.get("id") || "");
-
-  if (!address_id) {
-    return error400("Address id missing!", {
-      addresses: null,
-      isDefault: false,
-    });
-  }
-
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.id) {
+      return error400("Missing user ID in the session.", { user: null });
+    }
+    const userId = session.user.id;
+    const address_id = parseInt(req.nextUrl.searchParams.get("id") || "");
+
+    if (!address_id) {
+      return error400("Address id missing!", {
+        addresses: null,
+        isDefault: false,
+      });
+    }
     const isDefault = await getAddress(address_id, userId);
 
     if (isDefault?.is_default) {
