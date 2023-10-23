@@ -11,6 +11,8 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio";
 import LinkButton from "../shared/link-button";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
+import { Plus } from "lucide-react";
+import AddressDialog from "./address-dialog";
 
 const ChangeAddressDialog = ({
   addresses,
@@ -37,7 +39,10 @@ const ChangeAddressDialog = ({
       <DialogContent>
         <DialogHeader className="space-y-5">
           <DialogTitle>Choose Delivery Address</DialogTitle>
-          <RadioGroup defaultValue={selectedAddress?.address_id.toString()}>
+          <RadioGroup
+            defaultValue={selectedAddress?.address_id.toString()}
+            className="scrollbar-thin max-h-[calc(100vh_-_200px)] overflow-y-scroll"
+          >
             {addresses?.map((address, i) => (
               <label htmlFor={address.address_id.toString()} key={i}>
                 <AddressCard
@@ -47,12 +52,17 @@ const ChangeAddressDialog = ({
               </label>
             ))}
           </RadioGroup>
+          <AddressDialog action="add">
+            <div className="btn btn-sm float-left w-fit rounded-md border border-gray-600 bg-white font-normal text-black hover:bg-gray-100">
+              <span className="me-2">
+                <Plus size={20} />
+              </span>
+              Create new address
+            </div>
+          </AddressDialog>
           <div className="flex w-full justify-end gap-3">
-            <LinkButton href="/account/address" className="btn-sm rounded-md">
-              Add new
-            </LinkButton>
             <Button
-              className="btn-sm w-fit rounded-md"
+              className="btn-sm w-fit rounded-md font-normal"
               onClick={changeDeliveryAddress}
             >
               Select

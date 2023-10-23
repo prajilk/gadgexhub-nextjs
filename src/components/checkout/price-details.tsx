@@ -2,19 +2,24 @@ import { roboto } from "@/app/layout";
 import { formatCurrency } from "@/lib/utils";
 import React from "react";
 
-const PriceDetails = () => {
+type PriceDetailsProps = {
+  subtotal: number;
+  total: number;
+};
+
+const PriceDetails = ({ subtotal, total }: PriceDetailsProps) => {
   return (
     <div className="col-span-2 md:col-start-2">
       <div className="my-2 grid grid-cols-2 text-[.9rem]">
         <p className="text-muted-foreground">Item Subtotal</p>
         <span className={`text-right font-medium ${roboto.className}`}>
-          {formatCurrency(5999)}
+          {formatCurrency(subtotal)}
         </span>
       </div>
       <div className="my-2 grid grid-cols-2 text-[.9rem]">
         <p className="text-muted-foreground">Item Discount</p>
         <span className={`text-right font-medium ${roboto.className}`}>
-          &#8722; {formatCurrency(3999)}
+          &#8722; {formatCurrency(subtotal - total)}
         </span>
       </div>
       <div className="my-2 grid grid-cols-2 text-[.9rem]">
@@ -29,7 +34,7 @@ const PriceDetails = () => {
         <span
           className={`font-roboto text-right text-xl font-medium ${roboto.className}`}
         >
-          {formatCurrency(2999)}
+          {formatCurrency(total)}
         </span>
       </div>
       <button className="btn my-5 w-full bg-black text-white">Pay now</button>

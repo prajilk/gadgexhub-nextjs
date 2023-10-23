@@ -7,6 +7,7 @@ import { useGetAddress } from "@/api-hooks/address/get-address";
 import SkeletonDeliveryAddress from "../skeletons/skeleton-delivery-address";
 import { useEffect, useState } from "react";
 import { AddressProps } from "@/lib/types/types";
+import { Pencil } from "lucide-react";
 
 const DeliveryAddress = () => {
   const [deliveryAddress, setDeliveryAddress] = useState<
@@ -46,8 +47,10 @@ const DeliveryAddress = () => {
           </div>
           <p className="me-2 inline-block">{deliveryAddress.phone},</p>
           <p className="inline-block">{deliveryAddress.alternate_phone}</p>
-          <div className="absolute right-0 top-0 me-1">
-            <AddressDialog action="edit" address={deliveryAddress} />
+          <div className="absolute right-3 top-1">
+            <AddressDialog action="edit" address={deliveryAddress}>
+              <Pencil size={15} />
+            </AddressDialog>
           </div>
         </div>
       ) : isLoading ? (

@@ -121,10 +121,10 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
         </div>
       </div>
       <div className="text-right">
-        <h1 className="text-xs text-success md:text-base">
+        <h1 className="font-Roboto text-xs text-success md:text-base">
           {formatCurrency(item.offerPrice ?? 0)}
         </h1>
-        <span className="text-xs line-through md:text-base">
+        <span className="font-Roboto text-xs line-through md:text-base">
           {formatCurrency(item.basePrice ?? 0)}
         </span>
       </div>

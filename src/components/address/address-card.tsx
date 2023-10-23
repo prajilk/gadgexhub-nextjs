@@ -1,5 +1,6 @@
 import { AddressProps } from "@/lib/types/types";
 import AddressDialog from "../dialog/address-dialog";
+import { Pencil } from "lucide-react";
 
 const AddressCard = ({ address }: { address: AddressProps }) => {
   return (
@@ -19,37 +20,12 @@ const AddressCard = ({ address }: { address: AddressProps }) => {
         </p>
         <p>{address.phone}</p>
         <p>{address.alternate_phone}</p>
-        <AddressDialog action="edit" address={address} />
+        <AddressDialog action="edit" address={address}>
+          <Pencil className="absolute right-3 top-3" size={15} />
+        </AddressDialog>
       </div>
     </>
   );
 };
 
 export default AddressCard;
-
-// const Loading = () => {
-//   return (
-//     <div className="flex flex-col justify-center space-y-3 rounded-md border p-2">
-//       <div className="flex justify-between space-x-0">
-//         <div className="skeleton h-5 w-20 rounded-md"></div>
-//         <div className="skeleton h-7 w-7 rounded-full"></div>
-//       </div>
-//       <div className="skeleton h-7 w-64 rounded-md"></div>
-//       <div className="skeleton h-5 w-56 rounded-md"></div>
-//       <div className="skeleton h-5 w-56 rounded-md"></div>
-//       <div className="skeleton h-5 w-56 rounded-md"></div>
-//       <div className="skeleton h-5 w-56 rounded-md"></div>
-//     </div>
-//   );
-// };
-
-// const Failed = () => {
-//   return (
-//     <div className="flex flex-col items-center gap-4">
-//       <div className="w-fit rounded-full bg-gray-100 p-3">
-//         <Unplug size={60} className="animate-pulse" />
-//       </div>
-//       <span className="text-xl font-medium">Failed to fetch data</span>
-//     </div>
-//   );
-// };

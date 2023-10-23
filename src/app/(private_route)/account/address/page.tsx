@@ -15,7 +15,11 @@ const Address = async () => {
       <div className="rounded-md border bg-white p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">Addresses</h1>
-          <AddressDialog action="add" />
+          <AddressDialog action="add">
+            <span className="rounded-sm bg-gray-100 px-3 py-1 text-sm">
+              + Add
+            </span>
+          </AddressDialog>
         </div>
         <Hydrate state={dehydratedState}>
           <Addresses />

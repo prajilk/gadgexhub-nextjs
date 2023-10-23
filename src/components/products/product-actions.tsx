@@ -6,17 +6,20 @@ import { toast } from "sonner";
 import { useAddToCart } from "@/api-hooks/cart/add-to-cart";
 import LoadingButton from "../shared/loading-button";
 import { useQueryClient } from "@tanstack/react-query";
-import { getCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { redirect, useRouter } from "next/navigation";
 
 type ProductActionsProps = {
   pid: string;
   quantity: number;
   color: string | null;
+  slug: string;
 };
 
 const ProductActions = (props: ProductActionsProps) => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   async function onSuccess() {
     await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
@@ -45,17 +48,37 @@ const ProductActions = (props: ProductActionsProps) => {
     });
   }
 
+  function buyNow() {
+    if (!session?.user) {
+      return router.push("/authentication");
+    }
+    const item = {
+      productId: props.pid,
+      quantity: props.quantity + 1,
+      color: props.color,
+    };
+    const checkoutExpires = new Date(new Date().getTime() + 10 * 60000); // 10 minutes
+    deleteCookie("checkout");
+    setCookie("checkout", btoa(JSON.stringify(item)), {
+      expires: checkoutExpires,
+    });
+    router.push("/checkout");
+  }
+
   return (
     <div className="mt-6 space-y-4">
       <LoadingButton
         loader={cart_mutation.isLoading}
         disabled={cart_mutation.isLoading}
-        className="rounded-none py-6 text-base uppercase"
+        className="rounded-none py-6 text-base font-normal uppercase"
         onClick={addToCart}
       >
         Add to cart
       </LoadingButton>
-      <Button className="rounded-none bg-secondaryTheme py-6 text-base uppercase hover:bg-secondaryTheme hover:bg-opacity-60">
+      <Button
+        onClick={buyNow}
+        className="btn rounded-none bg-secondaryTheme py-6 text-base font-normal uppercase hover:bg-secondaryTheme hover:bg-opacity-60"
+      >
         Buy it now
       </Button>
     </div>

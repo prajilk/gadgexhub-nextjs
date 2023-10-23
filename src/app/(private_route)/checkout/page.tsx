@@ -3,21 +3,39 @@ import ItemSummary from "@/components/checkout/item-summary";
 import PaymentOptions from "@/components/checkout/payment-options";
 import PriceDetails from "@/components/checkout/price-details";
 import Container from "@/components/container";
+import { getCheckout } from "@/lib/api/products/get-checkout";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-const Checkout = () => {
+const Checkout = async () => {
+  revalidatePath("/checkout");
+  const data = await getCheckout();
+  if (!data) redirect("/");
+
+  const subtotal =
+    data.products?.reduce((acc, curr) => acc + curr.basePrice, 0) || 0;
+  const total =
+    data.products?.reduce((acc, curr) => acc + curr.offerPrice, 0) || 0;
+
   return (
     <Container className="py-0 md:py-0">
       <h1 className="text-center text-3xl">Checkout</h1>
       <div className="grid grid-cols-1 gap-3 py-5 md:grid-cols-5">
-        <div className="col-span-3 mx-auto bg-white shadow">
+        <div className="col-span-3 w-full bg-white shadow">
           <div className="border-b px-5 py-3">
             <h2 className="text-muted-foreground">Order summary</h2>
           </div>
-          <ItemSummary />
-          <ItemSummary />
-          <ItemSummary />
+          {data?.products?.map((product, i) => (
+            <ItemSummary
+              key={i}
+              imageUrl={product.image}
+              price={product.basePrice}
+              quantity={product.quantity}
+              title={product.title}
+            />
+          ))}
           <div className="mt-10 grid grid-cols-2 px-5">
-            <PriceDetails />
+            <PriceDetails total={total} subtotal={subtotal} />
           </div>
         </div>
         <div className="col-span-2">
