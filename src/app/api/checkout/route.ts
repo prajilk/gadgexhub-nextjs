@@ -73,6 +73,6 @@ export async function GET(req: NextRequest) {
       });
     }
   } catch (error) {
-    error500({ products: null });
+    return error500({ products: null });
   }
 }
