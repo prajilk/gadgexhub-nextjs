@@ -1,15 +1,9 @@
 import { roboto } from "@/app/layout";
+import { ItemSummary } from "@/lib/types/types";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 
-type ItemSummaryProps = {
-  imageUrl: string;
-  title: string;
-  quantity: number;
-  price: number;
-};
-
-const ItemSummary = (props: ItemSummaryProps) => {
+const ItemSummary = (props: ItemSummary) => {
   return (
     <>
       <div className="flex items-center gap-4 px-5 py-4">

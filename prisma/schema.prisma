@@ -27,6 +27,13 @@ model User {
   accounts      Account[]
   sessions      Session[]
   cart          Cart?
+  order         Order[]
+}
+
+model GuestUser {
+  id             String   @id @default(cuid())
+  expirationDate DateTime
+  cart           Cart?
 }
 
 model Account {
@@ -79,17 +86,18 @@ model Address {
   alternate_phone String?
   is_default      Boolean @default(true)
   is_deleted      Boolean @default(false)
+  order           Order[]
 
   @@index([userId], name: "user_id_index")
 }
 
 model Product {
-  id               String     @id @default(cuid())
+  id               String      @id @default(cuid())
   slug             String
   title            String
   shortDescription String?
-  description      String     @db.Text
-  category         Category   @relation(fields: [categoryId], references: [id])
+  description      String      @db.Text
+  category         Category    @relation(fields: [categoryId], references: [id])
   categoryId       Int
   basePrice        Float
   offerPrice       Float
@@ -97,9 +105,10 @@ model Product {
   color            String? // "Matte black, Clay White" | "NULL"
   variantName      String? // "Size"
   variantValues    String? // "small, medium, large"
-  createdAt        DateTime   @default(now())
+  createdAt        DateTime    @default(now())
   images           Image[]
   cartItems        CartItem[]
+  orderItems       OrderItem[]
 
   @@index([slug], name: "product_slug_index")
 }
@@ -144,8 +153,36 @@ model Cart {
   @@index([guestUserId], name: "guestUserId_index")
 }
 
-model GuestUser {
-  id             String   @id @default(cuid())
-  expirationDate DateTime
-  cart           Cart?
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  productId String
+  quantity  Int
+  color     String?
+  amount    Float
+  product   Product @relation(fields: [productId], references: [id])
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id               String      @id @unique
+  payment_verified Boolean     @default(false)
+  orderDate        DateTime    @default(now())
+  total            Float
+  status           String      @default("pending")
+  addressId        Int
+  address          Address     @relation(fields: [addressId], references: [address_id])
+  orderItems       OrderItem[]
+  userId           String
+  user             User        @relation(fields: [userId], references: [id])
+  payment          Payment?
+}
+
+model Payment {
+  id                    Int    @id @default(autoincrement())
+  rzr_order_id          String @unique
+  rzr_payment_id        String @unique
+  rzr_payment_signature String
+  order                 Order  @relation(fields: [orderId], references: [id])
+  orderId               String @unique
 }

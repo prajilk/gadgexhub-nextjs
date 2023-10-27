@@ -91,9 +91,12 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
                 onClick={handleCheckout}
               >
                 Checkout
-                <span className="font-Roboto ms-2">
+                <span className="ms-2 font-Roboto">
                   {formatCurrency(
-                    cartItems.reduce((acc, cur) => acc + cur.offerPrice, 0),
+                    cartItems.reduce(
+                      (acc, curr) => acc + curr.offerPrice * curr.quantity,
+                      0,
+                    ),
                   )}
                 </span>
               </Button>

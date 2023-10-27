@@ -5,14 +5,12 @@ import AddressDialog from "../dialog/address-dialog";
 import ChangeAddressDialog from "../dialog/change-address-dialog";
 import { useGetAddress } from "@/api-hooks/address/get-address";
 import SkeletonDeliveryAddress from "../skeletons/skeleton-delivery-address";
-import { useEffect, useState } from "react";
-import { AddressProps } from "@/lib/types/types";
+import { useEffect } from "react";
 import { Pencil } from "lucide-react";
+import { useGlobalContext } from "@/context/store";
 
 const DeliveryAddress = () => {
-  const [deliveryAddress, setDeliveryAddress] = useState<
-    AddressProps | undefined
-  >();
+  const { deliveryAddress, setDeliveryAddress } = useGlobalContext();
   const { data, isLoading } = useGetAddress();
 
   const defaultAddress = data?.addresses?.find((address) => address.is_default);
@@ -26,10 +24,7 @@ const DeliveryAddress = () => {
       <div className="flex items-center justify-between border-b px-4 py-3">
         <h2 className="text-muted-foreground">Delivery address</h2>
         {(deliveryAddress || !isLoading) && (
-          <ChangeAddressDialog
-            addresses={data?.addresses}
-            setDeliveryAddress={setDeliveryAddress}
-          />
+          <ChangeAddressDialog addresses={data?.addresses} />
         )}
       </div>
       {deliveryAddress ? (

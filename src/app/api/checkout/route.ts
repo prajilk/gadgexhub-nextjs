@@ -5,21 +5,14 @@ import { findCartWithProduct } from "../user/cart/helper";
 import { NextRequest } from "next/server";
 import { getImageThumbnail } from "@/lib/cart-utils";
 import { CheckoutItemProps } from "@/lib/types/types";
-import { db } from "@/lib/prisma";
+import { getProductWithImages } from "../payment/helper";
 
 export async function GET(req: NextRequest) {
   try {
     const checkoutCookie = req.cookies.get("checkout")?.value || "";
     if (checkoutCookie !== "") {
       const decodedItem: CheckoutItemProps = JSON.parse(atob(checkoutCookie));
-      const dbProduct = await db.product.findUnique({
-        where: {
-          id: decodedItem.productId,
-        },
-        include: {
-          images: true,
-        },
-      });
+      const dbProduct = await getProductWithImages(decodedItem.productId);
 
       if (!dbProduct) {
         return error400(
@@ -33,8 +26,12 @@ export async function GET(req: NextRequest) {
           {
             id: decodedItem.productId,
             quantity: decodedItem.quantity,
-            basePrice: dbProduct.basePrice,
-            offerPrice: dbProduct.offerPrice,
+            basePrice:
+              dbProduct.basePrice *
+              (decodedItem.quantity !== 0 ? decodedItem.quantity : 1),
+            offerPrice:
+              dbProduct.offerPrice *
+              (decodedItem.quantity !== 0 ? decodedItem.quantity : 1),
             title: dbProduct.title,
             image: getImageThumbnail(
               { images: dbProduct.images },
@@ -58,8 +55,12 @@ export async function GET(req: NextRequest) {
         return {
           id: cartItem.productId,
           quantity: cartItem.quantity,
-          basePrice: cartItem.product.basePrice,
-          offerPrice: cartItem.product.offerPrice,
+          basePrice:
+            cartItem.product.basePrice *
+            (cartItem.quantity !== 0 ? cartItem.quantity : 1),
+          offerPrice:
+            cartItem.product.offerPrice *
+            (cartItem.quantity !== 0 ? cartItem.quantity : 1),
           title: cartItem.product.title,
           image: getImageThumbnail(
             { images: cartItem.product.images },
