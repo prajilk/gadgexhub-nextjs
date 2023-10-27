@@ -15,40 +15,43 @@ import { useGlobalContext } from "@/context/store";
 const ImagePicker = ({ action, variant, variantIndex }: ImagePickerProps) => {
   const { setColorVariants } = useGlobalContext();
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      acceptedFiles.forEach((file) => {
+        const reader = new FileReader();
 
-      reader.onload = () => {
-        const binaryStr = reader.result;
-        if (action === "thumbnail") {
-          setColorVariants((prevVariant) =>
-            prevVariant.map((value, i) => ({
-              ...value,
-              thumbnail:
-                i === variantIndex && typeof binaryStr === "string"
-                  ? binaryStr
-                  : value.thumbnail,
-            })),
-          );
-        } else {
-          setColorVariants((prevVariant) =>
-            prevVariant.map((value, i) => ({
-              ...value,
-              others:
-                i === variantIndex
-                  ? [
-                      ...value.others,
-                      typeof binaryStr === "string" ? binaryStr : "",
-                    ]
-                  : value.others,
-            })),
-          );
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  }, []);
+        reader.onload = () => {
+          const binaryStr = reader.result;
+          if (action === "thumbnail") {
+            setColorVariants((prevVariant) =>
+              prevVariant.map((value, i) => ({
+                ...value,
+                thumbnail:
+                  i === variantIndex && typeof binaryStr === "string"
+                    ? binaryStr
+                    : value.thumbnail,
+              })),
+            );
+          } else {
+            setColorVariants((prevVariant) =>
+              prevVariant.map((value, i) => ({
+                ...value,
+                others:
+                  i === variantIndex
+                    ? [
+                        ...value.others,
+                        typeof binaryStr === "string" ? binaryStr : "",
+                      ]
+                    : value.others,
+              })),
+            );
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    },
+    [action, setColorVariants, variantIndex],
+  );
 
   return (
     <Dialog>

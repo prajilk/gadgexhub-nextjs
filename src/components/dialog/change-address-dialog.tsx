@@ -8,22 +8,22 @@ import {
 import { AddressProps } from "@/lib/types/types";
 import Button from "../shared/button";
 import { RadioGroup, RadioGroupItem } from "../ui/radio";
-import LinkButton from "../shared/link-button";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import AddressDialog from "./address-dialog";
+import { useGlobalContext } from "@/context/store";
 
 const ChangeAddressDialog = ({
   addresses,
-  setDeliveryAddress,
 }: {
   addresses?: AddressProps[] | null;
-  setDeliveryAddress: Dispatch<SetStateAction<AddressProps | undefined>>;
 }) => {
+  const { setDeliveryAddress } = useGlobalContext();
   const [selectedAddress, setSelectedAddress] = useState<
     AddressProps | undefined
   >(addresses?.find((address) => address.is_default));
+
   function changeDeliveryAddress() {
     toast.success("Delivery address changed successfully.");
     setDeliveryAddress(selectedAddress);

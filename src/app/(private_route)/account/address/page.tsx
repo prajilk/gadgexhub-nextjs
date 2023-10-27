@@ -3,7 +3,7 @@ import AddressDialog from "@/components/dialog/address-dialog";
 import { dehydrate } from "@tanstack/query-core";
 import Hydrate from "@/lib/query-utils/hydrate-client";
 import { QueryClient } from "@tanstack/react-query";
-import { getAddressServer } from "@/lib/api/products/get-address";
+import { getAddressServer } from "@/lib/api/address/get-address";
 
 const Address = async () => {
   const queryClient = new QueryClient();

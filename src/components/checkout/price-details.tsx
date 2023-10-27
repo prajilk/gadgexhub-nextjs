@@ -1,6 +1,7 @@
 import { roboto } from "@/app/layout";
 import { formatCurrency } from "@/lib/utils";
 import React from "react";
+import PlaceOrder from "./place-order";
 
 type PriceDetailsProps = {
   subtotal: number;
@@ -37,7 +38,7 @@ const PriceDetails = ({ subtotal, total }: PriceDetailsProps) => {
           {formatCurrency(total)}
         </span>
       </div>
-      <button className="btn my-5 w-full bg-black text-white">Pay now</button>
+      <PlaceOrder />
     </div>
   );
 };

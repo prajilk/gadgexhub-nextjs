@@ -5,6 +5,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 
 type Res = {
+  user: null | undefined;
   success: boolean;
   message: string;
 };
@@ -210,4 +211,30 @@ export type ImagePickerProps = {
 
 export type AddProductResProps = Res & {
   info: any;
+};
+
+export type PaymentRes = Res & {
+  id: string;
+  currency: string;
+  amount: string | number;
+  orderId: string;
+};
+
+export type PaymentVerifyRes = Res & {
+  verified: boolean;
+  order_id: string | undefined;
+};
+
+export type ItemSummary = {
+  imageUrl: string;
+  title: string;
+  quantity: number;
+  price: number;
+};
+
+export type SingleOrderRes = Res & {
+  order: {
+    address: AddressProps;
+    orderItems: ItemSummary[];
+  } | null;
 };

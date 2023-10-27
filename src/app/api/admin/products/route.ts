@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 import { z } from "zod";
-import cuid from "cuid";
 import { ZodProductSchema } from "@/lib/zodSchemas";
 import { ColorVariant } from "@/lib/types/types";
 import { error500, success200 } from "@/lib/utils";
 import { createProduct } from "./helper";
+import shortid from "shortid";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -38,9 +38,14 @@ export async function POST(req: NextRequest) {
 
     const promises = body.colors.flatMap((color) => [
       ...color.others.map((otherImages) =>
-        uploadImage(otherImages, body.slug, color.color, cuid()),
+        uploadImage(otherImages, body.slug, color.color, shortid.generate()),
       ),
-      uploadImage(color.thumbnail, body.slug, color.color, `${cuid()}-thumb`),
+      uploadImage(
+        color.thumbnail,
+        body.slug,
+        color.color,
+        `${shortid.generate()}-thumb`,
+      ),
     ]);
 
     const response = await Promise.all(promises);

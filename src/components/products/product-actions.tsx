@@ -7,7 +7,7 @@ import { useAddToCart } from "@/api-hooks/cart/add-to-cart";
 import LoadingButton from "../shared/loading-button";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type ProductActionsProps = {
   pid: string;
