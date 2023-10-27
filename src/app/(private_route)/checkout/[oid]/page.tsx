@@ -51,7 +51,7 @@ const OrderConfirmed = async ({ params }: { params: { oid: string } }) => {
         </h1>
         <div className="py-4">
           {order.order.orderItems.map((orderItem, i) => (
-            <OrderItem {...orderItem} />
+            <OrderItem {...orderItem} key={i} />
           ))}
         </div>
       </div>
