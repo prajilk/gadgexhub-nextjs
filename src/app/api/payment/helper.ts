@@ -69,12 +69,7 @@ async function updateOrder(order_id: string) {
 
 async function createPayment(values: any) {
   return await db.payment.create({
-    data: {
-      rzr_order_id: values.razorpay_order_id,
-      rzr_payment_id: values.razorpay_payment_id,
-      rzr_payment_signature: values.razorpay_signature,
-      orderId: values.order_id,
-    },
+    data: values,
   });
 }
 
