@@ -71,7 +71,9 @@ export type AccountCardProps = {
   title: string;
 };
 
-export type UserResProps = Res & {
+export type UserResProps = {
+  success: boolean;
+  message: string;
   user: {
     id?: string;
     email?: string;
