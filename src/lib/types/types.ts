@@ -222,21 +222,32 @@ export type PaymentRes = Res & {
   orderId: string;
 };
 
-export type PaymentVerifyRes = Res & {
-  verified: boolean;
-  order_id: string | undefined;
-};
-
 export type ItemSummary = {
-  imageUrl: string;
+  productId: string;
+  slug: string;
+  color: string | null;
   title: string;
   quantity: number;
-  price: number;
+  basePrice: number;
+  offerPrice: number;
+  imageUrl: string;
 };
 
 export type SingleOrderRes = Res & {
   order: {
+    orderDate: Date;
     address: AddressProps;
     orderItems: ItemSummary[];
+    method?: string;
+    via?: string;
   } | null;
+};
+
+export type AllOrdersRes = Res & {
+  orders: {
+    imageUrl: string[];
+    orderId: string;
+    orderDate: Date;
+    status: string;
+  }[];
 };

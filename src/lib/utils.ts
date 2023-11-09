@@ -113,6 +113,16 @@ function getExpireDate() {
   return expirationDate;
 }
 
+function formateDateString(date: Date) {
+  const DATE = new Date(date);
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(DATE);
+  return formattedDate;
+}
+
 function error400(message: string, data: { [key: string]: any }) {
   const json = {
     success: false,
@@ -168,6 +178,7 @@ export {
   calculatePercentage,
   makeColorVariant,
   getExpireDate,
+  formateDateString,
   error400,
   error404,
   error429,

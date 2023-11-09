@@ -154,14 +154,15 @@ model Cart {
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  productId String
-  quantity  Int
-  color     String?
-  amount    Float
-  product   Product @relation(fields: [productId], references: [id])
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id         Int     @id @default(autoincrement())
+  productId  String
+  quantity   Int
+  color      String?
+  basePrice  Float
+  offerPrice Float
+  product    Product @relation(fields: [productId], references: [id])
+  orderId    String
+  order      Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model Order {
@@ -179,10 +180,12 @@ model Order {
 }
 
 model Payment {
-  id                    Int    @id @default(autoincrement())
-  rzr_order_id          String @unique
-  rzr_payment_id        String @unique
-  rzr_payment_signature String
-  order                 Order  @relation(fields: [orderId], references: [id])
-  orderId               String @unique
+  id             Int    @id @default(autoincrement())
+  rzr_order_id   String @unique
+  rzr_payment_id String @unique
+  method         String //upi, netbanking, card, wallet
+  via            String
+  amount         Float
+  order          Order  @relation(fields: [orderId], references: [id])
+  orderId        String @unique
 }

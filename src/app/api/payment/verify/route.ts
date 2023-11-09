@@ -2,39 +2,51 @@ import { NextRequest } from "next/server";
 import crypto from "crypto";
 import { error400, error500, success200 } from "@/lib/utils";
 import { createPayment, updateOrder } from "../helper";
+import { db } from "@/lib/prisma";
+
+const getPaymentVia = (method: string, payload: any) => {
+  if (method === "netbanking") return payload["bank"];
+  else if (method === "wallet") return payload["wallet"];
+  else if (method === "upi") return payload["vpa"];
+  else if (method === "card") {
+    return payload["card"].last4 + "," + payload["card"].network;
+  } else return null;
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const {
-      razorpay_payment_id,
-      razorpay_order_id,
-      razorpay_signature,
-      order_id,
-    } = await req.json();
+    const data = await req.json();
+    const payloadEntity = data.payload.payment.entity;
+    const order_id = payloadEntity.order_id.split("_")[1].toUpperCase();
 
-    if (
-      !razorpay_order_id ||
-      !razorpay_payment_id ||
-      !razorpay_signature ||
-      !order_id
-    ) {
-      return error400("Missing required parameters", { verified: false });
+    if (data.event === "payment.failed") {
+      await db.order.delete({
+        where: {
+          id: order_id,
+        },
+      });
+      return error400("Payment failed", { verified: false });
     }
 
-    const signature = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_SECRET!)
-      .update(signature.toString())
-      .digest("hex");
+    const shasum = crypto.createHmac(
+      "sha256",
+      process.env.RAZORPAY_WEBHOOK_SECRET!,
+    );
+    shasum.update(JSON.stringify(data));
+    const digest = shasum.digest("hex");
 
-    const isVerified = expectedSignature === razorpay_signature;
-    if (isVerified) {
+    if (digest === req.headers.get("x-razorpay-signature")) {
       await updateOrder(order_id);
       await createPayment({
-        rzr_order_id: razorpay_order_id,
-        rzr_payment_id: razorpay_payment_id,
-        rzr_payment_signature: razorpay_signature,
+        rzr_order_id: payloadEntity.order_id,
+        rzr_payment_id: payloadEntity.id,
         orderId: order_id,
+        method:
+          payloadEntity.method === "card"
+            ? payloadEntity["card"].type + " card"
+            : payloadEntity.method,
+        via: getPaymentVia(payloadEntity.method, payloadEntity),
+        amount: Number(payloadEntity.amount) / 100,
       });
     } else {
       return error400(
@@ -44,8 +56,7 @@ export async function POST(req: NextRequest) {
         },
       );
     }
-
-    return success200({ order_id: order_id, verified: true });
+    return success200({ verified: true });
   } catch (error) {
     return error500({ verified: false });
   }
