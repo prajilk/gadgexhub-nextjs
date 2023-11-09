@@ -19,7 +19,7 @@ const OrderOverview = () => {
   useEffect(() => {
     if (entry?.isIntersecting && data?.pages.at(-1)?.orders.length !== 0)
       fetchNextPage();
-  }, [entry]);
+  }, [entry, data?.pages, fetchNextPage]);
 
   return (
     <>
