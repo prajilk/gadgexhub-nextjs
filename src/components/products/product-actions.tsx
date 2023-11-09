@@ -7,7 +7,8 @@ import { useAddToCart } from "@/api-hooks/cart/add-to-cart";
 import LoadingButton from "../shared/loading-button";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 type ProductActionsProps = {
   pid: string;
@@ -20,6 +21,17 @@ const ProductActions = (props: ProductActionsProps) => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const pathname = usePathname(); // Get pathname
+  const searchParams = useSearchParams(); // Get all searchParams
+  const pid = searchParams.get("pid");
+  const clr = searchParams.get("color");
+
+  // Callback Url for redirect after login success.
+  const callbackUrl =
+    pathname +
+    (pid ? `?pid=${pid}` : "") +
+    (clr ? `&${new URLSearchParams({ color: clr })}` : "");
 
   async function onSuccess() {
     await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
@@ -50,7 +62,8 @@ const ProductActions = (props: ProductActionsProps) => {
 
   function buyNow() {
     if (!session?.user) {
-      return router.push("/authentication");
+      setCookie("originCallbackUrl", callbackUrl); // Set callbackUrl to cookie for redirect after login success
+      return router.push(`/authentication`);
     }
     const item = {
       productId: props.pid,

@@ -47,7 +47,12 @@ export async function POST(req: NextRequest) {
         productId: dbProduct.id,
         quantity: decodedItem.quantity,
         color: decodedItem.color,
-        amount,
+        basePrice:
+          dbProduct.basePrice *
+          (decodedItem.quantity !== 0 ? decodedItem.quantity : 1),
+        offerPrice:
+          dbProduct.offerPrice *
+          (decodedItem.quantity !== 0 ? decodedItem.quantity : 1),
       };
 
       orderItems.push(orderItem);
@@ -68,13 +73,14 @@ export async function POST(req: NextRequest) {
         productId: cartItem.productId,
         quantity: cartItem.quantity,
         color: cartItem.color,
-        amount:
+        basePrice:
+          cartItem.product.basePrice *
+          (cartItem.quantity !== 0 ? cartItem.quantity : 1),
+        offerPrice:
           cartItem.product.offerPrice *
           (cartItem.quantity !== 0 ? cartItem.quantity : 1),
       }));
     }
-
-    const order = await createOrder(amount, userId, addressId, orderItems);
 
     const response = await razorpay.orders.create({
       amount: (amount * 100).toString(),
@@ -82,11 +88,22 @@ export async function POST(req: NextRequest) {
       receipt: uid(),
       payment_capture: true,
     });
+    const order_id = response.id.split("_")[1].toUpperCase();
+    await createOrder(order_id, amount, userId, addressId, orderItems);
+
+    if (checkoutCookie === "") {
+      await db.cart.delete({
+        where: {
+          userId: userId,
+        },
+      });
+    }
+
     return success200({
       id: response.id,
       currency: response.currency,
       amount: response.amount,
-      orderId: order.id,
+      orderId: order_id,
     });
   } catch (error) {
     return error500({});

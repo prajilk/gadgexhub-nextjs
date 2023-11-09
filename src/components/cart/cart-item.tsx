@@ -1,10 +1,8 @@
-import { useProductPrice } from "@/api-hooks/cart/get-product-price";
 import { CartItemProps } from "@/lib/types/types";
 import { formatCurrency, textTruncate } from "@/lib/utils";
 import { Loader2, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Skeleton from "../skeletons/skeleton";
 import { useRemoveFromCart } from "@/api-hooks/cart/remove-cart-item";
 import { Session } from "next-auth";
 import { toast } from "sonner";
@@ -13,8 +11,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const CartItem = (item: CartItemProps & { session: Session | null }) => {
   const queryClient = useQueryClient();
-
-  // const { data, isLoading } = useProductPrice(item.slug, item.pid);
 
   async function onSuccessOnRemove() {
     await queryClient.cancelQueries({ queryKey: ["user", "cart"] });
@@ -70,8 +66,8 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
         <Link href={productUrl} className="flex-shrink-0">
           <Image
             src={process.env.NEXT_PUBLIC_IMAGE_URL + item.image}
-            width={110}
-            height={110}
+            width={100}
+            height={100}
             className="bg-gray-200"
             alt="Product image"
           />
@@ -121,10 +117,10 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
         </div>
       </div>
       <div className="text-right">
-        <h1 className="font-Roboto text-xs text-success md:text-base">
+        <h1 className="font-Roboto text-sm text-success md:text-base">
           {formatCurrency(item.offerPrice ?? 0)}
         </h1>
-        <span className="font-Roboto text-xs line-through md:text-base">
+        <span className="font-Roboto text-sm line-through md:text-base">
           {formatCurrency(item.basePrice ?? 0)}
         </span>
       </div>

@@ -11,7 +11,7 @@ import { useGlobalContext } from "@/context/store";
 
 const DeliveryAddress = () => {
   const { deliveryAddress, setDeliveryAddress } = useGlobalContext();
-  const { data, isLoading } = useGetAddress();
+  const { data, isLoading, isFetching } = useGetAddress();
 
   const defaultAddress = data?.addresses?.find((address) => address.is_default);
 
@@ -48,7 +48,7 @@ const DeliveryAddress = () => {
             </AddressDialog>
           </div>
         </div>
-      ) : isLoading ? (
+      ) : isLoading || isFetching ? (
         <SkeletonDeliveryAddress />
       ) : (
         <div className="flex w-full flex-col items-center justify-center gap-3 p-5">

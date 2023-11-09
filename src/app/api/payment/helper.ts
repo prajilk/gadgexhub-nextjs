@@ -23,6 +23,7 @@ async function getCartItems(userId: string) {
           product: {
             select: {
               offerPrice: true,
+              basePrice: true,
             },
           },
           quantity: true,
@@ -35,6 +36,7 @@ async function getCartItems(userId: string) {
 }
 
 async function createOrder(
+  orderId: string,
   amount: number,
   userId: string,
   addressId: number,
@@ -42,7 +44,7 @@ async function createOrder(
 ) {
   return await db.order.create({
     data: {
-      id: uid().toUpperCase(),
+      id: orderId,
       total: amount,
       userId,
       addressId,

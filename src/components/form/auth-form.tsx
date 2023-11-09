@@ -18,16 +18,16 @@ import LoadingButton from "@/components/shared/loading-button";
 import { motion as m } from "framer-motion";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useCreateAccount } from "@/api-hooks/user/create-user-account";
 import { UserResProps } from "@/lib/types/types";
+import { deleteCookie, getCookie } from "cookies-next";
 
 export function AuthForm() {
   const [isPassword, setIsPassword] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [signInLoading, setSignInIsLoading] = useState(false);
 
-  const router = useRouter();
+  const callbackUrl = getCookie("originCallbackUrl"); // Get callback url from cookie to redirect after login success.
 
   const form = useForm<z.infer<typeof ZodAuthSchema>>({
     resolver: zodResolver(ZodAuthSchema),
@@ -45,18 +45,16 @@ export function AuthForm() {
       const signInResponse = await signIn("credentials", {
         email: data.email,
         password: data.password,
-        redirect: false,
-        callbackUrl: "/",
+        redirect: true,
+        callbackUrl: callbackUrl ?? "/",
       });
 
       if (signInResponse?.error) {
         form.reset();
         throw new Error("Invalid credentials.");
       }
-
       toast.success("Signed in successfully.");
-      router.refresh();
-      router.back();
+      deleteCookie("originCallbackUrl"); // Delete callbackUrl cookie after successful login
     } catch (error: any) {
       setError(error.message);
     } finally {

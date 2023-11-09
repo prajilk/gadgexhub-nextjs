@@ -1,9 +1,13 @@
-import { roboto } from "@/app/layout";
 import { ItemSummary } from "@/lib/types/types";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 
-const ItemSummary = (props: ItemSummary) => {
+const ItemSummary = (
+  props: Omit<
+    Omit<Omit<Omit<ItemSummary, "productId">, "slug">, "color">,
+    "offerPrice"
+  >,
+) => {
   return (
     <>
       <div className="flex items-center gap-4 px-5 py-4">
@@ -21,8 +25,8 @@ const ItemSummary = (props: ItemSummary) => {
               <span className="text-xs">&#x2716;</span>
               {props.quantity}
             </p>
-            <h1 className={`${roboto.className} text-right font-medium`}>
-              {formatCurrency(props.price)}
+            <h1 className="text-right font-Roboto font-medium">
+              {formatCurrency(props.basePrice)}
             </h1>
           </div>
         </div>

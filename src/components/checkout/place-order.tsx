@@ -5,13 +5,12 @@ import LoadingButton from "../shared/loading-button";
 import { usePayment } from "@/api-hooks/payment/handle-payment";
 import { PaymentRes } from "@/lib/types/types";
 import { useRouter } from "next/navigation";
-import { verifyPayment } from "@/lib/api/order/verify-payment";
 import { toast } from "sonner";
 import { useGlobalContext } from "@/context/store";
 import PaymentProcessingDialog from "../dialog/payment-processing-dialog";
 import { useState } from "react";
 
-const PayNow = () => {
+const PlaceOrder = () => {
   const [processing, setProcessing] = useState(false);
   const router = useRouter();
   const payment_mutation = usePayment(makePayment);
@@ -27,23 +26,10 @@ const PayNow = () => {
       description: "Thank You for Your Purchase!",
       //   image: "",
       handler: async function (response: any) {
-        setProcessing(true);
-        try {
-          const result = await verifyPayment({
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-            order_id: data.orderId,
-          });
-          if (result?.success) {
-            router.push(`/checkout/${result.order_id}`);
-          } else {
-            setProcessing(false);
-            toast.error("Payment verification failed. Please contact support!");
-          }
-        } catch (error) {
-          setProcessing(false);
-          toast.error("Payment verification failed. Please contact support!");
+        if (response.razorpay_signature) {
+          router.push(`/checkout/${data.orderId}`);
+        } else {
+          toast.error("Payment failed. Please contact support!");
         }
       },
       theme: {
@@ -53,6 +39,10 @@ const PayNow = () => {
 
     const paymentObject = new (window as any).Razorpay(options);
     paymentObject.open();
+    paymentObject.on("payment.failed", function () {
+      paymentObject.close();
+      toast.error("Payment failed. Please contact support!");
+    });
     setProcessing(false);
   }
 
@@ -81,4 +71,4 @@ const PayNow = () => {
   );
 };
 
-export default PayNow;
+export default PlaceOrder;
