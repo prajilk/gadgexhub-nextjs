@@ -189,3 +189,23 @@ model Payment {
   order          Order  @relation(fields: [orderId], references: [id])
   orderId        String @unique
 }
+
+model BestDeal {
+  id          Int    @id @default(autoincrement())
+  imageUrl    String
+  title       String
+  description String
+  url         String
+  price       Float
+}
+
+model HeroBanner {
+  id              Int    @id @default(autoincrement())
+  title           String
+  decsription     String
+  basePrice       Float
+  discountedPrice Float
+  url             String
+  imageUrl        String
+  imageUrlSm      String
+}
