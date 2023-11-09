@@ -251,3 +251,14 @@ export type AllOrdersRes = Res & {
     status: string;
   }[];
 };
+
+export type BestDealRes = Res & {
+  deal: {
+    id: number;
+    imageUrl: string;
+    title: string;
+    description: string;
+    url: string;
+    price: number;
+  } | null;
+};
