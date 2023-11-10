@@ -55,15 +55,17 @@ const AddProductForm = () => {
           <ProductDetails form={form} />
           <ProductOptions form={form} />
         </div>
-        <LoadingButton
-          loader={add_product_mutation.isLoading}
-          type="submit"
-          onClick={setColors}
-          className="max-w-lg"
-          disabled={!form.formState.isDirty || add_product_mutation.isLoading}
-        >
-          Add Product
-        </LoadingButton>
+        <div className="flex justify-end p-5">
+          <LoadingButton
+            loader={add_product_mutation.isLoading}
+            type="submit"
+            onClick={setColors}
+            className="w-fit rounded-lg"
+            disabled={!form.formState.isDirty || add_product_mutation.isLoading}
+          >
+            Add Product
+          </LoadingButton>
+        </div>
       </form>
     </Form>
   );

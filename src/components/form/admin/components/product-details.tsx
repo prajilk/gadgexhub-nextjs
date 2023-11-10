@@ -1,5 +1,6 @@
 "use client";
 
+import { useCategories } from "@/api-hooks/get-categories";
 import {
   FormControl,
   FormField,
@@ -8,6 +9,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input, InputContainer } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ProductFormProps } from "@/lib/types/types";
 
@@ -17,6 +25,8 @@ const ProductDetails = ({ form }: ProductFormProps) => {
     const slug = name.replaceAll(" ", "-").toLowerCase();
     form.setValue("slug", slug);
   }
+
+  const { data: categories } = useCategories();
 
   return (
     <div className="flex-1 p-5">
@@ -100,29 +110,52 @@ const ProductDetails = ({ form }: ProductFormProps) => {
           </FormItem>
         )}
       />
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        {(["categoryId", "stock"] as const).map((item, i) => (
-          <FormField
-            key={i}
-            control={form.control}
-            name={item}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize">{item}</FormLabel>
+      <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
+        <FormField
+          control={form.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="capitalize">Category Id</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-gray-50">
-                    <Input
-                      className="placeholder:capitalize"
-                      placeholder={item}
-                      {...field}
-                    />
-                  </InputContainer>
+                  <SelectTrigger className="bg-gray-50 py-[1.35rem] outline-none focus:ring-0">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+                <SelectContent>
+                  {categories?.map((category) => (
+                    <SelectItem
+                      value={category.id.toString()}
+                      key={category.id}
+                    >
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="stock"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="capitalize">Stock</FormLabel>
+              <FormControl>
+                <InputContainer className="max-w-lg bg-gray-50">
+                  <Input
+                    className="placeholder:capitalize"
+                    placeholder="Stock"
+                    {...field}
+                  />
+                </InputContainer>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
       <div className="mt-3 grid grid-cols-2 gap-3">
         {(["basePrice", "offerPrice"] as const).map((item, i) => (
