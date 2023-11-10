@@ -262,3 +262,9 @@ export type BestDealRes = Res & {
     price: number;
   } | null;
 };
+
+export type ChildrenCategories = {
+  id: number;
+  name: string;
+  parentId: number;
+}[];
