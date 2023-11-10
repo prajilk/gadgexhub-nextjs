@@ -35,15 +35,6 @@ export type ProductCardProps = {
   price: number;
   href: string;
 };
-export type SlideProps = {
-  title: string;
-  description: string;
-  basePrice: number;
-  discountedPrice: number;
-  href: string;
-  url: string;
-  urlSm: string;
-};
 export type LinkButtonProps = LayoutProps & {
   href: string;
   className?: React.HTMLProps<HTMLElement>["className"];
@@ -268,3 +259,14 @@ export type ChildrenCategories = {
   name: string;
   parentId: number;
 }[];
+
+export type HeroBanner = {
+  id: 2;
+  title: string;
+  description: string;
+  basePrice: number;
+  offerPrice: number;
+  url: string;
+  imageUrl: string;
+  imageUrlSm: string;
+};

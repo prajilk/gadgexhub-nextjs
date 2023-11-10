@@ -1,5 +1,5 @@
 import { formatCurrency } from "@/lib/utils";
-import { SlideProps } from "@/lib/types/types";
+import { HeroBanner } from "@/lib/types/types";
 import { motion as m } from "framer-motion";
 import Image from "next/image";
 import LinkButton from "../shared/link-button";
@@ -8,7 +8,7 @@ const Slider = ({
   slide,
   forLargeScreen,
 }: {
-  slide: SlideProps;
+  slide: HeroBanner;
   forLargeScreen: boolean;
 }) => {
   return (
@@ -23,7 +23,7 @@ const Slider = ({
           loading="eager"
           priority={true}
           sizes="min(1600px, 100vw)"
-          src={forLargeScreen ? slide.url : slide.urlSm}
+          src={forLargeScreen ? slide.imageUrl : slide.imageUrlSm}
           alt="slide images"
           fill
         />
@@ -54,14 +54,14 @@ const Slider = ({
           <span className="font-Roboto font-medium text-slate-200 line-through decoration-white">
             {formatCurrency(slide.basePrice)}
           </span>{" "}
-          <b className="font-Roboto">{formatCurrency(slide.discountedPrice)}</b>
+          <b className="font-Roboto">{formatCurrency(slide.offerPrice)}</b>
         </m.p>
         <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1, duration: 0.75 }}
         >
-          <LinkButton href={slide.href} className="font-normal">
+          <LinkButton href={slide.url} className="font-normal">
             Buy Now
           </LinkButton>
         </m.div>
