@@ -2,23 +2,18 @@ import Link from "next/link";
 import DropdownItem from "./dropdown-item";
 import { NavProps } from "@/lib/types/types";
 
-const TopNav = ({ navItems }: { navItems: NavProps[] }) => {
+const TopNav = ({ navItems }: { navItems: NavProps[] | null }) => {
   return (
     <ul className="flex items-center">
-      {navItems.map((item, i) =>
-        item.subItems ? (
-          <DropdownItem item={item} key={i} />
-        ) : (
-          <div className="navbar-item" key={i}>
-            <Link
-              href={item.url ? item.url : "/"}
-              className="p-0 text-sm font-medium hover:text-gray-500"
-            >
-              {item.title}
-            </Link>
-          </div>
-        ),
-      )}
+      {navItems?.map((item, i) => <DropdownItem item={item} key={i} />)}
+      <div className="navbar-item">
+        <Link
+          href={"/store"}
+          className="p-0 text-sm font-medium hover:text-gray-500"
+        >
+          Store
+        </Link>
+      </div>
     </ul>
   );
 };

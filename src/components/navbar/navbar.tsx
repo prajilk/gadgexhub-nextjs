@@ -3,52 +3,14 @@ import Link from "next/link";
 import TopNav from "./navbarLG/top-nav";
 import SidebarNav from "./navbarSM/sidebar-nav";
 import SearchPopup from "./navbarLG/search-popup";
-import { ShoppingCart } from "lucide-react";
 import Profile from "./profile";
 import Drawer from "../cart/drawer";
-import { useGlobalContext } from "@/context/store";
 import Cart from "./cart";
+import { getNavCategories } from "@/lib/api/get-nav-categories";
 
-const navItems = [
-  {
-    title: "Accessories",
-    subItems: [
-      { title: "Gaming Accessories", url: "/store/gaming-accessories" },
-      {
-        title: "Computer Accessories",
-        url: "/store/computer-accessories",
-      },
-      { title: "Laptop Accessories", url: "/store/laptop-accessories" },
-      {
-        title: "Mobile & Tablet Accessories",
-        url: "/store/mobile-tablet-accessories",
-      },
-      { title: "Power Banks", url: "/store/power-banks" },
-    ],
-  },
-  {
-    title: "Gadgets",
-    subItems: [
-      { title: "Kitchen Gadgets", url: "/store/kitchen-gadgets" },
-      { title: "Bedroom Gadgets", url: "/store/bedroom-gadgets" },
-    ],
-  },
-  {
-    title: "Audio/Video",
-    subItems: [
-      { title: "Headphones", url: "/store/headphones" },
-      { title: "Earphones", url: "/store/earphones" },
-      { title: "Speakers", url: "/store/speakers" },
-      { title: "Bluetooth Speakers", url: "/store/bluetooth-speakers" },
-    ],
-  },
-  {
-    title: "Store",
-    url: "/store",
-  },
-];
+const Navbar = async () => {
+  const navItems = await getNavCategories();
 
-const Navbar = () => {
   return (
     <div className="navbar-sticky">
       <Marquee />

@@ -270,3 +270,9 @@ export type HeroBanner = {
   imageUrl: string;
   imageUrlSm: string;
 };
+
+export type NavCategories = {
+  id: number;
+  title: string;
+  subItems: { title: string; url: string }[];
+}[];
