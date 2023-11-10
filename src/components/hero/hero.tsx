@@ -3,29 +3,9 @@
 import { ChevronsLeft, ChevronsRight, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import Slider from "./slider";
+import { HeroBanner } from "@/lib/types/types";
 
-const slides = [
-  {
-    title: "Earphone 700 ANC",
-    description: "Get your Earbud now with 20% off!",
-    basePrice: 1999,
-    discountedPrice: 1499,
-    href: "/store/earphone-700-anc?pid=twvdhjay",
-    url: "/testHero.webp",
-    urlSm: "/testHeroSM.webp",
-  },
-  {
-    title: "Home Theater 3400C",
-    description: "Latest Zebronics Home Theater 3400C, Buy now with 15% off!",
-    basePrice: 14999,
-    discountedPrice: 12999,
-    href: "/store/home-theater-3400c?pid=ejalknkud",
-    url: "/testHero2.webp",
-    urlSm: "/testHero2SM.webp",
-  },
-];
-
-const Hero = () => {
+const Hero = ({ slides }: { slides: HeroBanner[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);

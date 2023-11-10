@@ -200,12 +200,12 @@ model BestDeal {
 }
 
 model HeroBanner {
-  id              Int    @id @default(autoincrement())
-  title           String
-  decsription     String
-  basePrice       Float
-  discountedPrice Float
-  url             String
-  imageUrl        String
-  imageUrlSm      String
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  basePrice   Float
+  offerPrice  Float
+  url         String
+  imageUrl    String
+  imageUrlSm  String
 }
