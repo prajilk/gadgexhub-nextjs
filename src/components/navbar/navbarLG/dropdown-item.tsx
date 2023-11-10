@@ -17,7 +17,7 @@ const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
           <ChevronDown size={15} />
         </span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="min-w-[200px]">
         {item.subItems &&
           item.subItems.map((item, i) => (
             <DropdownMenuItem key={i} asChild className="cursor-pointer p-3">
