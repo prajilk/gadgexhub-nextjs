@@ -1,11 +1,10 @@
 import axios from "@/config/axios.config";
-import { ChildrenCategories } from "@/lib/types/types";
+import { Category } from "@/lib/types/types";
 import { useQuery } from "@tanstack/react-query";
 
 async function getCategories() {
   const { data } = await axios.get("/api/admin/products/categories");
-  if (data && data.categories)
-    return data.categories as ChildrenCategories | null;
+  if (data && data.categories) return data.categories as Category[] | null;
   return null;
 }
 
