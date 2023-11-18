@@ -1,5 +1,4 @@
 import Container from "@/components/container";
-import OrderCard from "@/components/orders/order-card";
 import OrderOverview from "@/components/orders/order-overview";
 import { getAllOrders } from "@/lib/api/order/get-all-orders";
 import Hydrate from "@/lib/query-utils/hydrate-client";

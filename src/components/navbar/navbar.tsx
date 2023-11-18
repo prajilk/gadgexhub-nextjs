@@ -6,10 +6,10 @@ import SearchPopup from "./navbarLG/search-popup";
 import Profile from "./profile";
 import Drawer from "../cart/drawer";
 import Cart from "./cart";
-import { getNavCategories } from "@/lib/api/get-nav-categories";
+import { getNavbarCategories } from "@/lib/api/get-category-tree";
 
 const Navbar = async () => {
-  const navItems = await getNavCategories();
+  const navItems = await getNavbarCategories();
 
   return (
     <div className="navbar-sticky">

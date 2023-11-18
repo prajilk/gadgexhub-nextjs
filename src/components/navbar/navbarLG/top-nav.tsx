@@ -1,8 +1,8 @@
 import Link from "next/link";
 import DropdownItem from "./dropdown-item";
-import { NavProps } from "@/lib/types/types";
+import { NavbarCategories } from "@/lib/types/types";
 
-const TopNav = ({ navItems }: { navItems: NavProps[] | null }) => {
+const TopNav = ({ navItems }: { navItems: NavbarCategories[] | null }) => {
   return (
     <ul className="flex items-center">
       {navItems?.map((item, i) => <DropdownItem item={item} key={i} />)}
