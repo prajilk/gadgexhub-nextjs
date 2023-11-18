@@ -1,6 +1,12 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ColorVariantRes, MakeColorVariant } from "./types/types";
+import {
+  Category,
+  CategoryStructure,
+  ColorVariantRes,
+  MakeColorVariant,
+  ProductProps,
+} from "./types/types";
 import { NextResponse } from "next/server";
 
 function cn(...inputs: ClassValue[]) {
@@ -168,6 +174,110 @@ function success200(data: { [key: string]: any }) {
   return NextResponse.json(resJson, { status: 200 });
 }
 
+function generateCategoryStructure(
+  data: Category[],
+  selectedCategory: string,
+): CategoryStructure | null {
+  const selectedCategoryData = data.find(
+    (category) =>
+      category.name.toLowerCase().replace(/[\/. ]/g, "-") === selectedCategory,
+  );
+
+  if (!selectedCategoryData) {
+    const childCategories = data
+      .filter((category) => category.parentId === null)
+      .map((item) => item.name);
+    return {
+      parents: [],
+      selected: "",
+      child: childCategories,
+    };
+  }
+
+  const parents: string[] = [];
+  let currentParent: number | null = selectedCategoryData.id;
+
+  while (currentParent !== null) {
+    const parentCategory = data.find(
+      (category) => category.id === currentParent,
+    );
+
+    if (parentCategory) {
+      parents.unshift(parentCategory.name);
+      currentParent = parentCategory.parentId;
+    } else {
+      break; // Break if parent category not found
+    }
+  }
+
+  const childCategories = data
+    .filter((category) => category.parentId === selectedCategoryData.id)
+    .map((category) => category.name);
+
+  return {
+    parents,
+    selected: selectedCategory,
+    child: childCategories,
+  };
+}
+
+function findParentAndEndChildIds(data: Category[], categoryId?: number) {
+  let parentIds: Category[] = [];
+  let endChildIds: number[] = [];
+
+  function findParents(categoryId?: number) {
+    const parents = data.filter((item) => item.parentId === categoryId);
+    parentIds.push(...parents);
+
+    if (!parentIds.length && data.some((item) => item.id === categoryId)) {
+      endChildIds.push(data.find((item) => item.id === categoryId)!.id);
+    }
+
+    parents.forEach((parent) => findParents(parent.id));
+  }
+
+  findParents(categoryId);
+
+  parentIds.forEach((parent) => {
+    const children = data.filter((item) => item.parentId === parent.id);
+    if (children.length === 0) {
+      endChildIds.push(parent.id);
+    }
+  });
+
+  return endChildIds;
+}
+
+function makeCategoryUrl(categoryArray: string[], currentValue: string) {
+  if (categoryArray.length === 0) {
+    return "/store/c";
+  }
+  const index = categoryArray.indexOf(currentValue);
+  const modifiedArray = categoryArray.map((element) =>
+    element.toLowerCase().replace(/[\/. ]/g, "-"),
+  );
+  return index !== -1
+    ? "/store/c/" + modifiedArray.slice(0, index + 1).join("/")
+    : "/store";
+}
+
+function sortProduct(
+  products: (Omit<ProductProps, "colorVariants"> &
+    Omit<MakeColorVariant, "colors">)[],
+  sort: string | null,
+) {
+  if (sort === "l2h")
+    return products.sort((a, b) => a.offerPrice - b.offerPrice);
+  else if (sort === "h2l")
+    return products.sort((a, b) => b.offerPrice - a.offerPrice);
+  else if (sort === "latest")
+    return products.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+  else return products;
+}
+
 export {
   cn,
   formatCurrency,
@@ -184,4 +294,8 @@ export {
   error429,
   error500,
   success200,
+  generateCategoryStructure,
+  findParentAndEndChildIds,
+  makeCategoryUrl,
+  sortProduct,
 };

@@ -1,20 +1,20 @@
-import { DropdownItemProps } from "@/lib/types/types";
+import { NavbarCategories } from "@/lib/types/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
+const DropdownItem = ({ item }: { item: NavbarCategories }) => {
   return (
     <li>
       <input
         type="checkbox"
-        id={`menu-${item.title}`}
+        id={`menu-${item.parent}`}
         className="menu-toggle"
       />
       <label
         className="menu-item justify-between"
-        htmlFor={`menu-${item.title}`}
+        htmlFor={`menu-${item.parent}`}
       >
-        <span className="text-base font-medium">{item.title}</span>
+        <span className="text-base font-medium">{item.parent}</span>
         <span className="menu-icon">
           <ChevronDown size={15} />
         </span>
@@ -23,12 +23,19 @@ const DropdownItem = ({ item }: { item: DropdownItemProps }) => {
       <div className="menu-item-collapse">
         <div className="min-h-0">
           <ul>
-            {item.subItems &&
-              item.subItems.map((subitem, i) => (
+            {item.child &&
+              item.child.map((child, i) => (
                 <li key={i}>
                   <label className="menu-item ml-3">
-                    <Link href={subitem.url} className="p-0 text-sm">
-                      {subitem.title}
+                    <Link
+                      href={`/store/c/${item.parent
+                        .toLowerCase()
+                        .replace(/[\/. ]/g, "-")}/${child
+                        .toLowerCase()
+                        .replace(/[\/. ]/g, "-")}`}
+                      className="p-0 text-sm"
+                    >
+                      {child}
                     </Link>
                   </label>
                 </li>

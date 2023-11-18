@@ -13,21 +13,7 @@ type Res = {
 export type LayoutProps = {
   children: React.ReactNode;
 };
-export type DropdownItemProps = {
-  title: string;
-  subItems?: {
-    title: string;
-    url: string;
-  }[];
-};
-export type NavProps = {
-  title: string;
-  subItems?: {
-    title: string;
-    url: string;
-  }[];
-  url?: string;
-};
+
 export type ProductCardProps = {
   title: string;
   imgUrl: string;
@@ -123,8 +109,8 @@ export type ProductProps = {
   description: string;
   categoryId: number;
   stock: number;
-  variantName: string;
-  variantValues: string;
+  variantName: string | null;
+  variantValues: string | null;
   createdAt: Date;
   colorVariants: ColorVariantRes[];
 } & ProductPrice;
@@ -254,12 +240,6 @@ export type BestDealRes = Res & {
   } | null;
 };
 
-export type ChildrenCategories = {
-  id: number;
-  name: string;
-  parentId: number;
-}[];
-
 export type HeroBanner = {
   id: 2;
   title: string;
@@ -271,8 +251,27 @@ export type HeroBanner = {
   imageUrlSm: string;
 };
 
-export type NavCategories = {
+export interface Category {
   id: number;
+  name: string;
+  parentId: number | null;
+}
+
+export type NavbarCategories = {
+  parent: string;
+  child: string[];
+};
+
+export interface CategoryStructure {
+  parents: string[];
+  selected: string;
+  child: string[];
+}
+
+export type CategoryProducts = {
+  pid: string;
+  slug: string;
+  image: string;
   title: string;
-  subItems: { title: string; url: string }[];
+  offerPrice: number;
 }[];
