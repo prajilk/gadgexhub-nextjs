@@ -1,6 +1,6 @@
+import ClientLink from "@/components/shared/client-link";
 import { NavbarCategories } from "@/lib/types/types";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 
 const DropdownItem = ({ item }: { item: NavbarCategories }) => {
   return (
@@ -27,8 +27,9 @@ const DropdownItem = ({ item }: { item: NavbarCategories }) => {
               item.child.map((child, i) => (
                 <li key={i}>
                   <label className="menu-item ml-3">
-                    <Link
-                      href={`/store/c/${item.parent
+                    <ClientLink
+                      htmlFor="drawer-left"
+                      redirect={`/store/c/${item.parent
                         .toLowerCase()
                         .replace(/[\/. ]/g, "-")}/${child
                         .toLowerCase()
@@ -36,7 +37,7 @@ const DropdownItem = ({ item }: { item: NavbarCategories }) => {
                       className="p-0 text-sm"
                     >
                       {child}
-                    </Link>
+                    </ClientLink>
                   </label>
                 </li>
               ))}

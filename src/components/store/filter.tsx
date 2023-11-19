@@ -62,7 +62,7 @@ export const FilterLg = ({
   categories: CategoryStructure | null;
 }) => {
   return (
-    <div className="col-span-1 mt-2 hidden h-fit w-full rounded-lg bg-white p-3 lg:block">
+    <div className="col-span-1 hidden h-fit w-full rounded-lg bg-white p-3 lg:block">
       <ul className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
         <li>
           <Link href={"/store"}>All</Link>

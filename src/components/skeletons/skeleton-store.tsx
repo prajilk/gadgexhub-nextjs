@@ -1,7 +1,7 @@
-import Skeleton from "./skeleton";
+import Container from "@/components/container";
+import Skeleton from "@/components/skeletons/skeleton";
 import { repeat } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
-import Container from "../container";
 
 const SkeletonStore = () => {
   return (
@@ -30,13 +30,21 @@ const SkeletonStore = () => {
         <div className="col-span-4 lg:col-span-3">
           <div className="grid grid-cols-2 lg:grid-cols-4">
             {repeat(8).map((_, i) => (
-              <div className="aspect-square w-full space-y-2 p-2" key={i}>
-                <div className="aspect-square w-full">
-                  <Skeleton className="h-full w-full rounded-2xl" />
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                  <Skeleton className="h-4 w-32" />
-                  <Skeleton className="h-4 w-12" />
+              <div
+                className="flex aspect-square w-full flex-col space-y-2 p-0.5"
+                key={i}
+              >
+                <div className="flex flex-1 flex-col bg-white p-2">
+                  <div className="aspect-square w-full">
+                    <Skeleton className="h-full w-full" />
+                  </div>
+                  <div className="mt-5 flex flex-1 flex-col justify-between gap-1">
+                    <div className="space-y-2">
+                      <Skeleton className="h-3 w-20" />
+                      <Skeleton className="h-4 w-40" />
+                    </div>
+                    <Skeleton className="h-4 w-16" />
+                  </div>
                 </div>
               </div>
             ))}

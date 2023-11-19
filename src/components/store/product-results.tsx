@@ -35,7 +35,7 @@ const ProductResults = () => {
           No products found!
         </h1>
       )}
-      <div className="grid grid-cols-2 lg:grid-cols-4">
+      <div className="grid auto-rows-auto grid-cols-2 items-stretch md:grid-cols-3 lg:grid-cols-4">
         {data?.pages.map(
           (products) =>
             products?.map((product, i) => <ProductCard {...product} key={i} />),

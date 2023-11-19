@@ -274,4 +274,5 @@ export type CategoryProducts = {
   image: string;
   title: string;
   offerPrice: number;
+  basePrice: number;
 }[];
