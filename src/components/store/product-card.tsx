@@ -1,4 +1,4 @@
-import { formatCurrency, textTruncate } from "@/lib/utils";
+import { calculatePercentage, formatCurrency, textTruncate } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +8,7 @@ type ProductCardProps = {
   image: string;
   title: string;
   offerPrice: number;
+  basePrice: number;
 };
 
 const ProductCard = ({
@@ -16,26 +17,34 @@ const ProductCard = ({
   image,
   title,
   offerPrice,
+  basePrice,
 }: ProductCardProps) => {
   return (
     <Link
       href={`/store/${slug}?pid=${pid}`}
-      className="aspect-square w-full space-y-2 p-2"
+      className="flex aspect-square w-full flex-col space-y-2 p-0.5"
     >
-      <div className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-white">
-        <Image
-          src={process.env.NEXT_PUBLIC_IMAGE_URL + image}
-          alt={title + "Image"}
-          fill
-          sizes="300px"
-          className="duration-300 group-hover:scale-105"
-        />
-      </div>
-      <div className="flex flex-col items-center">
-        <h1 className="text-center text-sm">{textTruncate(title, 35)}</h1>
-        <span className="font-Roboto text-sm font-medium">
-          {formatCurrency(offerPrice)}
-        </span>
+      <div className="flex flex-1 flex-col bg-white p-2">
+        <div className="group relative aspect-square w-full overflow-hidden">
+          <Image
+            src={process.env.NEXT_PUBLIC_IMAGE_URL + image}
+            alt={title + "Image"}
+            fill
+            sizes="300px"
+            className="duration-300 group-hover:scale-105"
+          />
+        </div>
+        <div className="mt-5 flex flex-1 flex-col justify-between gap-1">
+          <div>
+            <span className="text-xs text-destructive">
+              Up to {calculatePercentage(basePrice, offerPrice)} OFF
+            </span>
+            <h1 className="text-sm font-medium">{textTruncate(title, 35)}</h1>
+          </div>
+          <span className="font-Roboto text-sm">
+            From {formatCurrency(offerPrice)}
+          </span>
+        </div>
       </div>
     </Link>
   );

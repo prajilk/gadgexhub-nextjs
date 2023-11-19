@@ -1,20 +1,27 @@
 "use client";
 
-import { CategoryStructure } from "@/lib/types/types";
-import { makeCategoryUrl } from "@/lib/utils";
-import { ArrowDownUp, ChevronRight, Loader2 } from "lucide-react";
-import Link from "next/link";
+import { ArrowDownUp, Loader2 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const SortSm = () => {
   const sortParam = useSearchParams().get("sort");
   const pathname = usePathname();
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
+  const [sortSelected, setSortSelected] = useState({
+    l2h: false,
+    h2l: false,
+    latest: false,
+  });
 
   useEffect(() => {
     setLoading(false);
+    setSortSelected({
+      l2h: sortParam === "l2h",
+      h2l: sortParam === "h2l",
+      latest: sortParam === "latest",
+    });
   }, [sortParam]);
 
   return (
@@ -61,8 +68,11 @@ export const SortSm = () => {
               >
                 Price -- Low to High
                 <input
+                  checked={sortSelected.l2h}
+                  onChange={() =>
+                    setSortSelected((prev) => ({ ...prev, l2h: !prev.l2h }))
+                  }
                   type="radio"
-                  defaultChecked={sortParam === "l2h"}
                   className="accent-black"
                 />
               </label>
@@ -81,7 +91,10 @@ export const SortSm = () => {
                 Price -- High to Low
                 <input
                   type="radio"
-                  defaultChecked={sortParam === "h2l"}
+                  checked={sortSelected.h2l}
+                  onChange={() =>
+                    setSortSelected((prev) => ({ ...prev, h2l: !prev.h2l }))
+                  }
                   className="accent-black"
                 />
               </label>
@@ -100,7 +113,13 @@ export const SortSm = () => {
                 Latest First
                 <input
                   type="radio"
-                  defaultChecked={sortParam === "latest"}
+                  checked={sortSelected.latest}
+                  onChange={() =>
+                    setSortSelected((prev) => ({
+                      ...prev,
+                      latest: !prev.latest,
+                    }))
+                  }
                   className="accent-black"
                 />
               </label>

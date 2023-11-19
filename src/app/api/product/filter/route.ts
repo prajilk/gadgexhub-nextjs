@@ -50,6 +50,7 @@ export async function GET(req: NextRequest) {
         image.imagePublicId.endsWith("-thumb"),
       )?.imagePublicId,
       offerPrice: dbProduct.offerPrice,
+      basePrice: dbProduct.basePrice,
     }));
 
     return success200({ products });

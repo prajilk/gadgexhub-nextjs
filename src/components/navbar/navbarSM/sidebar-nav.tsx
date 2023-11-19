@@ -2,13 +2,14 @@ import { Menu } from "lucide-react";
 import DropdownItem from "./dropdown-item";
 import Link from "next/link";
 import { NavbarCategories } from "@/lib/types/types";
+import ClientLink from "@/components/shared/client-link";
 
 const SidebarNav = ({ navItems }: { navItems: NavbarCategories[] | null }) => {
   return (
     <>
       <input type="checkbox" id="drawer-left" className="drawer-toggle" />
 
-      <label htmlFor="drawer-left" className="">
+      <label htmlFor="drawer-left">
         <Menu />
       </label>
       <label
@@ -28,9 +29,13 @@ const SidebarNav = ({ navItems }: { navItems: NavbarCategories[] | null }) => {
           <ul>
             {navItems?.map((item, i) => <DropdownItem item={item} key={i} />)}
             <div className="menu-item">
-              <Link href={"/store"} className="p-0 text-base font-medium">
+              <ClientLink
+                htmlFor="drawer-left"
+                redirect="/store"
+                className="p-0 text-base font-medium"
+              >
                 Store
-              </Link>
+              </ClientLink>
             </div>
           </ul>
         </div>

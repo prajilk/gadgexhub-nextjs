@@ -14,14 +14,14 @@ const Categories = async ({
       {/* Filter For large devices */}
       <div>
         <FilterLg categories={categories} />
-        <SortLg />
+        {categoryParamsArray && <SortLg />}
       </div>
 
       {/* Filter For small devices */}
-      <div className="navbar-sticky top-24 z-40 col-span-4 flex justify-around border-y bg-white p-3 lg:hidden">
+      <div className="navbar-sticky top-24 z-40 col-span-4 flex justify-around border-y bg-white p-3 md:top-[6.75rem] lg:hidden">
         <FilterSm categories={categories} />
         <div className="border-r border-gray-300" />
-        <SortSm />
+        {categoryParamsArray && <SortSm />}
       </div>
     </>
   );
