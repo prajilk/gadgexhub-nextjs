@@ -267,14 +267,26 @@ function sortProduct(
   sort: string | null,
 ) {
   if (sort === "l2h")
-    return products.sort((a, b) => a.offerPrice - b.offerPrice);
+    return products.sort((a, b) => {
+      if (a.stock > 0 && b.stock === 0) return -1;
+      else if (a.stock === 0 && b.stock > 0) return 1;
+      else return a.offerPrice - b.offerPrice;
+    });
   else if (sort === "h2l")
-    return products.sort((a, b) => b.offerPrice - a.offerPrice);
+    return products.sort((a, b) => {
+      if (a.stock > 0 && b.stock === 0) return -1;
+      else if (a.stock === 0 && b.stock > 0) return 1;
+      else return b.offerPrice - a.offerPrice;
+    });
   else if (sort === "latest")
-    return products.sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    );
+    return products.sort((a, b) => {
+      if (a.stock > 0 && b.stock === 0) return -1;
+      else if (a.stock === 0 && b.stock > 0) return 1;
+      else
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+    });
   else return products;
 }
 

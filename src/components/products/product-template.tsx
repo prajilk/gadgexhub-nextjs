@@ -39,7 +39,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
         <div className="flex w-full flex-col gap-y-1 py-8 md:sticky md:top-20 md:max-w-[344px] md:py-0 lg:max-w-[500px]">
           <h1 className="text-xl font-medium md:text-2xl">{product.title}</h1>
           <span className="text-sm">{variant.color}</span>
-          <p className="font-Roboto mt-5 flex items-center gap-3 text-2xl">
+          <p className="mt-5 flex items-center gap-3 font-Roboto text-2xl">
             {formatCurrency(product.offerPrice)}{" "}
             <b className="rounded-sm bg-success px-1 py-0.5 text-xs font-medium text-white">
               save {calculatePercentage(product.basePrice, product.offerPrice)}
@@ -90,11 +90,17 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
               </ul>
             </div>
           )}
+          {product.stock === 0 && (
+            <span className="mt-3 text-sm font-medium text-destructive">
+              Currently out of stock
+            </span>
+          )}
           <ProductActions
             pid={product.id}
             color={variant.color}
             quantity={0}
             slug={product.slug}
+            stock={product.stock}
           />
           <div className="my-5 md:my-10">
             <h1 className="font-medium">Description</h1>

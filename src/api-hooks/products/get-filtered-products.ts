@@ -22,7 +22,8 @@ async function getFilteredProductsClient({
 export function useFilteredProducts(category: string | null, sort?: string) {
   return useInfiniteQuery({
     queryKey: ["product", "filter"],
-    queryFn: () => getFilteredProductsClient({ category, sort }),
+    queryFn: ({ pageParam }) =>
+      getFilteredProductsClient({ pageParam, category, sort }),
     getNextPageParam: (_, pages) => pages.length + 1,
   });
 }

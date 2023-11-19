@@ -9,7 +9,7 @@ const StoreTemplate = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Container>
+    <Container className="pb-10">
       <div className="grid grid-cols-4 gap-4 pt-7 md:pt-0">
         <Categories categoryParamsArray={categories} />
         <div className="col-span-4 lg:col-span-3">{children}</div>

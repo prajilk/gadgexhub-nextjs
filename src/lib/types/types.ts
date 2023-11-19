@@ -275,4 +275,5 @@ export type CategoryProducts = {
   title: string;
   offerPrice: number;
   basePrice: number;
+  stock: number;
 }[];

@@ -15,6 +15,7 @@ type ProductActionsProps = {
   quantity: number;
   color: string | null;
   slug: string;
+  stock: number;
 };
 
 const ProductActions = (props: ProductActionsProps) => {
@@ -82,14 +83,15 @@ const ProductActions = (props: ProductActionsProps) => {
     <div className="mt-6 space-y-4">
       <LoadingButton
         loader={cart_mutation.isLoading}
-        disabled={cart_mutation.isLoading}
-        className="rounded-none py-6 text-base font-normal uppercase"
+        disabled={cart_mutation.isLoading || props.stock === 0}
+        className="rounded-none py-6 text-base font-normal uppercase hover:bg-gray-700"
         onClick={addToCart}
       >
-        Add to cart
+        {props.stock === 0 ? "Out Of Stock" : "Add to cart"}
       </LoadingButton>
       <Button
         onClick={buyNow}
+        disabled={props.stock === 0}
         className="btn rounded-none bg-secondaryTheme py-6 text-base font-normal uppercase hover:bg-secondaryTheme hover:bg-opacity-60"
       >
         Buy it now

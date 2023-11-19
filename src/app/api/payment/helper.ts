@@ -1,5 +1,4 @@
 import { db } from "@/lib/prisma";
-import { uid } from "uid";
 
 async function getProductWithImages(productId: string) {
   return await db.product.findUnique({
