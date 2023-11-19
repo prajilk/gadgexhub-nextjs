@@ -6,11 +6,14 @@ import {
   success200,
 } from "@/lib/utils";
 import { NextRequest } from "next/server";
+import { getAllProducts, getProductsWithCategories } from "./helper";
 
 export async function GET(req: NextRequest) {
+  const page = Number(req.nextUrl.searchParams.get("page") ?? 1);
+  const category = req.nextUrl.searchParams.get("category");
+  const sort = req.nextUrl.searchParams.get("sort");
+
   try {
-    const category = req.nextUrl.searchParams.get("category");
-    const sort = req.nextUrl.searchParams.get("sort");
     const dbCategories = await db.category.findMany();
 
     const matchingCategoryId = dbCategories.find(
@@ -18,29 +21,15 @@ export async function GET(req: NextRequest) {
         dbCategory.name.toLowerCase().replace(/[\/. ]/g, "-") === category,
     )?.id;
 
-    const result = findParentAndEndChildIds(dbCategories, matchingCategoryId);
+    const categories = findParentAndEndChildIds(
+      dbCategories,
+      matchingCategoryId,
+    );
 
     const dbProducts =
-      result.length !== 0
-        ? await db.category
-            .findMany({
-              where: {
-                id: {
-                  in: result,
-                },
-              },
-              select: {
-                Product: {
-                  include: {
-                    images: true,
-                  },
-                },
-              },
-            })
-            .then((dbProducts) =>
-              dbProducts.flatMap((dbProduct) => dbProduct.Product).flat(2),
-            )
-        : await db.product.findMany({ include: { images: true } });
+      categories.length !== 0
+        ? await getProductsWithCategories(categories, page)
+        : await getAllProducts(page);
 
     const products = sortProduct(dbProducts, sort).map((dbProduct) => ({
       pid: dbProduct.id,
@@ -51,6 +40,7 @@ export async function GET(req: NextRequest) {
       )?.imagePublicId,
       offerPrice: dbProduct.offerPrice,
       basePrice: dbProduct.basePrice,
+      stock: dbProduct.stock,
     }));
 
     return success200({ products });

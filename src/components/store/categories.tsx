@@ -1,6 +1,7 @@
 import { getCategoryTree } from "@/lib/api/get-category-tree";
 import { SortLg, SortSm } from "./sort";
 import { FilterLg, FilterSm } from "./filter";
+import { ArrowDownUp } from "lucide-react";
 
 const Categories = async ({
   categoryParamsArray,
@@ -19,9 +20,16 @@ const Categories = async ({
 
       {/* Filter For small devices */}
       <div className="navbar-sticky top-24 z-40 col-span-4 flex justify-around border-y bg-white p-3 md:top-[6.75rem] lg:hidden">
-        <FilterSm categories={categories} />
+        {categoryParamsArray ? (
+          <SortSm />
+        ) : (
+          <div className="flex items-center gap-2 tracking-widest text-gray-400">
+            <ArrowDownUp size={15} />
+            Sort
+          </div>
+        )}
         <div className="border-r border-gray-300" />
-        {categoryParamsArray && <SortSm />}
+        <FilterSm categories={categories} />
       </div>
     </>
   );
