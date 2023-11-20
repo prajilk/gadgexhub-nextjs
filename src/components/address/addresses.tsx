@@ -26,7 +26,7 @@ const Addresses = () => {
   return (
     <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
       {addresses?.addresses === null || addresses?.addresses.length === 0 ? (
-        <div className="my-10 flex w-full flex-col items-center justify-center space-y-3">
+        <div className="col-span-3 my-10 flex w-full flex-col items-center justify-center space-y-3">
           <div className="w-fit rounded-full bg-gray-100 p-3">
             <MapPinOff size={60} className="animate-pulse" />
           </div>

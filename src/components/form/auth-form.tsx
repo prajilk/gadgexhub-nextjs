@@ -21,11 +21,13 @@ import { signIn } from "next-auth/react";
 import { useCreateAccount } from "@/api-hooks/user/create-user-account";
 import { UserResProps } from "@/lib/types/types";
 import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 export function AuthForm() {
   const [isPassword, setIsPassword] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [signInLoading, setSignInIsLoading] = useState(false);
+  const router = useRouter();
 
   const callbackUrl = getCookie("originCallbackUrl"); // Get callback url from cookie to redirect after login success.
 
@@ -42,19 +44,21 @@ export function AuthForm() {
     setSignInIsLoading(true);
 
     try {
+      console.log(callbackUrl);
       const signInResponse = await signIn("credentials", {
         email: data.email,
         password: data.password,
-        redirect: true,
-        callbackUrl: callbackUrl ?? "/",
+        redirect: false,
+        callbackUrl: callbackUrl || "/",
       });
 
       if (signInResponse?.error) {
         form.reset();
         throw new Error("Invalid credentials.");
       }
-      toast.success("Signed in successfully.");
+      toast.success("Signed in successfully. redirecting...");
       deleteCookie("originCallbackUrl"); // Delete callbackUrl cookie after successful login
+      router.replace(signInResponse?.url || "/");
     } catch (error: any) {
       setError(error.message);
     } finally {

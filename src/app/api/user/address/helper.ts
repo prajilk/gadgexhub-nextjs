@@ -10,16 +10,19 @@ async function getAddress(address_id: number, userId: string) {
 }
 
 async function getAllAddresses(userId: string) {
-  return await db.user
-    .findUnique({
-      where: {
-        id: userId,
+  const result = await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      addresses: {
+        where: {
+          is_deleted: false,
+        },
       },
-      select: {
-        addresses: true,
-      },
-    })
-    .addresses();
+    },
+  });
+  return result?.addresses;
 }
 
 async function createAddress(data: any) {
@@ -58,6 +61,27 @@ async function deleteAddress(address_id: number, userId: string) {
   });
 }
 
+async function checkAddressPresentInOrder(addressId: number, userId: string) {
+  return await db.order.findFirst({
+    where: {
+      addressId,
+      userId,
+    },
+  });
+}
+
+async function markAsDeletedAddress(userId: string, address_id: number) {
+  return await db.address.update({
+    data: {
+      is_deleted: true,
+    },
+    where: {
+      userId,
+      address_id,
+    },
+  });
+}
+
 export {
   getAddress,
   getAllAddresses,
@@ -65,4 +89,6 @@ export {
   setDefaultFalseAddress,
   updateAddress,
   deleteAddress,
+  checkAddressPresentInOrder,
+  markAsDeletedAddress,
 };
