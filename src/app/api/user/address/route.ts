@@ -4,10 +4,12 @@ import { ZodAddressSchema } from "@/lib/zodSchemas";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 import {
+  checkAddressPresentInOrder,
   createAddress,
   deleteAddress,
   getAddress,
   getAllAddresses,
+  markAsDeletedAddress,
   setDefaultFalseAddress,
   updateAddress,
 } from "./helper";
@@ -21,6 +23,7 @@ export async function GET(req: NextRequest) {
     }
     const userId = session.user.id;
     const addresses = await getAllAddresses(userId);
+
     return success200({ addresses });
   } catch (error) {
     return error500({ addresses: null });
@@ -43,14 +46,14 @@ export async function POST(req: NextRequest) {
       // Retrieve a list of addresses associated with the userId
       const addressList = await getAllAddresses(userId);
 
-      let data;
-
-      if (addressList?.length && addressList.length >= 5) {
+      if (addressList?.length && addressList?.length >= 5) {
         return error429("Address creation limit exceeded", { addresses: null });
       }
 
+      let data;
+
       // Check if there are no addresses in the list or result.data.is_default is false
-      if (addressList?.length && addressList.length === 0) {
+      if (addressList && addressList.length === 0) {
         data = {
           userId: userId,
           ...result.data,
@@ -58,19 +61,14 @@ export async function POST(req: NextRequest) {
           is_deleted: false,
         };
       } else {
-        if (!result.data.is_default) {
-          data = {
-            userId: userId,
-            ...result.data,
-            is_deleted: false,
-          };
-        } else {
-          await setDefaultFalseAddress(userId);
-          data = {
-            userId: userId,
-            ...result.data,
-            is_deleted: false,
-          };
+        data = {
+          userId: userId,
+          ...result.data,
+          is_deleted: false,
+        };
+
+        if (result.data.is_default) {
+          await setDefaultFalseAddress(userId); // Remove old default address
         }
       }
 
@@ -113,6 +111,22 @@ export async function PUT(req: NextRequest) {
         await setDefaultFalseAddress(userId);
       }
 
+      const isAddressPresentInOrder = await checkAddressPresentInOrder(
+        body.address_id,
+        userId,
+      );
+
+      if (isAddressPresentInOrder) {
+        await markAsDeletedAddress(userId, body.address_id);
+
+        const newAddress = await createAddress({
+          userId,
+          ...result.data,
+          is_deleted: false,
+        });
+        return success200({ addresses: newAddress });
+      }
+
       const address = await updateAddress(result.data, body.address_id, userId);
 
       return success200({ addresses: address });
@@ -143,6 +157,16 @@ export async function DELETE(req: NextRequest) {
       });
     }
     const isDefault = await getAddress(address_id, userId);
+    const isAddressPresentInOrder = await checkAddressPresentInOrder(
+      address_id,
+      userId,
+    );
+
+    if (isAddressPresentInOrder) {
+      const result = await markAsDeletedAddress(userId, address_id);
+
+      return success200({ addresses: result, isDefault: false });
+    }
 
     if (isDefault?.is_default) {
       return error400("Default address cannot be deleted!", {

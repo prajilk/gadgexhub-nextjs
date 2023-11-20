@@ -1,4 +1,3 @@
-import { roboto } from "@/app/layout";
 import LinkButton from "@/components/shared/link-button";
 import { getOrder } from "@/lib/api/order/get-order";
 import { ItemSummary } from "@/lib/types/types";
