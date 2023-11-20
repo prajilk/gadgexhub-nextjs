@@ -13,6 +13,7 @@ export const SortSm = () => {
     l2h: false,
     h2l: false,
     latest: false,
+    popular: false,
   });
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export const SortSm = () => {
       l2h: sortParam === "l2h",
       h2l: sortParam === "h2l",
       latest: sortParam === "latest",
+      popular: sortParam === "popular",
     });
   }, [sortParam]);
 
@@ -55,6 +57,33 @@ export const SortSm = () => {
             </h2>
           </div>
           <ul className="scrollbar-thin max-h-[350px] overflow-y-scroll text-sm">
+            <li>
+              <label
+                className="menu-item flex w-full items-center justify-between"
+                htmlFor="sort-bottom"
+                onClick={() => {
+                  router.push(
+                    pathname
+                      ? pathname + "?sort=popular"
+                      : `/store?sort=popular`,
+                  );
+                  sortParam !== "popular" && setLoading(true);
+                }}
+              >
+                Popular
+                <input
+                  checked={sortSelected.popular}
+                  onChange={() =>
+                    setSortSelected((prev) => ({
+                      ...prev,
+                      popular: !prev.popular,
+                    }))
+                  }
+                  type="radio"
+                  className="accent-black"
+                />
+              </label>
+            </li>
             <li>
               <label
                 className="menu-item flex w-full items-center justify-between"

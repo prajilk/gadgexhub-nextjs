@@ -102,6 +102,7 @@ model Product {
   basePrice        Float
   offerPrice       Float
   stock            Int
+  purchases        Int         @default(0)
   color            String? // "Matte black, Clay White" | "NULL"
   variantName      String? // "Size"
   variantValues    String? // "small, medium, large"

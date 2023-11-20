@@ -113,6 +113,7 @@ export type ProductProps = {
   variantValues: string | null;
   createdAt: Date;
   colorVariants: ColorVariantRes[];
+  purchases: number;
 } & ProductPrice;
 
 export type ProductResProps = Res & {
