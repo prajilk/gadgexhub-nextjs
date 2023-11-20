@@ -17,7 +17,7 @@ const SkeletonStore = () => {
               <Skeleton className="h-4 w-20" />
             </li>
           </ul>
-          <Skeleton className="mt-4 h-6 w-40" />
+          <Skeleton className="mt-4 h-5 w-40" />
           <hr className="my-2" />
           <ul className="space-y-2">
             {repeat(3).map((_, i) => (

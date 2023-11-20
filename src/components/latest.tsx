@@ -3,8 +3,12 @@ import Container from "./container";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import ProductCard from "./products/product-card";
+import { getFilteredProduct } from "@/lib/api/products/get-filtered-products";
+import { calculatePercentage } from "@/lib/utils";
 
-const Latest = () => {
+const Latest = async () => {
+  const result = await getFilteredProduct({});
+
   return (
     <Container className="py-10 md:py-20">
       <div className="flex flex-col items-center justify-center gap-10">
@@ -13,7 +17,7 @@ const Latest = () => {
           Our newest products are here to help you look your best.
         </h1>
         <Link
-          href="/"
+          href="/store"
           className="group flex items-center gap-3 border-b border-black pb-1 text-sm"
         >
           Explore more
@@ -24,20 +28,21 @@ const Latest = () => {
         </Link>
       </div>
       <div className="mt-14 grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-4">
-        <ProductCard
-          title="Test One"
-          description="10% off"
-          href="/store/oneplus-buds-z2?pid=s2d3jhy"
-          imgUrl="/oneplus-buds-z2.png"
-          price={2000}
-        />
-        <ProductCard
-          title="Test One"
-          description="10% off"
-          href="/store/oneplus-buds-z2?pid=s2d3jhy"
-          imgUrl="/oneplus-supervooc-80w-adapter.png"
-          price={2000}
-        />
+        {result
+          ?.splice(0, 4)
+          .map((product, i) => (
+            <ProductCard
+              key={i}
+              title={product.title}
+              description={`${calculatePercentage(
+                product.basePrice,
+                product.offerPrice,
+              )} off`}
+              href={`/store/${product.slug}?pid=${product.pid}`}
+              imgUrl={product.image}
+              price={product.offerPrice}
+            />
+          ))}
       </div>
     </Container>
   );

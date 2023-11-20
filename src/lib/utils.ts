@@ -266,7 +266,13 @@ function sortProduct(
     Omit<MakeColorVariant, "colors">)[],
   sort: string | null,
 ) {
-  if (sort === "l2h")
+  if (sort === "popular") {
+    return products.sort((a, b) => {
+      if (a.stock > 0 && b.stock === 0) return -1;
+      else if (a.stock === 0 && b.stock > 0) return 1;
+      else return b.purchases - a.purchases;
+    });
+  } else if (sort === "l2h")
     return products.sort((a, b) => {
       if (a.stock > 0 && b.stock === 0) return -1;
       else if (a.stock === 0 && b.stock > 0) return 1;

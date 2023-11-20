@@ -16,7 +16,7 @@ const ProductCard = ({
       <Link href={href} className="overflow-hidden bg-gray-200 p-0 md:p-5">
         <div className="relative aspect-square">
           <Image
-            src={imgUrl}
+            src={process.env.NEXT_PUBLIC_IMAGE_URL + imgUrl}
             className="object-cover duration-300 hover:scale-110"
             alt="product image"
             fill
@@ -33,11 +33,11 @@ const ProductCard = ({
             {textTruncate(title, 35)}
           </Link>
         </div>
-        <p className="text-xs font-medium text-content2">{description}</p>
+        <p className="text-xs font-medium text-success">{description}</p>
         <div className="card-footer">
           <LinkButton
             href={href}
-            className="font-Roboto w-full text-xs font-medium md:text-sm"
+            className="w-full font-Roboto text-xs font-medium md:text-sm"
           >{`From ${formatCurrency(price)}`}</LinkButton>
         </div>
       </div>
