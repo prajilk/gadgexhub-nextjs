@@ -57,7 +57,7 @@ const Hero = ({ slides }: { slides: HeroBanner[] }) => {
   }, [isPaused, progress, nextSlide]);
 
   return (
-    <section className="w-full bg-gradient-to-tr from-gray-600 to-black pb-7 pt-32 md:pb-10 md:pt-40">
+    <section className="w-full bg-gradient-to-tr from-gray-600 to-black py-10">
       <div className="group relative mx-auto h-[26rem] max-w-6xl px-4 md:h-[23rem]">
         {/* Slider for Large Screen */}
         {slides.map(

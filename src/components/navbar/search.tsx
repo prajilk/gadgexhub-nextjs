@@ -4,7 +4,6 @@ import { Input } from "@nextui-org/input";
 import { FormEvent, useEffect, useState } from "react";
 import { History, Search as SearchIcon, Trash2 } from "lucide-react";
 import { CategoryProducts } from "@/lib/types/types";
-import { motion as m } from "framer-motion";
 
 const Search = ({ bestSeller }: { bestSeller: CategoryProducts | null }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -67,13 +66,10 @@ const Search = ({ bestSeller }: { bestSeller: CategoryProducts | null }) => {
           <SearchIcon className="pointer-events-none flex-shrink-0 text-2xl" />
         }
       />
-      <m.div
-        className={`absolute z-[9999] min-h-fit w-full rounded-2xl bg-white p-4 shadow-lg`}
-        animate={showDropdown ? "open" : "closed"}
-        variants={{
-          open: { opacity: 1, y: 0, scale: 1 },
-          closed: { opacity: 0, y: "-50%", scale: 0 },
-        }}
+      <div
+        className={`absolute z-[9999] min-h-fit w-full rounded-2xl bg-white p-4 shadow-lg ${
+          !showDropdown && "hidden"
+        }`}
       >
         {!searchKeyword ? (
           <div className="scrollbar-thin overflow-x-auto">
@@ -123,7 +119,7 @@ const Search = ({ bestSeller }: { bestSeller: CategoryProducts | null }) => {
         ) : (
           "Loading"
         )}
-      </m.div>
+      </div>
     </form>
   );
 };
