@@ -6,9 +6,7 @@ const Container = ({
   className,
 }: LayoutProps & { className?: string }) => {
   return (
-    <div
-      className={cn("mx-auto w-full max-w-6xl px-2 py-32 md:py-40", className)}
-    >
+    <div className={cn("mx-auto w-full max-w-6xl px-2 py-10", className)}>
       {children}
     </div>
   );
