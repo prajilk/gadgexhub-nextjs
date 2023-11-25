@@ -1,14 +1,17 @@
+import { nextui } from "@nextui-org/theme";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   rippleui: {
     removeThemes: ["dark"],
   },
-  darkMode: ["class"],
+  darkMode: "dark",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./node_modules/@nextui-org/theme/dist/components/(navbar|dropdown|button|input).js",
   ],
   theme: {
     container: {
@@ -79,5 +82,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("rippleui"), require("tailwindcss-animate")],
+  plugins: [require("rippleui"), require("tailwindcss-animate"), nextui()],
 };

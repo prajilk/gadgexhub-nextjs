@@ -1,18 +1,26 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
 import { ReactNode, useEffect } from "react";
-import Button from "../shared/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTrigger,
+} from "../ui/sheet";
+import { ShoppingCart } from "lucide-react";
 import { useGlobalContext } from "@/context/store";
-import CartItem from "./cart-item";
 import { useSession } from "next-auth/react";
 import { useCartItems } from "@/api-hooks/cart/get-cart-items";
-import SkeletonCartItem from "../skeletons/skeleton-cart-item";
-import { getCookie, setCookie } from "cookies-next";
-import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { getCookie, setCookie } from "cookies-next";
+import CartItem from "./cart-item";
+import SkeletonCartItem from "../skeletons/skeleton-cart-item";
+import Button from "../shared/button";
+import { formatCurrency } from "@/lib/utils";
+import Cart from "../navbar/cart";
 
-const Drawer = ({ trigger }: { trigger: ReactNode }) => {
+const Drawer = () => {
   const { cartItems, setCartItems } = useGlobalContext();
 
   const { data: session } = useSession();
@@ -46,17 +54,12 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
   };
 
   return (
-    <div>
-      <input type="checkbox" id="cart-drawer" className="drawer-toggle" />
-
-      <label htmlFor="cart-drawer">{trigger}</label>
-      <label
-        className="overlay"
-        style={{ position: "fixed" }}
-        htmlFor="cart-drawer"
-      ></label>
-      <div className="drawer drawer-right max-w-[30rem]">
-        <div className="flex h-full flex-col p-0">
+    <Sheet>
+      <SheetTrigger>
+        <Cart />
+      </SheetTrigger>
+      <SheetContent className="flex w-full flex-col gap-0 p-0 md:max-w-[30rem]">
+        <SheetHeader className="border-b">
           <div className="flex items-center justify-between border-b px-5 py-4">
             <div className="flex gap-3">
               <ShoppingCart />
@@ -66,24 +69,20 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
                   : `${cartItems.length} Item in your Cart`}
               </h2>
             </div>
-            <label
-              htmlFor="cart-drawer"
-              className="btn btn-sm btn-circle btn-ghost"
-            >
-              ✕
-            </label>
           </div>
-          <div className="scrollbar-thin max-h-[100%] overflow-y-scroll">
-            {cartItems.length !== 0 ? (
-              cartItems.map((item, i) => (
-                <CartItem {...item} session={session} key={i} />
-              ))
-            ) : isLoading ? (
-              <SkeletonCartItem />
-            ) : (
-              <NoCartItem />
-            )}
-          </div>
+        </SheetHeader>
+        <div className="scrollbar-thin max-h-[100%] overflow-y-scroll">
+          {cartItems.length !== 0 ? (
+            cartItems.map((item, i) => (
+              <CartItem {...item} session={session} key={i} />
+            ))
+          ) : isLoading ? (
+            <SkeletonCartItem />
+          ) : (
+            <NoCartItem />
+          )}
+        </div>
+        <SheetFooter className="mt-auto">
           {cartItems.length !== 0 && (
             <div className="w-full border-t p-5">
               <Button
@@ -102,9 +101,9 @@ const Drawer = ({ trigger }: { trigger: ReactNode }) => {
               </Button>
             </div>
           )}
-        </div>
-      </div>
-    </div>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 };
 
