@@ -12,6 +12,7 @@ import QueryProvider from "@/provider/QueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { GlobalContextProvider } from "@/context/store";
 import RemoveCheckoutCookie from "@/components/checkout/remove-checkout-cookie";
+import NextUIProvider from "@/provider/NextUIProvider";
 
 export const roboto = Roboto({
   subsets: ["latin"],
@@ -31,15 +32,17 @@ export default function RootLayout({ children }: LayoutProps) {
         <AuthProvider>
           <QueryProvider>
             <GlobalContextProvider>
-              <ShowNavbar>
-                <Navbar />
-              </ShowNavbar>
-              {children}
-              <ShowFooter>
-                <Footer />
-              </ShowFooter>
-              <RemoveCheckoutCookie />
-              <ReactQueryDevtools />
+              <NextUIProvider>
+                <ShowNavbar>
+                  <Navbar />
+                </ShowNavbar>
+                {children}
+                <ShowFooter>
+                  <Footer />
+                </ShowFooter>
+                <RemoveCheckoutCookie />
+                <ReactQueryDevtools />
+              </NextUIProvider>
             </GlobalContextProvider>
           </QueryProvider>
         </AuthProvider>

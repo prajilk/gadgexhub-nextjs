@@ -17,7 +17,7 @@ const ProductCard = ({
   stock,
 }: ProductCardProps) => {
   return (
-    <div className="flex flex-1 flex-col bg-white p-2">
+    <div className="flex flex-1 flex-col border bg-white p-2">
       <div className="group relative aspect-square w-full overflow-hidden">
         {stock === 0 && (
           <div className="absolute z-30 flex h-full w-full items-center justify-center bg-[rgba(255,255,255,0.7)]">
@@ -36,11 +36,11 @@ const ProductCard = ({
       </div>
       <div className="mt-5 flex flex-1 flex-col justify-between gap-1">
         <div>
-          <span className="text-xs font-medium text-success">
+          <span className="text-[0.5rem] font-medium text-success">
             Up to {calculatePercentage(basePrice, offerPrice)} OFF
           </span>
           <h1 className="text-sm font-medium">{textTruncate(title, 35)}</h1>
-          <p className="text-xs text-destructive">
+          <p className="text-[0.5rem] text-destructive">
             {stock <= 5 && stock > 0 && `Hurry, only ${stock} left`}
           </p>
         </div>

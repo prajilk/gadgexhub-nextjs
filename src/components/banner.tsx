@@ -19,9 +19,11 @@ const Banner = async () => {
               <h1 className="my-3 flex-1 text-3xl md:my-0 md:mt-5 md:text-5xl">
                 {deal?.deal?.title}
               </h1>
-              <div className="relative h-60 w-full md:hidden">
-                <Image src="/banner.webp" alt="Banner image" fill />
-              </div>
+              {deal?.deal?.imageUrl && (
+                <div className="relative h-60 w-full md:hidden">
+                  <Image src={deal?.deal?.imageUrl} alt="Banner image" fill />
+                </div>
+              )}
               <p className="my-3 text-sm font-extralight text-gray-400">
                 {deal?.deal?.description}
               </p>
