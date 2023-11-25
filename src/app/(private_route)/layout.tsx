@@ -15,7 +15,7 @@ const PrivateLayout = async ({ children }: LayoutProps) => {
           <Link href="/">
             <h1 className="text-lg font-semibold md:text-2xl">GadgeXhub</h1>
           </Link>
-          <Profile />
+          <Profile session={session} />
         </div>
       </nav>
       <main>{children}</main>
