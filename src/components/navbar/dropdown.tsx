@@ -18,7 +18,7 @@ const DropdownContainer = ({
   child: string[];
 }) => {
   return (
-    <Dropdown className="rounded-lg bg-white">
+    <Dropdown className="rounded-lg border bg-white">
       <NavbarItem>
         <DropdownTrigger>
           <Button

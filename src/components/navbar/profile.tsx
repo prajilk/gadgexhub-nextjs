@@ -11,8 +11,8 @@ import { Session } from "next-auth";
 
 const Profile = ({ session }: { session: Session }) => {
   return (
-    <Dropdown className="bg-white">
-      <DropdownTrigger>
+    <Dropdown className="border bg-white">
+      <DropdownTrigger className="cursor-pointer">
         <UserCircle />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
