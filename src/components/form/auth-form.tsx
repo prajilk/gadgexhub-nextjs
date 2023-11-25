@@ -58,6 +58,7 @@ export function AuthForm() {
       }
       toast.success("Signed in successfully. redirecting...");
       deleteCookie("originCallbackUrl"); // Delete callbackUrl cookie after successful login
+      router.refresh();
       router.replace(signInResponse?.url || "/");
     } catch (error: any) {
       setError(error.message);

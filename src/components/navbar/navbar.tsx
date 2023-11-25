@@ -79,7 +79,7 @@ export default async function Navbar() {
                   radius="sm"
                   variant="light"
                 >
-                  <Link href={"/authentication"}>Login</Link>
+                  <Link href={"/authentication"}>Sign in</Link>
                 </Button>
               )}
             </div>
