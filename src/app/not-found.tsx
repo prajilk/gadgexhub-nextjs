@@ -1,8 +1,5 @@
-import Container from "@/components/container";
 import LinkButton from "@/components/shared/link-button";
 import { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "404",

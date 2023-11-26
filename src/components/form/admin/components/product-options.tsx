@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Ban, Plus } from "lucide-react";
 import AddColorSection from "./add-color-section";
 import { useGlobalContext } from "@/context/store";
+import { Button } from "@nextui-org/button";
 
 const ProductOptions = ({ form }: ProductFormProps) => {
   const { colorVariants, setColorVariants } = useGlobalContext();
@@ -25,16 +26,17 @@ const ProductOptions = ({ form }: ProductFormProps) => {
 
   return (
     <div className="flex-1 p-5">
-      <div className="mb-3 flex w-full justify-between">
+      <div className="mb-3 flex w-full items-center justify-between">
         <p className="font-medium">Color</p>
-        <button
-          className="btn btn-xs btn-solid-primary float-right"
+        <Button
+          isIconOnly
           type="button"
-          disabled={disable}
           onClick={addColorSection}
+          isDisabled={disable}
+          className="bg-[rgba(0,111,238,0.15)] text-[#006FEE]"
         >
           {disable ? <Ban /> : <Plus />}
-        </button>
+        </Button>
       </div>
       <hr />
       <div>

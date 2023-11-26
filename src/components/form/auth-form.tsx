@@ -22,6 +22,7 @@ import { useCreateAccount } from "@/api-hooks/user/create-user-account";
 import { UserResProps } from "@/lib/types/types";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/button";
 
 export function AuthForm() {
   const [isPassword, setIsPassword] = useState(true);
@@ -144,24 +145,28 @@ export function AuthForm() {
           <span className="mt-3 block h-5" />
         )}
         <div className="mt-5 flex flex-col gap-3">
-          <LoadingButton
-            type="button"
+          <Button
+            isLoading={signInLoading}
+            color="primary"
             onClick={form.handleSubmit(handleSignIn)}
-            loader={signInLoading}
-            disabled={signInLoading || mutation.isLoading}
-            className="border text-white hover:bg-gray-700"
+            isDisabled={mutation.isLoading}
+            radius="full"
+            type="button"
           >
             Sign in
-          </LoadingButton>
-          <LoadingButton
-            type="button"
+          </Button>
+          <Button
+            isLoading={mutation.isLoading}
+            color="primary"
             onClick={form.handleSubmit(handleCreateAccount)}
-            loader={mutation.isLoading}
-            disabled={signInLoading || mutation.isLoading}
-            className="border border-black bg-white text-black hover:bg-gray-100"
+            isDisabled={mutation.isLoading}
+            radius="full"
+            type="button"
+            variant="bordered"
+            className="!border"
           >
             Create account
-          </LoadingButton>
+          </Button>
         </div>
       </form>
     </Form>

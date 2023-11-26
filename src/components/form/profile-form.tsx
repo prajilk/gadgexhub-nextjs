@@ -18,12 +18,12 @@ import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { UserResProps } from "@/lib/types/types";
 import { useSession } from "next-auth/react";
-import LoadingButton from "../shared/loading-button";
 import { toast } from "sonner";
 import FailedFetch from "../failed-fetch";
 import { useUser } from "@/api-hooks/user/get-user";
 import { useUpdateUser } from "@/api-hooks/user/update-user";
 import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/button";
 
 const ProfileForm = () => {
   const { data, error, isLoading } = useUser();
@@ -164,14 +164,16 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <LoadingButton
-          loader={mutation.isLoading}
+        <Button
+          isLoading={mutation.isLoading}
           type="submit"
-          className="max-w-lg"
-          disabled={!form.formState.isDirty || mutation.isLoading}
+          isDisabled={!form.formState.isDirty}
+          color="primary"
+          className="w-full"
+          radius="full"
         >
           Save profile
-        </LoadingButton>
+        </Button>
       </form>
     </Form>
   );

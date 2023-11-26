@@ -55,9 +55,7 @@ const DeliveryAddress = () => {
           <h1 className="text-sm text-muted-foreground">
             No delivery addresses found, please add a new one
           </h1>
-          <LinkButton href="/account/address" className="btn-sm rounded-md">
-            Add new
-          </LinkButton>
+          <LinkButton href="/account/address">Add new</LinkButton>
         </div>
       )}
     </div>

@@ -11,7 +11,7 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
-    "./node_modules/@nextui-org/theme/dist/components/(navbar|dropdown|button|input).js",
+    "./node_modules/@nextui-org/theme/dist/components/(navbar|dropdown|button|input|spinner).js",
   ],
   theme: {
     container: {
@@ -82,5 +82,24 @@ module.exports = {
       },
     },
   },
-  plugins: [require("rippleui"), require("tailwindcss-animate"), nextui()],
+  plugins: [
+    require("rippleui"),
+    require("tailwindcss-animate"),
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            primary: {
+              DEFAULT: "#000000",
+              foreground: "#FFFFFF",
+            },
+            danger: {
+              DEFAULT: "#f50514",
+              foreground: "#ffffff",
+            },
+          },
+        },
+      },
+    }),
+  ],
 };

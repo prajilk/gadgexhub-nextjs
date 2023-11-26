@@ -5,6 +5,8 @@ import { AddColorSectionProps } from "@/lib/types/types";
 import ImagePreview from "./image-preview";
 import { useGlobalContext } from "@/context/store";
 import { capitalizeSearchParam } from "@/lib/utils";
+import { Button } from "@nextui-org/button";
+import { Tooltip } from "@nextui-org/tooltip";
 
 const AddColorSection = ({
   variant,
@@ -110,12 +112,14 @@ const AddColorSection = ({
                   action="others"
                 />
               ) : (
-                <button
-                  type="button"
-                  className="btn btn-sm btn-solid-primary popover-trigger my-2"
+                <Button
+                  isIconOnly
+                  aria-label="disable"
+                  variant="flat"
+                  className="bg-[rgba(0,111,238,0.15)] text-[#006FEE]"
                 >
                   <Ban />
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -129,16 +133,18 @@ export default AddColorSection;
 
 function DisableImagePicker() {
   return (
-    <div className="popover popover-hover">
-      <label className="btn btn-sm btn-solid-primary popover-trigger my-2">
+    <Tooltip
+      content="Images can only added after creating Slug!"
+      placement="right"
+      className="bg-white px-4 py-2"
+    >
+      <Button
+        isIconOnly
+        type="button"
+        className="bg-[rgba(0,111,238,0.15)] text-[#006FEE]"
+      >
         <Ban />
-      </label>
-      <div className="popover-content popover-right bg-white">
-        <div className="popover-arrow"></div>
-        <div className="p-4 text-sm text-black">
-          Images can only added after creating Slug!
-        </div>
-      </div>
-    </div>
+      </Button>
+    </Tooltip>
   );
 }

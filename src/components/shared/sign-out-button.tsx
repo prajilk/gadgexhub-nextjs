@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@nextui-org/button";
 import { signOut } from "next-auth/react";
 import { toast } from "sonner";
-import Button from "./button";
 
 const SignOutButton = () => {
   async function handleSignOut() {
@@ -19,7 +19,7 @@ const SignOutButton = () => {
   }
 
   return (
-    <Button onClick={handleSignOut} className="w-fit rounded-none">
+    <Button onClick={handleSignOut} color="primary">
       Sign out
     </Button>
   );
