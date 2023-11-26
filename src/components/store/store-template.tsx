@@ -9,8 +9,8 @@ const StoreTemplate = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Container className="pb-10">
-      <div className="grid grid-cols-4 gap-4 pt-7 md:pt-0">
+    <Container className="pt-0 lg:pt-10">
+      <div className="grid grid-cols-4 gap-1 lg:gap-4">
         <Categories categoryParamsArray={categories} />
         <div className="col-span-4 lg:col-span-3">{children}</div>
       </div>

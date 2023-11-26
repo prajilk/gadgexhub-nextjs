@@ -3,14 +3,6 @@ import { makeCategoryUrl } from "@/lib/utils";
 import { ChevronRight, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 
 export const FilterSm = ({
   categories,
@@ -19,39 +11,47 @@ export const FilterSm = ({
 }) => {
   return (
     <div>
-      <Sheet>
-        <SheetTrigger className="flex items-center gap-2 tracking-widest">
-          <SlidersHorizontal size={15} />
-          Filter
-        </SheetTrigger>
-        <SheetContent side={"bottom"} className="p-1">
-          <div className="flex h-full flex-col pb-10">
-            <div className="border-b p-2">
-              <h2 className="uppercase tracking-wider text-muted-foreground">
-                Filter
-              </h2>
-            </div>
-            <ul className="m-3 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
-              <li>
-                <Link href={"/store"}>All</Link>
-              </li>
-              {categories?.parents.map((parent, i) => (
-                <Fragment key={i}>
-                  <ChevronRight size={13} />
-                  <li>
-                    <Link href={makeCategoryUrl(categories?.parents, parent)}>
-                      {parent}
-                    </Link>
-                  </li>
-                </Fragment>
-              ))}
-            </ul>
-            <ul className="scrollbar-thin max-h-[350px] overflow-y-scroll text-sm">
-              <CategoryList categories={categories} />
-            </ul>
+      <input type="checkbox" id="filter-bottom" className="drawer-toggle" />
+
+      <label
+        htmlFor="filter-bottom"
+        className="flex items-center gap-2 tracking-widest"
+      >
+        <SlidersHorizontal size={15} />
+        Filter
+      </label>
+      <label
+        style={{ height: "100vh" }}
+        className="overlay"
+        htmlFor="filter-bottom"
+      ></label>
+      <div className="drawer drawer-bottom">
+        <div className="flex h-full flex-col pb-10">
+          <div className="border-b p-2">
+            <h2 className="uppercase tracking-wider text-muted-foreground">
+              Filter
+            </h2>
           </div>
-        </SheetContent>
-      </Sheet>
+          <ul className="m-3 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+            <li>
+              <Link href={"/store"}>All</Link>
+            </li>
+            {categories?.parents.map((parent, i) => (
+              <Fragment key={i}>
+                <ChevronRight size={13} />
+                <li>
+                  <Link href={makeCategoryUrl(categories?.parents, parent)}>
+                    {parent}
+                  </Link>
+                </li>
+              </Fragment>
+            ))}
+          </ul>
+          <ul className="scrollbar-thin max-h-[350px] overflow-y-scroll text-sm">
+            <CategoryList categories={categories} />
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };

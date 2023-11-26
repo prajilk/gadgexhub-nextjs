@@ -1,8 +1,15 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import { Skeleton as NextUISkeleton } from "@nextui-org/skeleton";
 
 const Skeleton = ({ className }: { className?: string }) => {
-  return <div className={cn("skeleton-pulse rounded-sm", className)} />;
+  return (
+    <NextUISkeleton
+      className={cn(
+        "before:!duration-[1300ms] rounded-sm bg-default-200",
+        className,
+      )}
+    />
+  );
 };
 
 export default Skeleton;

@@ -1,4 +1,3 @@
 - Change razoprpay demo url from 'https://charming-slug-deadly.ngrok-free.app' to 'https://gadgexhub.vercel.app'
 - rippleui menu-item in sort.tsx
-- rippleui sr-only in image-gallery.tsx
 - rippleui menu-item in sidebar-nav.tsx

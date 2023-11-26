@@ -46,7 +46,7 @@ const ProductResults = () => {
               href={`/store/${product.slug}?pid=${product.pid}`}
               key={product.pid}
               ref={j === products.length - 1 ? ref : undefined}
-              className="flex aspect-square w-full flex-col space-y-2 p-0.5"
+              className="flex w-full flex-col p-[3px]"
             >
               <ProductCard {...product} key={i} />
             </Link>

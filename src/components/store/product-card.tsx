@@ -1,5 +1,7 @@
 import { calculatePercentage, formatCurrency, textTruncate } from "@/lib/utils";
-import Image from "next/image";
+import NextImage from "next/image";
+import { Card, CardBody, CardFooter } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
 
 type ProductCardProps = {
   image: string;
@@ -17,38 +19,38 @@ const ProductCard = ({
   stock,
 }: ProductCardProps) => {
   return (
-    <div className="flex flex-1 flex-col border bg-white p-2">
-      <div className="group relative aspect-square w-full overflow-hidden">
-        {stock === 0 && (
-          <div className="absolute z-30 flex h-full w-full items-center justify-center bg-[rgba(255,255,255,0.7)]">
-            <span className="bg-white p-3 text-sm font-medium text-destructive">
-              Out Of Stock
-            </span>
-          </div>
-        )}
+    <Card shadow="none" isPressable className="flex-1 bg-white" radius="md">
+      <CardBody className="flex-grow-0 overflow-visible p-0">
         <Image
+          as={NextImage}
+          shadow="none"
+          radius="lg"
+          width={300}
+          height={300}
+          isZoomed
+          alt={title}
+          className="w-full overflow-hidden object-cover"
+          classNames={{
+            img: "hover:scale-110",
+          }}
           src={process.env.NEXT_PUBLIC_IMAGE_URL + image}
-          alt={title + "Image"}
-          fill
-          sizes="300px"
-          className="z-0 duration-300 group-hover:scale-105"
         />
-      </div>
-      <div className="mt-5 flex flex-1 flex-col justify-between gap-1">
-        <div>
-          <span className="text-[0.5rem] font-medium text-success">
-            Up to {calculatePercentage(basePrice, offerPrice)} OFF
-          </span>
-          <h1 className="text-sm font-medium">{textTruncate(title, 35)}</h1>
-          <p className="text-[0.5rem] text-destructive">
-            {stock <= 5 && stock > 0 && `Hurry, only ${stock} left`}
-          </p>
-        </div>
-        <span className="font-Roboto text-sm">
-          From {formatCurrency(offerPrice)}
+      </CardBody>
+      <CardFooter className="flex-col items-start pb-0 text-small">
+        <span className="text-[0.7rem] text-success">
+          Up to {calculatePercentage(basePrice, offerPrice)} OFF
         </span>
+        <b className="text-left">{textTruncate(title, 20)}</b>
+        <p className="text-[0.7rem] text-destructive">
+          {stock <= 5 && stock > 0 && `Hurry, only ${stock} left`}
+        </p>
+      </CardFooter>
+      <div className="flex flex-1 items-end pb-3 ps-3">
+        <p className="flex-1 text-small">
+          From <span className="font-Roboto">{formatCurrency(offerPrice)}</span>
+        </p>
       </div>
-    </div>
+    </Card>
   );
 };
 

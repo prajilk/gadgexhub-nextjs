@@ -3,6 +3,7 @@
 import { ArrowDownUp, Loader2 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export const SortSm = () => {
   const sortParam = useSearchParams().get("sort");
@@ -35,127 +36,121 @@ export const SortSm = () => {
           </div>
         </div>
       )}
-      <input type="checkbox" id="sort-bottom" className="drawer-toggle" />
-
-      <label
-        htmlFor="sort-bottom"
-        className="flex items-center gap-2 tracking-widest"
-      >
-        <ArrowDownUp size={15} />
-        Sort
-      </label>
-      <label
-        style={{ height: "100vh" }}
-        className="overlay"
-        htmlFor="sort-bottom"
-      ></label>
-      <div className="drawer drawer-bottom">
-        <div className="flex h-full flex-col pb-10">
-          <div className="border-b p-2">
-            <h2 className="uppercase tracking-wider text-muted-foreground">
-              Sort
-            </h2>
+      <Sheet>
+        <SheetTrigger className="flex items-center gap-2 tracking-widest">
+          <ArrowDownUp size={15} />
+          Sort
+        </SheetTrigger>
+        <SheetContent side={"bottom"} className="p-1">
+          <div className="flex h-full flex-col pb-10">
+            <div className="border-b p-2">
+              <h2 className="uppercase tracking-wider text-muted-foreground">
+                Sort
+              </h2>
+            </div>
+            <ul className="scrollbar-thin max-h-[350px] overflow-y-scroll pt-3 text-sm">
+              <li>
+                <label
+                  className="menu-item flex w-full items-center justify-between"
+                  htmlFor="sort-bottom"
+                  onClick={() => {
+                    router.push(
+                      pathname
+                        ? pathname + "?sort=popular"
+                        : `/store?sort=popular`,
+                    );
+                    sortParam !== "popular" && setLoading(true);
+                  }}
+                >
+                  Popular
+                  <input
+                    checked={sortSelected.popular}
+                    onChange={() =>
+                      setSortSelected((prev) => ({
+                        ...prev,
+                        popular: !prev.popular,
+                      }))
+                    }
+                    type="radio"
+                    className="accent-black"
+                  />
+                </label>
+              </li>
+              <li>
+                <label
+                  className="menu-item flex w-full items-center justify-between"
+                  htmlFor="sort-bottom"
+                  onClick={() => {
+                    router.push(
+                      pathname ? pathname + "?sort=l2h" : `/store?sort=l2h`,
+                    );
+                    sortParam !== "l2h" && setLoading(true);
+                  }}
+                >
+                  Price -- Low to High
+                  <input
+                    checked={sortSelected.l2h}
+                    onChange={() =>
+                      setSortSelected((prev) => ({ ...prev, l2h: !prev.l2h }))
+                    }
+                    type="radio"
+                    className="accent-black"
+                  />
+                </label>
+              </li>
+              <li>
+                <label
+                  className="menu-item flex w-full items-center justify-between"
+                  htmlFor="sort-bottom"
+                  onClick={() => {
+                    router.push(
+                      pathname ? pathname + "?sort=h2l" : `/store?sort=h2l`,
+                    );
+                    sortParam !== "h2l" && setLoading(true);
+                  }}
+                >
+                  Price -- High to Low
+                  <input
+                    type="radio"
+                    checked={sortSelected.h2l}
+                    onChange={() =>
+                      setSortSelected((prev) => ({ ...prev, h2l: !prev.h2l }))
+                    }
+                    className="accent-black"
+                  />
+                </label>
+              </li>
+              <li>
+                <label
+                  className="menu-item flex w-full items-center justify-between"
+                  htmlFor="sort-bottom"
+                  onClick={() => {
+                    router.push(
+                      pathname
+                        ? pathname + "?sort=latest"
+                        : `/store?sort=latest`,
+                    );
+                    sortParam !== "latest" && setLoading(true);
+                  }}
+                >
+                  Latest First
+                  <input
+                    type="radio"
+                    checked={sortSelected.latest}
+                    onChange={() =>
+                      setSortSelected((prev) => ({
+                        ...prev,
+                        latest: !prev.latest,
+                      }))
+                    }
+                    className="accent-black"
+                  />
+                </label>
+              </li>
+            </ul>
           </div>
-          <ul className="scrollbar-thin max-h-[350px] overflow-y-scroll text-sm">
-            <li>
-              <label
-                className="menu-item flex w-full items-center justify-between"
-                htmlFor="sort-bottom"
-                onClick={() => {
-                  router.push(
-                    pathname
-                      ? pathname + "?sort=popular"
-                      : `/store?sort=popular`,
-                  );
-                  sortParam !== "popular" && setLoading(true);
-                }}
-              >
-                Popular
-                <input
-                  checked={sortSelected.popular}
-                  onChange={() =>
-                    setSortSelected((prev) => ({
-                      ...prev,
-                      popular: !prev.popular,
-                    }))
-                  }
-                  type="radio"
-                  className="accent-black"
-                />
-              </label>
-            </li>
-            <li>
-              <label
-                className="menu-item flex w-full items-center justify-between"
-                htmlFor="sort-bottom"
-                onClick={() => {
-                  router.push(
-                    pathname ? pathname + "?sort=l2h" : `/store?sort=l2h`,
-                  );
-                  sortParam !== "l2h" && setLoading(true);
-                }}
-              >
-                Price -- Low to High
-                <input
-                  checked={sortSelected.l2h}
-                  onChange={() =>
-                    setSortSelected((prev) => ({ ...prev, l2h: !prev.l2h }))
-                  }
-                  type="radio"
-                  className="accent-black"
-                />
-              </label>
-            </li>
-            <li>
-              <label
-                className="menu-item flex w-full items-center justify-between"
-                htmlFor="sort-bottom"
-                onClick={() => {
-                  router.push(
-                    pathname ? pathname + "?sort=h2l" : `/store?sort=h2l`,
-                  );
-                  sortParam !== "h2l" && setLoading(true);
-                }}
-              >
-                Price -- High to Low
-                <input
-                  type="radio"
-                  checked={sortSelected.h2l}
-                  onChange={() =>
-                    setSortSelected((prev) => ({ ...prev, h2l: !prev.h2l }))
-                  }
-                  className="accent-black"
-                />
-              </label>
-            </li>
-            <li>
-              <label
-                className="menu-item flex w-full items-center justify-between"
-                htmlFor="sort-bottom"
-                onClick={() => {
-                  router.push(
-                    pathname ? pathname + "?sort=latest" : `/store?sort=latest`,
-                  );
-                  sortParam !== "latest" && setLoading(true);
-                }}
-              >
-                Latest First
-                <input
-                  type="radio"
-                  checked={sortSelected.latest}
-                  onChange={() =>
-                    setSortSelected((prev) => ({
-                      ...prev,
-                      latest: !prev.latest,
-                    }))
-                  }
-                  className="accent-black"
-                />
-              </label>
-            </li>
-          </ul>
-        </div>
-      </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
