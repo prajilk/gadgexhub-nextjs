@@ -25,16 +25,6 @@ export type LinkButtonProps = LayoutProps & {
   href: string;
   className?: React.HTMLProps<HTMLElement>["className"];
 };
-export type ButtonProps = {
-  children?: React.ReactNode;
-  type?: "button" | "reset" | "submit" | undefined;
-  onClick?: () => void;
-  className?: string;
-  disabled?: boolean;
-};
-export type LoadingButtonProps = ButtonProps & {
-  loader: boolean;
-};
 export type CustomInputProps = {
   type: React.HTMLInputTypeAttribute;
   placeholder?: string;

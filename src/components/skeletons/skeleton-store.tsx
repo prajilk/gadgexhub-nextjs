@@ -34,7 +34,7 @@ const SkeletonStore = () => {
                 className="flex aspect-square w-full flex-col space-y-2 p-0.5"
                 key={i}
               >
-                <div className="flex flex-1 flex-col bg-white p-2">
+                <div className="flex flex-1 flex-col rounded-lg bg-white p-2">
                   <div className="aspect-square w-full">
                     <Skeleton className="h-full w-full" />
                   </div>

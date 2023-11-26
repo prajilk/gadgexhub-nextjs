@@ -31,7 +31,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
   const variant = setDefaultVariant();
 
   return (
-    <Container className="pt-28 md:pt-36">
+    <Container>
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col justify-evenly md:flex-row md:items-start">
         <div className="flex w-full flex-col gap-y-5 md:sticky md:top-28 md:w-[50%]">
           <ImageGallery images={variant.images!} />

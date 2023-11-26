@@ -19,7 +19,7 @@ const Categories = async ({
       </div>
 
       {/* Filter For small devices */}
-      <div className="navbar-sticky top-24 z-40 col-span-4 flex justify-around border-y bg-white p-3 md:top-[6.75rem] lg:hidden">
+      <div className="col-span-4 flex justify-around border-y bg-white p-3 lg:hidden">
         {categoryParamsArray ? (
           <SortSm />
         ) : (
