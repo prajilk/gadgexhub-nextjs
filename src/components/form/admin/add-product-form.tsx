@@ -1,6 +1,5 @@
 "use client";
 
-import LoadingButton from "@/components/shared/loading-button";
 import { Form } from "@/components/ui/form";
 import { ZodProductSchema } from "@/lib/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -5,7 +5,7 @@ const Skeleton = ({ className }: { className?: string }) => {
   return (
     <NextUISkeleton
       className={cn(
-        "before:!duration-[1300ms] rounded-sm bg-default-200",
+        "rounded-sm bg-default-200 before:!duration-1000",
         className,
       )}
     />
