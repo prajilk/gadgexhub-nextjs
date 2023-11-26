@@ -6,13 +6,13 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { AddressProps } from "@/lib/types/types";
-import Button from "../shared/button";
 import { RadioGroup, RadioGroupItem } from "../ui/radio";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import AddressDialog from "./address-dialog";
 import { useGlobalContext } from "@/context/store";
+import { Button } from "@nextui-org/button";
 
 const ChangeAddressDialog = ({
   addresses,
@@ -31,10 +31,10 @@ const ChangeAddressDialog = ({
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <span className="btn btn-xs rounded-md bg-black text-white">
+      <DialogTrigger asChild>
+        <Button color="primary" size="sm">
           Change
-        </span>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="space-y-5">
@@ -61,12 +61,7 @@ const ChangeAddressDialog = ({
             </div>
           </AddressDialog>
           <div className="flex w-full justify-end gap-3">
-            <Button
-              className="btn-sm w-fit rounded-md font-normal"
-              onClick={changeDeliveryAddress}
-            >
-              Select
-            </Button>
+            <Button onClick={changeDeliveryAddress}>Select</Button>
           </div>
         </DialogHeader>
       </DialogContent>

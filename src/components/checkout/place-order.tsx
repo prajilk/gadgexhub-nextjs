@@ -1,7 +1,6 @@
 "use client";
 
 import Script from "next/script";
-import LoadingButton from "../shared/loading-button";
 import { usePayment } from "@/api-hooks/payment/handle-payment";
 import { PaymentRes } from "@/lib/types/types";
 import { useRouter } from "next/navigation";
@@ -9,6 +8,7 @@ import { toast } from "sonner";
 import { useGlobalContext } from "@/context/store";
 import PaymentProcessingDialog from "../dialog/payment-processing-dialog";
 import { useState } from "react";
+import { Button } from "@nextui-org/button";
 
 const PlaceOrder = () => {
   const [processing, setProcessing] = useState(false);
@@ -58,14 +58,15 @@ const PlaceOrder = () => {
         id="razorpay-checkout-js"
         src="https://checkout.razorpay.com/v1/checkout.js"
       />
-      <LoadingButton
-        loader={payment_mutation.isLoading}
-        disabled={payment_mutation.isLoading || !deliveryAddress?.address_id}
+      <Button
+        color="primary"
         onClick={placeOrder}
-        className="btn my-5 w-full rounded-xl bg-black text-white"
+        isLoading={payment_mutation.isLoading}
+        isDisabled={!deliveryAddress?.address_id}
+        className="w-full"
       >
         Place order
-      </LoadingButton>
+      </Button>
       {processing && <PaymentProcessingDialog open={processing} />}
     </>
   );

@@ -11,6 +11,7 @@ import { useCallback } from "react";
 import Dropzone from "react-dropzone";
 import ImagePreview from "./image-preview";
 import { useGlobalContext } from "@/context/store";
+import { Button } from "@nextui-org/button";
 
 const ImagePicker = ({ action, variant, variantIndex }: ImagePickerProps) => {
   const { setColorVariants } = useGlobalContext();
@@ -56,12 +57,14 @@ const ImagePicker = ({ action, variant, variantIndex }: ImagePickerProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button
-          className="btn btn-sm btn-solid-primary popover-trigger my-2"
+        <Button
+          isIconOnly
+          className="bg-[rgba(0,111,238,0.15)] text-[#006FEE]"
+          variant="flat"
           type="button"
         >
           <Plus />
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

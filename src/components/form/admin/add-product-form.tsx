@@ -11,6 +11,7 @@ import ProductOptions from "./components/product-options";
 import { useGlobalContext } from "@/context/store";
 import { toast } from "sonner";
 import { useAddProduct } from "@/api-hooks/admin/products/add-product";
+import { Button } from "@nextui-org/button";
 
 const AddProductForm = () => {
   const { colorVariants, setColorVariants } = useGlobalContext();
@@ -56,15 +57,15 @@ const AddProductForm = () => {
           <ProductOptions form={form} />
         </div>
         <div className="flex justify-end p-5">
-          <LoadingButton
-            loader={add_product_mutation.isLoading}
+          <Button
+            isLoading={add_product_mutation.isLoading}
             type="submit"
+            color="primary"
             onClick={setColors}
-            className="w-fit rounded-lg"
-            disabled={!form.formState.isDirty || add_product_mutation.isLoading}
+            isDisabled={!form.formState.isDirty}
           >
             Add Product
-          </LoadingButton>
+          </Button>
         </div>
       </form>
     </Form>

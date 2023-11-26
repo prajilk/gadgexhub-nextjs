@@ -1,5 +1,4 @@
 import { formatCurrency } from "@/lib/utils";
-import React from "react";
 import PlaceOrder from "./place-order";
 
 type PriceDetailsProps = {

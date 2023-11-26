@@ -1,14 +1,13 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Button from "../shared/button";
 import { toast } from "sonner";
 import { useAddToCart } from "@/api-hooks/cart/add-to-cart";
-import LoadingButton from "../shared/loading-button";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { Button } from "@nextui-org/button";
 
 type ProductActionsProps = {
   pid: string;
@@ -81,18 +80,23 @@ const ProductActions = (props: ProductActionsProps) => {
 
   return (
     <div className="mt-6 space-y-4">
-      <LoadingButton
-        loader={cart_mutation.isLoading}
-        disabled={cart_mutation.isLoading || props.stock === 0}
-        className="rounded-none py-6 text-base font-normal uppercase hover:bg-gray-700"
+      <Button
+        isLoading={cart_mutation.isLoading}
+        radius="none"
+        color="primary"
+        size="lg"
+        className="w-full uppercase"
         onClick={addToCart}
       >
         {props.stock === 0 ? "Out Of Stock" : "Add to cart"}
-      </LoadingButton>
+      </Button>
       <Button
         onClick={buyNow}
         disabled={props.stock === 0}
-        className="btn rounded-none bg-secondaryTheme py-6 text-base font-normal uppercase hover:bg-secondaryTheme hover:bg-opacity-60"
+        radius="none"
+        color="danger"
+        size="lg"
+        className="w-full uppercase"
       >
         Buy it now
       </Button>

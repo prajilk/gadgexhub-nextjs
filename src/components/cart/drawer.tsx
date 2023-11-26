@@ -16,9 +16,9 @@ import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "cookies-next";
 import CartItem from "./cart-item";
 import SkeletonCartItem from "../skeletons/skeleton-cart-item";
-import Button from "../shared/button";
 import { formatCurrency } from "@/lib/utils";
 import Cart from "../navbar/cart";
+import { Button } from "@nextui-org/button";
 
 const Drawer = () => {
   const { cartItems, setCartItems } = useGlobalContext();
@@ -86,7 +86,8 @@ const Drawer = () => {
           {cartItems.length !== 0 && (
             <div className="w-full border-t p-5">
               <Button
-                className="rounded-none font-medium"
+                color="primary"
+                className="w-full"
                 onClick={handleCheckout}
               >
                 Checkout
@@ -163,7 +164,7 @@ const NoCartItem = () => {
         />
       </svg>
       <h1 className="my-5 text-xl font-medium">Your shopping cart is empty</h1>
-      <Button className="w-fit rounded-sm font-medium uppercase">
+      <Button className="font-medium uppercase" color="primary" size="sm">
         Start Shopping
       </Button>
     </div>

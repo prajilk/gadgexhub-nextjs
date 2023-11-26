@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@/components/shared/button";
 import { AuthForm } from "@/components/form/auth-form";
+import { Button } from "@nextui-org/button";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -23,7 +23,10 @@ const SignUp = () => {
           <div className="divider divider-horizontal">OR</div>
           <Button
             onClick={signInWithGoogle}
-            className="flex gap-4 border border-black bg-white text-black hover:bg-gray-100"
+            color="primary"
+            variant="bordered"
+            radius="full"
+            className="!border"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

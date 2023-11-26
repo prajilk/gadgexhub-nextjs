@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ProductFormProps } from "@/lib/types/types";
+import { Button } from "@nextui-org/button";
 
 const ProductDetails = ({ form }: ProductFormProps) => {
   function generateSlug() {
@@ -56,13 +57,9 @@ const ProductDetails = ({ form }: ProductFormProps) => {
                 <InputContainer className="w-full bg-gray-50">
                   <Input {...field} />
                 </InputContainer>
-                <button
-                  type="button"
-                  className="btn btn-outline"
-                  onClick={generateSlug}
-                >
+                <Button type="button" onClick={generateSlug} variant="bordered">
                   Generate
-                </button>
+                </Button>
               </div>
             </FormControl>
             <FormMessage />

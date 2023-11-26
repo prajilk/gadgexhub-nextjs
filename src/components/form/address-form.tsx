@@ -16,7 +16,6 @@ import { Input, InputContainer } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { stateList } from "@/lib/data";
 import { DialogClose, DialogFooter } from "../ui/dialog";
-import LoadingButton from "../shared/loading-button";
 import { AddressProps } from "@/lib/types/types";
 import { toast } from "sonner";
 import {
@@ -31,10 +30,10 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useDeleteAddress } from "@/api-hooks/address/delete-address";
 import { useCreateAddress } from "@/api-hooks/address/create-address";
 import { useUpdateAddress } from "@/api-hooks/address/update-address";
+import { Button } from "@nextui-org/button";
 
 const AddressForm = ({
   address,
@@ -43,8 +42,6 @@ const AddressForm = ({
   address?: AddressProps;
   action: "edit" | "add";
 }) => {
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof ZodAddressSchema>>({
     resolver: zodResolver(ZodAddressSchema),
     defaultValues: address ?? {
@@ -270,25 +267,20 @@ const AddressForm = ({
               )}
             </div>
           )}
-          <div className="flex">
-            <DialogClose
-              type="button"
-              className="btn w-fit rounded-none bg-white font-light text-black hover:bg-gray-50"
-            >
-              Cancel
+          <div className="flex gap-2">
+            <DialogClose asChild>
+              <Button variant="light" type="button">
+                Cancel
+              </Button>
             </DialogClose>
-            <LoadingButton
-              loader={create_mutation.isLoading || update_mutation.isLoading}
-              disabled={
-                !form.formState.isDirty ||
-                create_mutation.isLoading ||
-                update_mutation.isLoading
-              }
+            <Button
+              isLoading={create_mutation.isLoading || update_mutation.isLoading}
+              isDisabled={!form.formState.isDirty}
               type="submit"
-              className="w-fit rounded-none"
+              color="primary"
             >
               Save
-            </LoadingButton>
+            </Button>
           </div>
         </DialogFooter>
       </form>
@@ -300,8 +292,10 @@ export default AddressForm;
 function DeleteAddressModal({ onDelete }: { onDelete: () => void }) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <span className="text-destructive">Delete</span>
+      <AlertDialogTrigger asChild>
+        <Button color="danger" variant="light">
+          Delete
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
