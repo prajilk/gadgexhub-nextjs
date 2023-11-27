@@ -70,10 +70,10 @@ const ProductActions = (props: ProductActionsProps) => {
       quantity: props.quantity + 1,
       color: props.color,
     };
-    const checkoutExpires = new Date(new Date().getTime() + 10 * 60000); // 10 minutes
+
     deleteCookie("checkout");
     setCookie("checkout", btoa(JSON.stringify(item)), {
-      expires: checkoutExpires,
+      maxAge: 60 * 10,
     });
     router.push("/checkout");
   }
