@@ -3,6 +3,7 @@ import { z } from "zod";
 import { ZodAddressSchema, ZodProductSchema } from "../zodSchemas";
 import { UseFormReturn } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
+import { BestDeal, Image, Product } from "@prisma/client";
 
 type Res = {
   user: null | undefined;
@@ -75,36 +76,12 @@ export type ColorVariantRes = {
 
 export type MakeColorVariant = {
   colors: string | null;
-  images: {
-    id: number;
-    imagePublicId: string;
-    productId: string;
-  }[];
+  images: Image[];
 };
 
-export type ProductPrice = {
-  basePrice: number;
-  offerPrice: number;
-};
-
-export type ProductPriceRes = Res & {
-  data: ProductPrice | null;
-};
-
-export type ProductProps = {
-  id: string;
-  slug: string;
-  title: string;
-  shortDescription: string | null;
-  description: string;
-  categoryId: number;
-  stock: number;
-  variantName: string | null;
-  variantValues: string | null;
-  createdAt: Date;
+export type ProductProps = Omit<Product, "color"> & {
   colorVariants: ColorVariantRes[];
-  purchases: number;
-} & ProductPrice;
+};
 
 export type ProductResProps = Res & {
   product: ProductProps | null;
@@ -221,25 +198,7 @@ export type AllOrdersRes = Res & {
 };
 
 export type BestDealRes = Res & {
-  deal: {
-    id: number;
-    imageUrl: string;
-    title: string;
-    description: string;
-    url: string;
-    price: number;
-  } | null;
-};
-
-export type HeroBanner = {
-  id: 2;
-  title: string;
-  description: string;
-  basePrice: number;
-  offerPrice: number;
-  url: string;
-  imageUrl: string;
-  imageUrlSm: string;
+  deal: BestDeal | null;
 };
 
 export interface Category {

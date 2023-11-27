@@ -11,7 +11,7 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
-    "./node_modules/@nextui-org/theme/dist/components/(navbar|dropdown|button|input|spinner|card|image|skeleton).js",
+    "./node_modules/@nextui-org/theme/dist/components/(navbar|dropdown|button|input|spinner|card|image|skeleton|badge).js",
   ],
   theme: {
     container: {

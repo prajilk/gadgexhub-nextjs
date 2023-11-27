@@ -19,6 +19,7 @@ import {
 } from "./helper";
 import { error400, error500, getExpireDate, success200 } from "@/lib/utils";
 import { getImageThumbnail, makeUrl } from "@/lib/cart-utils";
+import { Cart, CartItem } from "@prisma/client";
 
 type PostBody = {
   productId: string;
@@ -29,6 +30,35 @@ type PatchBody = {
   itemId: number;
   quantity: number;
 };
+
+async function handleNewCartItem(
+  cart: { cartItems: CartItem[] } & Cart,
+  body: PostBody,
+) {
+  const itemIndex = cart.cartItems.findIndex(
+    (item) => item.productId === body.productId,
+  );
+
+  if (itemIndex === -1) {
+    await createCartItem({ ...body, cartId: cart.id });
+  } else {
+    if (cart.cartItems[itemIndex].quantity >= 10) {
+      return error400("Maximum quantity of 10 reached for this item!", {
+        item: null,
+      });
+    }
+
+    const isItemExist = cart.cartItems.findIndex(
+      (item) => item.color === body.color,
+    );
+
+    if (isItemExist === -1) {
+      await createCartItem({ ...body, cartId: cart.id });
+      return success200({ item: {} });
+    }
+    await increaseQuantity(cart.cartItems[isItemExist].id);
+  }
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -179,24 +209,7 @@ export async function POST(req: NextRequest) {
           return success200({ item: {} });
         }
 
-        const itemIndex = guestUser.cart.cartItems.findIndex(
-          (item) => item.productId === body.productId,
-        );
-
-        if (itemIndex === -1) {
-          await createCartItem({ ...body, cartId: guestUser.cart.id });
-        } else {
-          if (guestUser.cart.cartItems[itemIndex].quantity >= 10) {
-            return error400("Maximum quantity of 10 reached for this item!", {
-              item: null,
-            });
-          }
-          if (guestUser.cart.cartItems[itemIndex].color !== body.color) {
-            await createCartItem({ ...body, cartId: guestUser.cart.id });
-            return success200({ item: {} });
-          }
-          await increaseQuantity(guestUser.cart.cartItems[itemIndex].id);
-        }
+        await handleNewCartItem(guestUser.cart, body);
       }
       return success200({ item: {} });
     }
@@ -206,22 +219,11 @@ export async function POST(req: NextRequest) {
     if (!existingCart) {
       const cart = await createCart({ userId: session.user.id });
       await createCartItem({ ...body, cartId: cart.id });
-    } else {
-      const itemIndex = existingCart.cartItems.findIndex(
-        (item) => item.productId === body.productId,
-      );
 
-      if (itemIndex === -1) {
-        await createCartItem({ ...body, cartId: existingCart.id });
-      } else {
-        if (existingCart.cartItems[itemIndex].quantity >= 10) {
-          return error400("Maximum quantity of 10 reached for this item!", {
-            item: null,
-          });
-        }
-        await increaseQuantity(existingCart.cartItems[itemIndex].id);
-      }
+      return success200({ item: {} });
     }
+
+    await handleNewCartItem(existingCart, body);
 
     return success200({ item: {} });
   } catch (error) {

@@ -57,7 +57,7 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
       <div className="relative flex items-center gap-5">
         {(remove_cart_item_mutation.isLoading ||
           item_quantity_mutation.isLoading) && (
-          <div className="absolute z-10 flex h-full w-[110px] items-center justify-center bg-[rgba(0,0,0,0.1)]">
+          <div className="absolute z-10 flex h-full w-[100px] items-center justify-center bg-[rgba(0,0,0,0.1)]">
             <div className="h-fit w-fit rounded-full bg-white p-1 opacity-100">
               <Loader2 className="animate-spin text-black" size={25} />
             </div>
