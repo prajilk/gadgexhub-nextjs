@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^3.3.1",
     "@mantine/hooks": "^7.1.7",
     "@next-auth/prisma-adapter": "^1.0.7",
+    "@nextui-org/badge": "^2.0.24",
     "@nextui-org/button": "^2.0.26",
     "@nextui-org/card": "^2.0.24",
     "@nextui-org/dropdown": "^2.1.16",

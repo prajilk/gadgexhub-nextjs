@@ -2,21 +2,22 @@
 
 import { useGlobalContext } from "@/context/store";
 import { ShoppingCart } from "lucide-react";
+import { Badge } from "@nextui-org/badge";
 
 const Cart = () => {
   const { cartItems } = useGlobalContext();
 
   return (
-    <div className="relative cursor-pointer">
+    <Badge
+      content={cartItems.length}
+      color="danger"
+      classNames={{
+        badge: "text-xs",
+      }}
+      isInvisible={cartItems.length === 0}
+    >
       <ShoppingCart />
-      {cartItems.length !== 0 && (
-        <div className="badge badge-error badge-xs absolute -right-2 -top-1 translate-y-[-25%] p-2">
-          <span className="absolute inset-0 translate-y-[20%]">
-            {cartItems.length}
-          </span>
-        </div>
-      )}
-    </div>
+    </Badge>
   );
 };
 

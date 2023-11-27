@@ -1,5 +1,5 @@
 import axios from "@/config/axios.config";
-import { HeroBanner } from "../types/types";
+import { HeroBanner } from "@prisma/client";
 
 export async function getHeroBanner() {
   try {

@@ -1,8 +1,8 @@
 import { formatCurrency } from "@/lib/utils";
-import { HeroBanner } from "@/lib/types/types";
 import { motion as m } from "framer-motion";
 import Image from "next/image";
 import LinkButton from "../shared/link-button";
+import { HeroBanner } from "@prisma/client";
 
 const Slider = ({
   slide,

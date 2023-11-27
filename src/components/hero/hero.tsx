@@ -3,7 +3,7 @@
 import { ChevronsLeft, ChevronsRight, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import Slider from "./slider";
-import { HeroBanner } from "@/lib/types/types";
+import { HeroBanner } from "@prisma/client";
 
 const Hero = ({ slides }: { slides: HeroBanner[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
