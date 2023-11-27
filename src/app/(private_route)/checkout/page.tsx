@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 const Checkout = async () => {
-  revalidatePath("/checkout", "page");
+  revalidatePath("/checkout", "layout");
   const data = await getCheckout();
   if (!data) redirect("/");
 
@@ -29,7 +29,7 @@ const Checkout = async () => {
         <Hydrate state={dehydratedState}>
           <DeliveryAddress />
         </Hydrate>
-        <div className="w-full bg-white shadow">
+        <div className="w-full bg-white pb-7 shadow">
           <div className="border-b px-5 py-3">
             <h2 className="text-muted-foreground">Order summary</h2>
           </div>
