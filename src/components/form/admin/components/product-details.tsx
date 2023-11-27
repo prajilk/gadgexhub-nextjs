@@ -5,20 +5,12 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input, InputContainer } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectItem } from "@nextui-org/select";
 import { ProductFormProps } from "@/lib/types/types";
 import { Button } from "@nextui-org/button";
+import { Textarea, Input } from "@nextui-org/input";
 
 const ProductDetails = ({ form }: ProductFormProps) => {
   function generateSlug() {
@@ -36,11 +28,20 @@ const ProductDetails = ({ form }: ProductFormProps) => {
         name="title"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Title</FormLabel>
             <FormControl>
-              <InputContainer className="bg-gray-50">
-                <Input placeholder="Title" {...field} />
-              </InputContainer>
+              <Input
+                {...field}
+                isRequired
+                label="Title"
+                labelPlacement="outside"
+                placeholder="Title"
+                variant="faded"
+                radius="sm"
+                classNames={{
+                  label: "font-medium",
+                  inputWrapper: "border border-slate-200 bg-gray-50",
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -51,12 +52,21 @@ const ProductDetails = ({ form }: ProductFormProps) => {
         name="slug"
         render={({ field }) => (
           <FormItem className="mt-3">
-            <FormLabel>Slug</FormLabel>
             <FormControl style={{ margin: "0" }}>
-              <div className="flex items-center gap-2">
-                <InputContainer className="w-full bg-gray-50">
-                  <Input {...field} />
-                </InputContainer>
+              <div className="flex items-end gap-2">
+                <Input
+                  {...field}
+                  isRequired
+                  label="Slug"
+                  labelPlacement="outside"
+                  placeholder="Slug"
+                  variant="faded"
+                  radius="sm"
+                  classNames={{
+                    label: "font-medium",
+                    inputWrapper: "border border-slate-200 bg-gray-50",
+                  }}
+                />
                 <Button type="button" onClick={generateSlug} variant="bordered">
                   Generate
                 </Button>
@@ -70,21 +80,20 @@ const ProductDetails = ({ form }: ProductFormProps) => {
         control={form.control}
         name="shortDescription"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>
-              Short Description{" "}
-              <span className="text-xs lowercase text-gray-400">
-                &#40;optional&#41;
-              </span>
-            </FormLabel>
+          <FormItem className="mt-9">
             <FormControl>
-              <InputContainer className="bg-gray-50">
-                <Input
-                  placeholder="Short Description"
-                  {...field}
-                  className=""
-                />
-              </InputContainer>
+              <Input
+                {...field}
+                label="Short Description"
+                labelPlacement="outside"
+                placeholder="Short Description (optional)"
+                variant="faded"
+                radius="sm"
+                classNames={{
+                  label: "font-medium",
+                  inputWrapper: "border border-slate-200 bg-gray-50",
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -95,12 +104,18 @@ const ProductDetails = ({ form }: ProductFormProps) => {
         name="description"
         render={({ field }) => (
           <FormItem className="mt-3">
-            <FormLabel>Description</FormLabel>
             <FormControl>
               <Textarea
                 placeholder="Description"
+                label="Description"
+                labelPlacement="outside"
+                radius="sm"
+                variant="faded"
+                classNames={{
+                  label: "text-sm font-medium",
+                  inputWrapper: "border border-slate-200 bg-gray-50",
+                }}
                 {...field}
-                className="bg-gray-50"
               />
             </FormControl>
             <FormMessage />
@@ -113,24 +128,38 @@ const ProductDetails = ({ form }: ProductFormProps) => {
           name="categoryId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize">Category Id</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="bg-gray-50 py-[1.35rem] outline-none focus:ring-0">
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories?.map((category) => (
-                    <SelectItem
-                      value={category.id.toString()}
-                      key={category.id}
-                    >
-                      {category.name}
+              <FormControl>
+                <Select
+                  placeholder="Select a category"
+                  label="Category Id"
+                  labelPlacement="outside"
+                  disabledKeys={["empty"]}
+                  onChange={field.onChange}
+                  radius="sm"
+                  isRequired
+                  variant="bordered"
+                  classNames={{
+                    value: "text-black",
+                    label: "text-sm font-medium",
+                    popoverContent: "bg-white",
+                    trigger:
+                      "border border-slate-200 bg-gray-50 mt-1 h-unit-10",
+                  }}
+                >
+                  {categories ? (
+                    categories.map((category) => (
+                      <SelectItem key={category.id} value={category.name}>
+                        {category.name}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem key={1} value={"empty"}>
+                      No items to select!
                     </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                  )}
+                </Select>
+              </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -138,16 +167,21 @@ const ProductDetails = ({ form }: ProductFormProps) => {
           control={form.control}
           name="stock"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="capitalize">Stock</FormLabel>
+            <FormItem className="mt-1">
               <FormControl>
-                <InputContainer className="max-w-lg bg-gray-50">
-                  <Input
-                    className="placeholder:capitalize"
-                    placeholder="Stock"
-                    {...field}
-                  />
-                </InputContainer>
+                <Input
+                  {...field}
+                  isRequired
+                  label="Stock"
+                  labelPlacement="outside"
+                  placeholder="Stock"
+                  variant="faded"
+                  radius="sm"
+                  classNames={{
+                    label: "font-medium",
+                    inputWrapper: "border border-slate-200 bg-gray-50",
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -161,18 +195,22 @@ const ProductDetails = ({ form }: ProductFormProps) => {
             control={form.control}
             name={item}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize">
-                  {item.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                </FormLabel>
+              <FormItem className="mt-1">
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-gray-50">
-                    <Input
-                      className="placeholder:capitalize"
-                      placeholder={item.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                      {...field}
-                    />
-                  </InputContainer>
+                  <Input
+                    {...field}
+                    isRequired
+                    label={item.replace(/([a-z])([A-Z])/g, "$1 $2")}
+                    labelPlacement="outside"
+                    placeholder={item.replace(/([a-z])([A-Z])/g, "$1 $2")}
+                    variant="faded"
+                    radius="sm"
+                    classNames={{
+                      label: "font-medium capitalize",
+                      input: "placeholder:capitalize",
+                      inputWrapper: "border border-slate-200 bg-gray-50",
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

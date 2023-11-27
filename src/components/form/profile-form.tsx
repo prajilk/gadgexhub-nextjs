@@ -6,14 +6,12 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { z } from "zod";
 import { ZodProfileSchema } from "@/lib/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input, InputContainer } from "../ui/input";
-import { RadioGroup, RadioGroupItem } from "../ui/radio";
+import { RadioGroup, Radio } from "@nextui-org/radio";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { UserResProps } from "@/lib/types/types";
@@ -24,6 +22,7 @@ import { useUser } from "@/api-hooks/user/get-user";
 import { useUpdateUser } from "@/api-hooks/user/update-user";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 
 const ProfileForm = () => {
   const { data, error, isLoading } = useUser();
@@ -99,11 +98,18 @@ const ProfileForm = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Fullname</FormLabel>
               <FormControl>
-                <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                  <Input placeholder="Fullname" {...field} />
-                </InputContainer>
+                <Input
+                  {...field}
+                  label="Fullname"
+                  labelPlacement="outside"
+                  placeholder="Fullname"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "bg-gray-50 border border-slate-200 mt-5",
+                    label: "font-medium",
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,35 +120,18 @@ const ProfileForm = () => {
           name="gender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Gender</FormLabel>
               <FormControl>
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  label="Gender"
+                  onChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  size="sm"
+                  classNames={{
+                    label: "text-sm font-medium text-black",
+                  }}
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem
-                        value="male"
-                        checked={form.getValues("gender") === "male"}
-                      />
-                    </FormControl>
-                    <FormLabel className="cursor-pointer font-normal">
-                      Male
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem
-                        value="female"
-                        checked={form.getValues("gender") === "female"}
-                      />
-                    </FormControl>
-                    <FormLabel className="cursor-pointer font-normal">
-                      Female
-                    </FormLabel>
-                  </FormItem>
+                  <Radio value="male">Male</Radio>
+                  <Radio value="female">Female</Radio>
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -154,11 +143,18 @@ const ProfileForm = () => {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone number</FormLabel>
               <FormControl>
-                <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                  <Input placeholder="Phone number" {...field} />
-                </InputContainer>
+                <Input
+                  {...field}
+                  label="Phone number"
+                  labelPlacement="outside"
+                  placeholder="Phone number"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "bg-gray-50 border border-slate-200 mt-5",
+                    label: "font-medium",
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

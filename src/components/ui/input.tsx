@@ -1,32 +1,9 @@
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
-import { JsxElement } from "typescript";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
-
-const InputContainer = ({
-  children,
-  className,
-  icon,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  icon?: React.ReactElement<JsxElement>;
-}) => {
-  return (
-    <div
-      className={cn(
-        "my-2 flex w-full items-center justify-between gap-1 rounded-lg border bg-white py-0 pe-2 ps-4",
-        className,
-      )}
-    >
-      {children}
-      <div className="ms-1 cursor-pointer text-gray-400">{icon}</div>
-    </div>
-  );
-};
-InputContainer.displayName = "InputContainer";
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
@@ -34,7 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          "relative w-full border-none bg-transparent py-3 text-sm text-black outline-none placeholder:text-sm",
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
         ref={ref}
@@ -45,4 +22,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export { InputContainer, Input };
+export { Input };

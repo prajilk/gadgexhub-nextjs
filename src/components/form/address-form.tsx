@@ -5,15 +5,13 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ZodAddressSchema } from "@/lib/zodSchemas";
-import { Input, InputContainer } from "../ui/input";
-import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 import { stateList } from "@/lib/data";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import { AddressProps } from "@/lib/types/types";
@@ -34,6 +32,7 @@ import { useDeleteAddress } from "@/api-hooks/address/delete-address";
 import { useCreateAddress } from "@/api-hooks/address/create-address";
 import { useUpdateAddress } from "@/api-hooks/address/update-address";
 import { Button } from "@nextui-org/button";
+import { Checkbox } from "@nextui-org/checkbox";
 
 const AddressForm = ({
   address,
@@ -94,12 +93,15 @@ const AddressForm = ({
                 <FormControl>
                   <Checkbox
                     checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                    onChange={field.onChange}
+                    name="is_default"
+                    classNames={{
+                      label: "text-sm font-medium",
+                    }}
+                  >
+                    This is my default address
+                  </Checkbox>
                 </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel>This is my default address</FormLabel>
-                </div>
               </FormItem>
             )}
           />
@@ -112,9 +114,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                    <Input placeholder="Fullname" {...field} />
-                  </InputContainer>
+                  <Input
+                    placeholder="Fullname"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
                 <FormMessage className="text-start" />
               </FormItem>
@@ -126,9 +130,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                    <Input placeholder="Phone number" {...field} />
-                  </InputContainer>
+                  <Input
+                    placeholder="Phone number"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
                 <FormMessage className="text-start" />
               </FormItem>
@@ -142,9 +148,11 @@ const AddressForm = ({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                  <Input placeholder="Address" {...field} />
-                </InputContainer>
+                <Input
+                  placeholder="Address"
+                  {...field}
+                  className="bg-gray-50"
+                />
               </FormControl>
               <FormMessage className="text-start" />
             </FormItem>
@@ -158,9 +166,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                    <Input placeholder="Locality" {...field} />
-                  </InputContainer>
+                  <Input
+                    placeholder="Locality"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
                 <FormMessage className="text-start" />
               </FormItem>
@@ -172,9 +182,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                    <Input placeholder="District" {...field} />
-                  </InputContainer>
+                  <Input
+                    placeholder="District"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
                 <FormMessage className="text-start" />
               </FormItem>
@@ -193,7 +205,7 @@ const AddressForm = ({
                   defaultValue={field.value}
                   name=""
                   id=""
-                  className="scrollbar-thin select w-full rounded-lg border bg-[#f5f5f5] text-sm"
+                  className="scrollbar-thin select w-full rounded-lg border bg-gray-50 text-sm"
                 >
                   <option value="" disabled hidden>
                     State
@@ -214,9 +226,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="my-0 max-w-lg bg-[#f5f5f5]">
-                    <Input placeholder="Pincode" {...field} />
-                  </InputContainer>
+                  <Input
+                    placeholder="Pincode"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
                 <FormMessage className="text-start" />
               </FormItem>
@@ -231,9 +245,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                    <Input placeholder="Landmark (optional)" {...field} />
-                  </InputContainer>
+                  <Input
+                    placeholder="Landmark (optional)"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -244,12 +260,11 @@ const AddressForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-[#f5f5f5]">
-                    <Input
-                      placeholder="Alternate Phone (optional)"
-                      {...field}
-                    />
-                  </InputContainer>
+                  <Input
+                    placeholder="Alternate Phone (optional)"
+                    {...field}
+                    className="bg-gray-50"
+                  />
                 </FormControl>
               </FormItem>
             )}

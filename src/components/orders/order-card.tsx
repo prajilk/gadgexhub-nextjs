@@ -76,8 +76,11 @@ const OrderCard = ({
       </div>
       <div className="mt-3 flex items-center justify-end">
         <LinkButton
+          size="sm"
           href={`/orders/${orderId}`}
-          className="btn-xs border border-black bg-white font-medium text-black md:btn-sm hover:bg-gray-100 md:rounded-none"
+          variant="bordered"
+          radius="sm"
+          className="border"
         >
           VIEW ORDER
         </LinkButton>

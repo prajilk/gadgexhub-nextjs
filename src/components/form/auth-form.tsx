@@ -10,7 +10,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Input, InputContainer } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { ZodAuthSchema } from "@/lib/zodSchemas";
@@ -22,6 +21,7 @@ import { UserResProps } from "@/lib/types/types";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 
 export function AuthForm() {
   const [isPassword, setIsPassword] = useState(true);
@@ -44,7 +44,6 @@ export function AuthForm() {
     setSignInIsLoading(true);
 
     try {
-      console.log(callbackUrl);
       const signInResponse = await signIn("credentials", {
         email: data.email,
         password: data.password,
@@ -92,11 +91,17 @@ export function AuthForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="mb-3">
               <FormControl>
-                <InputContainer className="md:bg-gray-100">
-                  <Input placeholder="Email" {...field} />
-                </InputContainer>
+                <Input
+                  placeholder="Email"
+                  {...field}
+                  radius="sm"
+                  size="sm"
+                  classNames={{
+                    inputWrapper: "border border-slate-200",
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -108,22 +113,29 @@ export function AuthForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <InputContainer
-                  className="md:bg-gray-100"
-                  icon={
+                <Input
+                  {...field}
+                  placeholder="Password"
+                  radius="sm"
+                  size="sm"
+                  classNames={{
+                    inputWrapper: "border border-slate-200",
+                  }}
+                  endContent={
                     isPassword ? (
-                      <Eye onClick={() => setIsPassword(false)} />
+                      <Eye
+                        className="cursor-pointer text-gray-400"
+                        onClick={() => setIsPassword(false)}
+                      />
                     ) : (
-                      <EyeOff onClick={() => setIsPassword(true)} />
+                      <EyeOff
+                        className="cursor-pointer"
+                        onClick={() => setIsPassword(true)}
+                      />
                     )
                   }
-                >
-                  <Input
-                    placeholder="Password"
-                    type={isPassword ? "password" : "text"}
-                    {...field}
-                  />
-                </InputContainer>
+                  type={isPassword ? "password" : "text"}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

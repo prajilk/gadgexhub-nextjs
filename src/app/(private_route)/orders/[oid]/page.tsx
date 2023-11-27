@@ -21,7 +21,7 @@ const Order = async ({ params }: { params: { oid: string } }) => {
     order.order.orderItems.reduce((acc, curr) => acc + curr.offerPrice, 0) || 0;
 
   return (
-    <Container className="py-14 md:py-20">
+    <Container>
       <div className="mx-auto w-full max-w-3xl rounded-md bg-white p-5">
         <h1 className="text-lg font-medium md:text-2xl">Order ID: {orderId}</h1>
         <p className="mt-1 text-xs text-muted-foreground md:text-sm">

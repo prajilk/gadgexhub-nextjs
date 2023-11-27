@@ -1,4 +1,5 @@
 import Profile from "@/components/navbar/profile";
+import ShowPrivateNavbar from "@/components/navbar/show-private-navbar";
 import { authOptions } from "@/lib/auth";
 import { LayoutProps } from "@/lib/types/types";
 import { getServerSession } from "next-auth";
@@ -10,14 +11,16 @@ const PrivateLayout = async ({ children }: LayoutProps) => {
   if (!session?.user) redirect(`/authentication`);
   return (
     <>
-      <nav className="mb-5 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-          <Link href="/">
-            <h1 className="text-lg font-semibold md:text-2xl">GadgeXhub</h1>
-          </Link>
-          <Profile session={session} />
-        </div>
-      </nav>
+      <ShowPrivateNavbar>
+        <nav className="mb-5 bg-white">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+            <Link href="/">
+              <h1 className="text-lg font-semibold md:text-2xl">GadgeXhub</h1>
+            </Link>
+            <Profile session={session} />
+          </div>
+        </nav>
+      </ShowPrivateNavbar>
       <main>{children}</main>
     </>
   );
