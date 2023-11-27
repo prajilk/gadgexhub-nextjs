@@ -11,7 +11,7 @@ const Orders = async () => {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <Container className="py-14 md:py-20">
+    <Container>
       <div className="mx-auto w-full max-w-3xl">
         <div className="mb-5 bg-white p-5">
           <Package size={30} />

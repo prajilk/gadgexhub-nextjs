@@ -1,4 +1,3 @@
-import { Input, InputContainer } from "@/components/ui/input";
 import { Ban, X } from "lucide-react";
 import ImagePicker from "./image-picker";
 import { AddColorSectionProps } from "@/lib/types/types";
@@ -7,6 +6,7 @@ import { useGlobalContext } from "@/context/store";
 import { capitalizeSearchParam } from "@/lib/utils";
 import { Button } from "@nextui-org/button";
 import { Tooltip } from "@nextui-org/tooltip";
+import { Input } from "@nextui-org/input";
 
 const AddColorSection = ({
   variant,
@@ -51,13 +51,18 @@ const AddColorSection = ({
         </button>
       </div>
       <div className="flex items-center gap-5">
-        <InputContainer className="bg-gray-100">
-          <Input
-            type="text"
-            onChange={(e) => addColor(e.target.value, index)}
-            placeholder="Enter color"
-          />
-        </InputContainer>
+        <Input
+          placeholder="Enter color"
+          variant="faded"
+          radius="sm"
+          size="sm"
+          className="mb-4 mt-2"
+          onValueChange={(value) => addColor(value, index)}
+          classNames={{
+            label: "font-medium",
+            inputWrapper: "border border-slate-200 bg-gray-50",
+          }}
+        />
       </div>
       <div className="relative overflow-hidden">
         <div

@@ -2,10 +2,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input, InputContainer } from "@/components/ui/input";
+import { Input } from "@nextui-org/input";
 import { ProductFormProps } from "@/lib/types/types";
 import { useState } from "react";
 import { Ban, Plus } from "lucide-react";
@@ -59,20 +58,23 @@ const ProductOptions = ({ form }: ProductFormProps) => {
             name={item}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="capitalize">
-                  {item.replace(/([a-z])([A-Z])/g, "$1 $2")}{" "}
-                  <span className="text-xs lowercase text-gray-400">
-                    &#40;optional&#41;
-                  </span>
-                </FormLabel>
                 <FormControl>
-                  <InputContainer className="max-w-lg bg-gray-50">
-                    <Input
-                      className="placeholder:capitalize"
-                      placeholder={item.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                      {...field}
-                    />
-                  </InputContainer>
+                  <Input
+                    {...field}
+                    label={item.replace(/([a-z])([A-Z])/g, "$1 $2")}
+                    labelPlacement="outside"
+                    placeholder={`${item.replace(
+                      /([a-z])([A-Z])/g,
+                      "$1 $2",
+                    )} (optional)`}
+                    variant="faded"
+                    radius="sm"
+                    classNames={{
+                      label: "font-medium capitalize",
+                      inputWrapper: "border border-slate-200 bg-gray-50",
+                      input: "placeholder:capitalize",
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

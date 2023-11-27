@@ -38,7 +38,7 @@ const stateList = [
 const noNavFooterPages = [
   "/authentication",
   "/signout",
-  "/account",
+  "/account/",
   "/admin",
   "/checkout",
 ];
