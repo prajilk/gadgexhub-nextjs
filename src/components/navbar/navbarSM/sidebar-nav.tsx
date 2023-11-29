@@ -22,11 +22,11 @@ const SidebarNav = ({ navItems }: { navItems: NavbarCategories[] | null }) => {
         </SheetHeader>
         <ul className="text-left">
           {navItems?.map((item, i) => <DropdownItem item={item} key={i} />)}
-          <div className="menu-item">
+          <div className="cursor-pointer rounded-lg px-4 py-2 hover:bg-gray-200">
             <ClientLink
               htmlFor="drawer-left"
               redirect="/store"
-              className="p-0 text-base font-medium"
+              className="cursor-pointer p-0 text-base font-medium"
             >
               Store
             </ClientLink>

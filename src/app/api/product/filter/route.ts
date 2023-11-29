@@ -7,11 +7,13 @@ import {
 } from "@/lib/utils";
 import { NextRequest } from "next/server";
 import { getAllProducts, getProductsWithCategories } from "./helper";
+import { makeSearchResult } from "../../search/helper";
 
 export async function GET(req: NextRequest) {
   const page = Number(req.nextUrl.searchParams.get("page") ?? 1);
   const category = req.nextUrl.searchParams.get("category");
   const sort = req.nextUrl.searchParams.get("sort");
+  const search = req.nextUrl.searchParams.get("search");
 
   try {
     const dbCategories = await db.category.findMany();
@@ -29,6 +31,8 @@ export async function GET(req: NextRequest) {
     const dbProducts =
       categories.length !== 0
         ? await getProductsWithCategories(categories, page)
+        : search
+        ? await makeSearchResult(search, page)
         : await getAllProducts(page);
 
     const products = sortProduct(dbProducts, sort).map((dbProduct) => ({
@@ -45,8 +49,6 @@ export async function GET(req: NextRequest) {
 
     return success200({ products });
   } catch (error) {
-    console.log(error);
-
     return error500({ products: null });
   }
 }

@@ -11,9 +11,11 @@ import Link from "next/link";
 const ProductResults = () => {
   const category = usePathname().split("/").at(-1);
   const sort = useSearchParams().get("sort");
+  const search = useSearchParams().get("q");
   const { data, fetchNextPage, isFetchingNextPage } = useFilteredProducts(
-    category || null,
+    category,
     sort || undefined,
+    search || undefined,
   );
 
   const lastOrderRef = useRef<HTMLElement>(null);

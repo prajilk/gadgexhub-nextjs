@@ -106,6 +106,7 @@ model Product {
   color            String? // "Matte black, Clay White" | "NULL"
   variantName      String? // "Size"
   variantValues    String? // "small, medium, large"
+  keywords         String[]
   createdAt        DateTime    @default(now())
   images           Image[]
   cartItems        CartItem[]

@@ -104,3 +104,19 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-background-clip: text !important;
 }
+
+.toggle {
+  display: none;
+}
+
+.toggle:checked ~ .menu-collapse {
+  border-style: none;
+  grid-template-rows: 1fr;
+}
+
+.toggle:checked ~ .item .icon {
+  --tw-rotate: 90deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}

@@ -28,9 +28,12 @@ const ProductRow = (rowData: ProductRowProps) => {
       </div>
       <hr className="mb-5 mt-3 border-gray-300" />
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-4">
-        {rowData.products
-          ?.splice(0, 4)
-          .map((product, i) => (
+        {rowData.products?.splice(0, 4).map((product, i) => (
+          <Link
+            href={`/store/${product.slug}?pid=${product.pid}`}
+            key={i}
+            className="flex"
+          >
             <ProductCard
               href={`/store/${product.slug}?pid=${product.pid}`}
               title={product.title}
@@ -40,9 +43,9 @@ const ProductRow = (rowData: ProductRowProps) => {
                 product.basePrice,
                 product.offerPrice,
               )} OFF`}
-              key={i}
             />
-          ))}
+          </Link>
+        ))}
       </div>
     </section>
   );
