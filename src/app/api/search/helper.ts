@@ -12,7 +12,7 @@ async function getSearchItems(search: string, limit = 5, page: number) {
         },
         {
           keywords: {
-            hasSome: search.split(" "),
+            hasSome: search.toLowerCase().split(" "),
           },
         },
       ],
