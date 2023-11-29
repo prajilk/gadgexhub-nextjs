@@ -83,7 +83,6 @@ module.exports = {
     },
   },
   plugins: [
-    require("rippleui"),
     require("tailwindcss-animate"),
     nextui({
       themes: {

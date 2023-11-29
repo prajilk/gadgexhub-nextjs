@@ -31,19 +31,13 @@ const Footer = () => {
             <h2 className="text-sm">Store</h2>
             <ul className="mt-5 text-xs text-[#828282]">
               <li className="my-3 w-fit duration-200 hover:text-white">
-                <Link href="#">Accessories</Link>
+                <Link href="/store/c/accessories">Accessories</Link>
               </li>
               <li className="my-3 w-fit duration-200 hover:text-white">
-                <Link href="#">Gadgets</Link>
+                <Link href="/store/c/gadgets">Gadgets</Link>
               </li>
               <li className="my-3 w-fit duration-200 hover:text-white">
-                <Link href="#">Audio/Video</Link>
-              </li>
-              <li className="my-3 w-fit duration-200 hover:text-white">
-                <Link href="#">Cases & Protections</Link>
-              </li>
-              <li className="my-3 w-fit duration-200 hover:text-white">
-                <Link href="#">Power & Cables</Link>
+                <Link href="/store/c/audio-video">Audio/Video</Link>
               </li>
             </ul>
           </div>

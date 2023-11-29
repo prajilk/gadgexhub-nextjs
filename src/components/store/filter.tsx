@@ -3,14 +3,7 @@ import { makeCategoryUrl } from "@/lib/utils";
 import { ChevronRight, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export const FilterSm = ({
   categories,
@@ -102,7 +95,7 @@ function CategoryList({
               categories.parents.at(-1) || "",
             ) + `/${item.toLowerCase().replace(/[\/. ]/g, "-")}`
           }
-          className="menu-item"
+          className="flex cursor-pointer flex-row items-center gap-2 rounded-lg px-4 py-2 text-sm hover:bg-gray-200"
         >
           {item}
         </Link>
@@ -115,7 +108,7 @@ function CategoryList({
           categories?.parents,
           categories.parents.at(-1) || "",
         )}
-        className="menu-item"
+        className="flex cursor-pointer flex-row items-center gap-2 rounded-lg px-4 py-2 text-sm hover:bg-gray-200"
       >
         {categories.parents.at(-1)}
       </Link>
