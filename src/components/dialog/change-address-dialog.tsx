@@ -62,10 +62,8 @@ const ChangeAddressDialog = ({
             ))}
           </RadioGroup>
           <AddressDialog action="add">
-            <div className="btn btn-sm float-left w-fit rounded-md border border-gray-600 bg-white font-normal text-black hover:bg-gray-100">
-              <span className="me-2">
-                <Plus size={20} />
-              </span>
+            <div className="float-left flex w-fit items-center gap-1 rounded-md border border-gray-600 bg-white px-1 py-1.5 text-sm font-normal text-black hover:bg-gray-100">
+              <Plus size={20} />
               Create new address
             </div>
           </AddressDialog>

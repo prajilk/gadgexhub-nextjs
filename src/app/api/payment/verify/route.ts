@@ -36,7 +36,24 @@ export async function POST(req: NextRequest) {
     const digest = shasum.digest("hex");
 
     if (digest === req.headers.get("x-razorpay-signature")) {
-      await updateOrder(order_id);
+      const successOrder = await updateOrder(order_id);
+      for (const order of successOrder.orderItems) {
+        try {
+          await db.product.update({
+            where: {
+              id: order.productId,
+            },
+            data: {
+              stock: {
+                decrement: order.quantity,
+              },
+            },
+          });
+        } catch (error) {
+          throw error;
+        }
+      }
+
       await createPayment({
         rzr_order_id: payloadEntity.order_id,
         rzr_payment_id: payloadEntity.id,
