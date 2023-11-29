@@ -65,6 +65,9 @@ async function updateOrder(order_id: string) {
     where: {
       id: order_id,
     },
+    include: {
+      orderItems: true
+    }
   });
 }
 
