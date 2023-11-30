@@ -1,5 +1,5 @@
 import axios from "@/config/axios.config";
-import { CategoryProducts } from "@/lib/types/types";
+import { CategoryProduct } from "@/lib/types/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 async function getFilteredProductsClient({
@@ -17,7 +17,7 @@ async function getFilteredProductsClient({
     params: { page: pageParam, category, sort, search },
   });
 
-  if (data) return data.products as CategoryProducts | null;
+  if (data) return data.products as CategoryProduct[] | null;
   return null;
 }
 

@@ -1,12 +1,12 @@
 import ProductCard from "@/components/products/product-card";
-import { CategoryProducts } from "@/lib/types/types";
+import { CategoryProduct } from "@/lib/types/types";
 import { calculatePercentage } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type ProductRowProps = {
   title: string;
-  products: CategoryProducts | null;
+  products: CategoryProduct[] | null;
   viewAll: string;
 };
 
