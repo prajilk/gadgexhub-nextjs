@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
 
     const matchingCategoryId = dbCategories.find(
       (dbCategory) =>
-        dbCategory.name.toLowerCase().replace(/[\/. ]/g, "-") === category,
+        dbCategory.name.toLowerCase().replace(/[\/. ]/g, "-") === category ||
+        dbCategory.id === Number(category),
     )?.id;
 
     const categories = findParentAndEndChildIds(

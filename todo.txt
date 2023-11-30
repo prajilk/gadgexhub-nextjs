@@ -1,1 +1,0 @@
-- Change razoprpay demo url from 'https://charming-slug-deadly.ngrok-free.app' to 'https://gadgexhub.vercel.app'
