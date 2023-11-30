@@ -1,5 +1,5 @@
 import axios from "@/config/axios.config";
-import { CategoryProducts } from "@/lib/types/types";
+import { CategoryProduct } from "@/lib/types/types";
 
 export async function getFilteredProduct({
   pageParam = 1,
@@ -16,7 +16,7 @@ export async function getFilteredProduct({
     const { data } = await axios.get(`/api/product/filter`, {
       params: { page: pageParam, category, sort, search },
     });
-    if (data) return data.products as CategoryProducts | null;
+    if (data) return data.products as CategoryProduct[] | null;
     return null;
   } catch (error) {
     return null;

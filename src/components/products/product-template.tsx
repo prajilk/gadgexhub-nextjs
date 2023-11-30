@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import ProductActions from "./product-actions";
 import { ProductProps } from "@/lib/types/types";
+import RelatedProducts from "./related-products";
 
 type ProductTemplateProps = {
   product: ProductProps;
@@ -109,6 +110,7 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
           </div>
         </div>
       </div>
+      <RelatedProducts categoryId={product.categoryId} pid={product.id} />
     </Container>
   );
 };

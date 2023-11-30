@@ -218,7 +218,7 @@ export interface CategoryStructure {
   child: string[];
 }
 
-export type CategoryProducts = {
+export type CategoryProduct = {
   pid: string;
   slug: string;
   image: string;
@@ -226,4 +226,4 @@ export type CategoryProducts = {
   offerPrice: number;
   basePrice: number;
   stock: number;
-}[];
+};
