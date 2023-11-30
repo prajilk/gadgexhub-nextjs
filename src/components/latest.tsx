@@ -28,9 +28,12 @@ const Latest = async () => {
         </Link>
       </div>
       <div className="mt-14 grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 xl:grid-cols-4">
-        {result
-          ?.splice(0, 4)
-          .map((product, i) => (
+        {result?.splice(0, 4).map((product, i) => (
+          <Link
+            href={`/store/${product.slug}?pid=${product.pid}`}
+            key={i}
+            className="flex"
+          >
             <ProductCard
               key={i}
               title={product.title}
@@ -42,7 +45,8 @@ const Latest = async () => {
               imgUrl={product.image}
               price={product.offerPrice}
             />
-          ))}
+          </Link>
+        ))}
       </div>
     </Container>
   );
