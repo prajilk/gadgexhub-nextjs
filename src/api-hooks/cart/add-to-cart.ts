@@ -1,7 +1,6 @@
 import axios from "@/config/axios.config";
 import { CartItemRes } from "@/lib/types/types";
 import { useMutation } from "@tanstack/react-query";
-import { Session } from "next-auth";
 import { toast } from "sonner";
 
 type UseAddToCartProps = {

@@ -3,7 +3,7 @@
 import { Input } from "@nextui-org/input";
 import { FormEvent, useEffect, useState } from "react";
 import { Frown, History, Search as SearchIcon, Trash2 } from "lucide-react";
-import { CategoryProducts } from "@/lib/types/types";
+import { CategoryProduct } from "@/lib/types/types";
 import { useSearch } from "@/api-hooks/use-search";
 import { useDebounce } from "@/hooks/use-debounce";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import Link from "next/link";
 import SkeletonSearchResult from "../skeletons/skeleton-search-result";
 import { useRouter } from "next/navigation";
 
-const Search = ({ bestSeller }: { bestSeller: CategoryProducts | null }) => {
+const Search = ({ bestSeller }: { bestSeller: CategoryProduct[] | null }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [recentSearch, setRecentSearch] = useState<string[]>([]);
