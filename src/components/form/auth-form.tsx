@@ -170,7 +170,7 @@ export function AuthForm() {
           <Button
             isLoading={mutation.isLoading}
             color="primary"
-            onClick={form.handleSubmit(handleCreateAccount)}
+            onClick={() => form.handleSubmit(handleCreateAccount)}
             isDisabled={mutation.isLoading}
             radius="full"
             type="button"
