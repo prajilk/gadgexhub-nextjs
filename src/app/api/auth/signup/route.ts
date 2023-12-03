@@ -4,10 +4,9 @@ import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { email, password } = body;
-
   try {
+    const body = await req.json();
+    const { email, password } = body;
     const userExists = await db.user.findUnique({
       where: { email: email },
     });
@@ -34,7 +33,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return success200({ user: newUser });
+    return success200({
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+        gender: newUser.gender,
+        phone: newUser.phone,
+      },
+    });
   } catch (error) {
     return error500({ user: null });
   }
