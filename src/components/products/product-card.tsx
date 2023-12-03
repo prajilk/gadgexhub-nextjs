@@ -13,7 +13,7 @@ const ProductCard = ({
   href,
 }: ProductCardProps) => {
   return (
-    <Card className="shadow-md" isPressable>
+    <Card className="shadow-md">
       <CardBody className="p-0">
         <div className="bg-gray-200 md:p-5">
           <div className="relative aspect-square">

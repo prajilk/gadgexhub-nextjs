@@ -19,6 +19,7 @@ function makeRowViewAll(row: string) {
 
 export default async function page() {
   const heroBanners = await getHeroBanner();
+
   const productRows = await Promise.all(
     rows.map(async (row) => {
       return {
