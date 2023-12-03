@@ -167,10 +167,16 @@ export function AuthForm() {
           >
             Sign in
           </Button>
-          <Button
+          <button
+            onClick={form.handleSubmit(handleCreateAccount)}
+            type="button"
+          >
+            Create account
+          </button>
+          {/* <Button
             isLoading={mutation.isLoading}
             color="primary"
-            onClick={() => form.handleSubmit(handleCreateAccount)}
+            onClick={form.handleSubmit(handleCreateAccount)}
             isDisabled={mutation.isLoading}
             radius="full"
             type="button"
@@ -178,7 +184,7 @@ export function AuthForm() {
             className="!border"
           >
             Create account
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>
