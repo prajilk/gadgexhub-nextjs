@@ -20,7 +20,11 @@ const SignUp = () => {
         <h1 className="text-3xl font-light">Sign in/Create account</h1>
         <div className="flex flex-col gap-5">
           <AuthForm />
-          <div className="divider divider-horizontal">OR</div>
+          <div className="flex w-full items-center gap-2">
+            <hr className="w-full border-zinc-300" />
+            OR
+            <hr className="w-full border-zinc-300" />
+          </div>
           <Button
             onClick={signInWithGoogle}
             color="primary"
