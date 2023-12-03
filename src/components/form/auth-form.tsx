@@ -81,7 +81,7 @@ export function AuthForm() {
 
   async function handleCreateAccount(data: z.infer<typeof ZodAuthSchema>) {
     console.log(data);
-    // mutation.mutate(data);
+    mutation.mutate(data);
     setError(null);
   }
 
