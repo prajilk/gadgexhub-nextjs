@@ -167,13 +167,7 @@ export function AuthForm() {
           >
             Sign in
           </Button>
-          <button
-            onClick={form.handleSubmit(handleCreateAccount)}
-            type="button"
-          >
-            Create account
-          </button>
-          {/* <Button
+          <Button
             isLoading={mutation.isLoading}
             color="primary"
             onClick={form.handleSubmit(handleCreateAccount)}
@@ -184,7 +178,7 @@ export function AuthForm() {
             className="!border"
           >
             Create account
-          </Button> */}
+          </Button>
         </div>
       </form>
     </Form>
