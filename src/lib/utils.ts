@@ -39,26 +39,6 @@ const repeat = (times: number) => {
   return Array.from(Array(times).keys());
 };
 
-interface SWRError extends Error {
-  status: number;
-}
-
-async function fetcher<JSON = any>(
-  input: RequestInfo,
-  init?: RequestInit,
-): Promise<JSON> {
-  const res = await fetch(input, init);
-
-  if (!res.ok) {
-    const error = await res.text();
-    const err = new Error(error) as SWRError;
-    err.status = res.status;
-    throw err;
-  }
-
-  return res.json();
-}
-
 function capitalizeSearchParam(text: string) {
   if (!text) return null;
 
@@ -299,7 +279,6 @@ function sortProduct(
 export {
   cn,
   formatCurrency,
-  fetcher,
   repeat,
   textTruncate,
   capitalizeSearchParam,

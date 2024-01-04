@@ -1,6 +1,6 @@
 import { JsxElement } from "typescript";
 import { z } from "zod";
-import { ZodAddressSchema, ZodProductSchema } from "../zodSchemas";
+import { ZodAddressSchema } from "../zodSchemas";
 import { UseFormReturn } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { BestDeal, Image, Product } from "@prisma/client";
@@ -126,39 +126,6 @@ export type CartItemQuantity = {
 };
 
 export type CartItemQuantityRes = Res & { item: CartItemQuantity | null };
-
-export type ProductFormProps = {
-  form: UseFormReturn<z.infer<typeof ZodProductSchema>, any, undefined>;
-};
-
-export type AddColorSectionProps = {
-  variant: ColorVariant;
-  index: number;
-  setDisable: Dispatch<SetStateAction<boolean>>;
-} & ProductFormProps;
-
-export type ColorVariant = {
-  color: string;
-  thumbnail: string;
-  others: string[];
-};
-
-export type ImagePreviewProps = {
-  image: string;
-  variantIndex: number;
-  imageIndex?: number;
-  action: "thumbnail" | "others";
-};
-
-export type ImagePickerProps = {
-  action: "thumbnail" | "others";
-  variant: ColorVariant;
-  variantIndex: number;
-};
-
-export type AddProductResProps = Res & {
-  info: any;
-};
 
 export type PaymentRes = Res & {
   id: string;
