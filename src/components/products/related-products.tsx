@@ -48,8 +48,13 @@ function RelatedProductCard({
   basePrice,
 }: Omit<CategoryProduct, "stock">) {
   return (
-    <Link href={`/store/${slug}?pid=${pid}`} className="flex-shrink-0">
-      <Card isPressable radius="lg" className="border-none shadow-none">
+    <Card
+      isPressable
+      radius="lg"
+      className="flex-shrink-0 border-none shadow-none"
+      style={{ width: "200px" }}
+    >
+      <Link href={`/store/${slug}?pid=${pid}`}>
         <NextUIImage
           alt={`${title} Image`}
           className="rounded-none bg-gray-200 object-cover"
@@ -63,30 +68,33 @@ function RelatedProductCard({
           as={Image}
           src={process.env.NEXT_PUBLIC_IMAGE_URL + image}
         />
-        <CardFooter className="flex flex-1 flex-col items-start gap-3">
-          <h1 className="text-xs font-medium md:text-sm">
-            {textTruncate(title, 35)}
-          </h1>
-          <div className="w-full">
-            <p className="text-left text-destructive">
-              {calculatePercentage(basePrice, offerPrice)}{" "}
-              <span className="font-Roboto text-base font-medium text-black">
-                {formatCurrency(offerPrice)}
-              </span>{" "}
-              <span className="font-Roboto text-xs text-muted-foreground line-through">
-                {formatCurrency(basePrice)}
-              </span>
-            </p>
-            <LinkButton
-              href="/"
-              size="sm"
-              className="mt-5 w-full font-Roboto text-xs font-medium md:text-sm"
-            >
-              {`From ${formatCurrency(offerPrice)}`}
-            </LinkButton>
-          </div>
-        </CardFooter>
-      </Card>
-    </Link>
+      </Link>
+      <CardFooter className="flex flex-1 flex-col items-start gap-3">
+        <Link
+          className="text-left text-xs font-medium md:text-sm"
+          href={`/store/${slug}?pid=${pid}`}
+        >
+          {textTruncate(title, 35)}
+        </Link>
+        <div className="w-full">
+          <p className="text-left text-destructive">
+            {calculatePercentage(basePrice, offerPrice)}{" "}
+            <span className="font-Roboto text-base font-medium text-black">
+              {formatCurrency(offerPrice)}
+            </span>{" "}
+            <span className="font-Roboto text-xs text-muted-foreground line-through">
+              {formatCurrency(basePrice)}
+            </span>
+          </p>
+          <LinkButton
+            href={`/store/${slug}?pid=${pid}`}
+            size="sm"
+            className="mt-5 w-full font-Roboto text-xs font-medium md:text-sm"
+          >
+            {`From ${formatCurrency(offerPrice)}`}
+          </LinkButton>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
