@@ -10,7 +10,7 @@ import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 import SkeletonSearchResult from "../skeletons/skeleton-search-result";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const Search = ({ bestSeller }: { bestSeller: CategoryProduct[] | null }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -57,6 +57,11 @@ const Search = ({ bestSeller }: { bestSeller: CategoryProduct[] | null }) => {
     router.push(`/store/search?q=${searchKeyword}`);
   }
 
+  function handleClickLink(slug: string, pid: string) {
+    router.push(`/store/${slug}?pid=${pid}`);
+    setShowDropdown(false);
+  }
+
   return (
     <form
       onSubmit={searchProduct}
@@ -84,7 +89,7 @@ const Search = ({ bestSeller }: { bestSeller: CategoryProduct[] | null }) => {
         }
       />
       <div
-        className={`absolute z-[9999] min-h-fit w-full rounded-2xl bg-white p-4 shadow-lg ${
+        className={`scrollbar-thin absolute z-[9999] max-h-[500px] min-h-fit w-full overflow-y-scroll rounded-2xl bg-white p-4 shadow-lg ${
           !showDropdown && "hidden"
         }`}
       >
@@ -140,12 +145,12 @@ const Search = ({ bestSeller }: { bestSeller: CategoryProduct[] | null }) => {
           </>
         ) : data && data.length !== 0 ? (
           data.map((item, i) => (
-            <Link
-              href={`/store/${item.slug}?pid=${item.pid}`}
-              className="flex gap-3 border-b px-1 py-2 duration-500 hover:bg-gray-100"
+            <div
+              onClick={() => handleClickLink(item.slug, item.pid)}
+              className="flex cursor-pointer gap-3 border-b px-1 py-2 duration-500 hover:bg-gray-100"
               key={i}
             >
-              <div className="relative h-14 w-14">
+              <div className="relative h-14 w-14 flex-shrink-0">
                 <Image
                   src={process.env.NEXT_PUBLIC_IMAGE_URL + item.image}
                   alt={item.title + "Image"}
@@ -155,12 +160,12 @@ const Search = ({ bestSeller }: { bestSeller: CategoryProduct[] | null }) => {
                 />
               </div>
               <div>
-                <h1 className="font-medium">{item.title}</h1>
+                <h1 className="cutoff-text font-medium">{item.title}</h1>
                 <p className="font-Roboto text-sm text-muted-foreground">
                   {formatCurrency(item.offerPrice)}
                 </p>
               </div>
-            </Link>
+            </div>
           ))
         ) : (
           data && (

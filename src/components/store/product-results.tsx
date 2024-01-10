@@ -2,7 +2,7 @@
 
 import { useFilteredProducts } from "@/api-hooks/products/get-filtered-products";
 import ProductCard from "./product-card";
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Frown, Loader2 } from "lucide-react";
@@ -38,23 +38,22 @@ const ProductResults = () => {
           No products found!
         </h1>
       )}
-      {data?.pages.map((products, i) => (
-        <div
-          key={i}
-          className="grid auto-rows-auto grid-cols-2 items-stretch md:grid-cols-3 lg:grid-cols-4"
-        >
-          {products?.map((product, j) => (
-            <Link
-              href={`/store/${product.slug}?pid=${product.pid}`}
-              key={product.pid}
-              ref={j === products.length - 1 ? ref : undefined}
-              className="flex w-full flex-col p-[3px]"
-            >
-              <ProductCard {...product} key={i} />
-            </Link>
-          ))}
-        </div>
-      ))}
+      <div className="grid auto-rows-auto grid-cols-2 items-stretch md:grid-cols-3 lg:grid-cols-4">
+        {data?.pages.map((products, i) => (
+          <Fragment key={i}>
+            {products?.map((product, j) => (
+              <Link
+                href={`/store/${product.slug}?pid=${product.pid}`}
+                key={product.pid}
+                ref={j === products.length - 1 ? ref : undefined}
+                className="flex w-full flex-col p-[3px]"
+              >
+                <ProductCard {...product} key={i} />
+              </Link>
+            ))}
+          </Fragment>
+        ))}
+      </div>
       {isFetchingNextPage && (
         <div className="mt-10 flex w-full flex-col items-center justify-center gap-3">
           <Loader2 className="animate-spin" size={30} />
