@@ -1,6 +1,6 @@
 import { Card, CardFooter } from "@nextui-org/card";
 import { Image as NextUIImage } from "@nextui-org/image";
-import { calculatePercentage, formatCurrency, textTruncate } from "@/lib/utils";
+import { calculatePercentage, formatCurrency } from "@/lib/utils";
 import LinkButton from "../shared/link-button";
 import Link from "next/link";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
@@ -71,13 +71,13 @@ function RelatedProductCard({
       </Link>
       <CardFooter className="flex flex-1 flex-col items-start gap-3">
         <Link
-          className="text-left text-xs font-medium md:text-sm"
+          className="cutoff-text text-left text-xs font-medium md:text-sm"
           href={`/store/${slug}?pid=${pid}`}
         >
-          {textTruncate(title, 35)}
+          {title}
         </Link>
-        <div className="w-full">
-          <p className="text-left text-destructive">
+        <div className="flex w-full flex-1 flex-col">
+          <p className="mb-5 text-left text-destructive">
             {calculatePercentage(basePrice, offerPrice)}{" "}
             <span className="font-Roboto text-base font-medium text-black">
               {formatCurrency(offerPrice)}
@@ -89,7 +89,7 @@ function RelatedProductCard({
           <LinkButton
             href={`/store/${slug}?pid=${pid}`}
             size="sm"
-            className="mt-5 w-full font-Roboto text-xs font-medium md:text-sm"
+            className="mt-auto w-full flex-shrink-0 font-Roboto text-xs font-medium md:text-sm"
           >
             {`From ${formatCurrency(offerPrice)}`}
           </LinkButton>

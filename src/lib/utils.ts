@@ -28,13 +28,6 @@ function calculatePercentage(basePrice: number, offerPrice: number) {
   return `${percentageDecrease.toFixed(0)}%`;
 }
 
-function textTruncate(text: string, length: number) {
-  if (text.length > length) {
-    return text.slice(0, length) + "...";
-  }
-  return text;
-}
-
 const repeat = (times: number) => {
   return Array.from(Array(times).keys());
 };
@@ -280,7 +273,6 @@ export {
   cn,
   formatCurrency,
   repeat,
-  textTruncate,
   capitalizeSearchParam,
   calculatePercentage,
   makeColorVariant,

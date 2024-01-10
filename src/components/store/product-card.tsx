@@ -1,4 +1,4 @@
-import { calculatePercentage, formatCurrency, textTruncate } from "@/lib/utils";
+import { calculatePercentage, formatCurrency } from "@/lib/utils";
 import NextImage from "next/image";
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
@@ -40,7 +40,7 @@ const ProductCard = ({
         <span className="text-[0.7rem] text-success">
           Up to {calculatePercentage(basePrice, offerPrice)} OFF
         </span>
-        <b className="text-left">{textTruncate(title, 20)}</b>
+        <b className="cutoff-text text-left">{title}</b>
         <p className="text-[0.7rem] text-destructive">
           {stock <= 5 && stock > 0 && `Hurry, only ${stock} left`}
         </p>

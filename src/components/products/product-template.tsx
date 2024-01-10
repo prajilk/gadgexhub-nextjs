@@ -61,9 +61,10 @@ const ProductTemplate = ({ product, searchParams }: ProductTemplateProps) => {
               <ul className="flex flex-wrap gap-3">
                 {product.colorVariants.map((_variant, i) => (
                   <li
-                    className={`flex-shrink-0 cursor-pointer rounded-sm bg-gray-200 ${
-                      _variant.images[0].id === variant.images[0].id &&
-                      "border-2 border-gray-600"
+                    className={`h-fit flex-shrink-0 cursor-pointer overflow-hidden rounded-sm border-2 bg-gray-200 ${
+                      _variant.images[0].id === variant.images[0].id
+                        ? "border-gray-600"
+                        : "border-transparent"
                     }`}
                     key={i}
                   >

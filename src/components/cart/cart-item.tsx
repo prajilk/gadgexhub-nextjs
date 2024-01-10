@@ -1,5 +1,5 @@
 import { CartItemProps } from "@/lib/types/types";
-import { formatCurrency, textTruncate } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { Loader2, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -74,8 +74,8 @@ const CartItem = (item: CartItemProps & { session: Session | null }) => {
         </Link>
         <div className="flex-grow-0">
           <Link href={productUrl}>
-            <h1 className="text-sm font-medium md:text-base">
-              {textTruncate(item.title, 25)}
+            <h1 className="cutoff-text text-sm font-medium md:text-base">
+              {item.title}
             </h1>
           </Link>
           <p className="nd:text-sm mb-3 text-xs">{item.color}</p>

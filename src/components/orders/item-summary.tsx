@@ -1,6 +1,5 @@
-import { roboto } from "@/app/layout";
 import { ItemSummary } from "@/lib/types/types";
-import { formatCurrency, textTruncate } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 
@@ -18,8 +17,8 @@ const ItemSummary = (
           height={80}
         />
         <div>
-          <h5 className="text-sm text-black md:text-base">
-            {textTruncate(props.title, 35)}
+          <h5 className="cutoff-text text-sm text-black md:text-base">
+            {props.title}
           </h5>
           <p className="mt-1 text-xs text-muted-foreground md:text-sm">
             {props.color}

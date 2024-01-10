@@ -1,4 +1,4 @@
-import { formatCurrency, textTruncate } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import { ProductCardProps } from "@/lib/types/types";
 import LinkButton from "../shared/link-button";
@@ -33,8 +33,8 @@ const ProductCard = ({
           </div>
         </div>
         <CardFooter className="flex flex-1 flex-col items-start gap-3">
-          <h1 className="text-xs font-medium md:text-sm">
-            {textTruncate(title, 35)}
+          <h1 className="cutoff-text text-xs font-medium md:text-sm">
+            {title}
           </h1>
           <p className="flex-1 text-xs font-medium text-success">
             {description}

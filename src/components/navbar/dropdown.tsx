@@ -9,12 +9,13 @@ import {
 } from "@nextui-org/dropdown";
 import { NavbarItem } from "@nextui-org/navbar";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 const DropdownContainer = ({
   children,
   child,
 }: {
-  children: React.ReactNode;
+  children: string;
   child: string[];
 }) => {
   return (
@@ -41,7 +42,14 @@ const DropdownContainer = ({
         }}
       >
         {child.map((item, i) => (
-          <DropdownItem key={i} className="py-2">
+          <DropdownItem
+            key={i}
+            className="py-2"
+            as={Link}
+            href={`/store/c/${children.toLowerCase().replace("/", "-")}/${item
+              .toLowerCase()
+              .replace(" ", "+")}`}
+          >
             {item}
           </DropdownItem>
         ))}
