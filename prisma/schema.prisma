@@ -175,6 +175,7 @@ model Order {
   payment_verified Boolean     @default(false)
   status           String      @default("pending")
   addressId        Int
+  packedDate       DateTime?
   address          Address     @relation(fields: [addressId], references: [address_id])
   user             User        @relation(fields: [userId], references: [id])
   orderItems       OrderItem[]
