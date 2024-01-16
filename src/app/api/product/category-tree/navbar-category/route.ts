@@ -1,8 +1,7 @@
 import { db } from "@/lib/prisma";
 import { error500, success200 } from "@/lib/utils";
-import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const dbCategories = await db.category.findMany();
 
