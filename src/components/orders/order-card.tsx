@@ -7,10 +7,14 @@ type OrderCardProps = {
   orderId: string;
   orderDate: Date;
   status: string;
+  payment_verified: boolean;
 };
 
-const statusColor = (status: string) => {
-  if (status === "pending") return "text-warning";
+const statusColor = (status: string, payment_verified: boolean) => {
+  if (status === "pending") {
+    if (!payment_verified) return "text-danger-500";
+    else return "text-warning";
+  }
   return "text-success";
 };
 
@@ -19,6 +23,7 @@ const OrderCard = ({
   orderId,
   orderDate,
   status,
+  payment_verified,
 }: OrderCardProps) => {
   return (
     <div className="mt-5 bg-white p-5">
@@ -26,9 +31,10 @@ const OrderCard = ({
         <h1
           className={`mb-1 text-xs font-semibold uppercase tracking-widest ${statusColor(
             status,
+            payment_verified,
           )} md:text-sm`}
         >
-          ORDER {status}
+          ORDER {payment_verified ? status : "FAILED"}
         </h1>
         <div>
           <h1 className="mb-1 text-xs font-semibold tracking-widest text-gray-400 md:text-sm">

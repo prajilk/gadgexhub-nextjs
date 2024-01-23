@@ -54,6 +54,7 @@ export async function GET(req: NextRequest) {
       orderId: order.id,
       orderDate: order.orderDate,
       status: order.status,
+      payment_verified: order.payment_verified,
     }));
 
     return success200({

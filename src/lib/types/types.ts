@@ -149,6 +149,7 @@ export type SingleOrderRes = Res & {
   order: {
     orderDate: Date;
     address: AddressProps;
+    payment_verified: boolean;
     orderItems: ItemSummary[];
     method?: string;
     via?: string;
@@ -161,6 +162,7 @@ export type AllOrdersRes = Res & {
     orderId: string;
     orderDate: Date;
     status: string;
+    payment_verified: boolean;
   }[];
 };
 
