@@ -15,6 +15,7 @@ import SidebarNav from "./navbarSM/sidebar-nav";
 import Search from "./search";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { getMarqueeOffers } from "@/lib/api/get-marquee-offers";
 
 export default async function Navbar() {
   const navItems = await getNavbarCategories();
@@ -24,9 +25,11 @@ export default async function Navbar() {
     sort: "popular",
   });
 
+  const marqueeOffers = await getMarqueeOffers();
+
   return (
     <>
-      <Marquee />
+      {marqueeOffers && <Marquee offers={marqueeOffers.offers} />}
       <NextNavbar
         shouldHideOnScroll
         classNames={{

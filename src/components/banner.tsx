@@ -6,6 +6,7 @@ import { getBestDeal } from "@/lib/api/get-best-deal";
 
 const Banner = async () => {
   const deal = await getBestDeal();
+  if (!deal) return;
 
   return (
     <div className="bg-black py-5">
