@@ -117,6 +117,7 @@ export async function GET(
         address,
         orderItems,
         orderDate: order.orderDate,
+        payment_verified: order.payment_verified,
         method: formatMethod(order.payment?.method),
         via: formatVia(order.payment?.via, order.payment?.method),
       },

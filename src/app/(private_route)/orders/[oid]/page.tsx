@@ -1,4 +1,3 @@
-import { roboto } from "@/app/layout";
 import Container from "@/components/container";
 import ItemSummary from "@/components/orders/item-summary";
 import { getOrder } from "@/lib/api/order/get-order";
@@ -25,7 +24,7 @@ const Order = async ({ params }: { params: { oid: string } }) => {
       <div className="mx-auto w-full max-w-3xl rounded-md bg-white p-5">
         <h1 className="text-lg font-medium md:text-2xl">Order ID: {orderId}</h1>
         <p className="mt-1 text-xs text-muted-foreground md:text-sm">
-          Order date:{" "}
+          Ordered on:{" "}
           <span className="font-medium text-black">
             {formateDateString(order.order.orderDate)}
           </span>
@@ -55,8 +54,18 @@ const Order = async ({ params }: { params: { oid: string } }) => {
             <h1 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
               Payment
             </h1>
-            <p className="mt-3 text-sm">{order.order.method}</p>
-            <p className="text-sm">{order.order.via}</p>
+            {order.order.payment_verified ? (
+              <>
+                <p className="mt-3 text-sm">{order.order.method}</p>
+                <p className="text-sm">{order.order.via}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-semibold text-red-500">
+                  Payment Failed!
+                </p>
+              </>
+            )}
           </div>
           <div className="-order-1 md:order-2">
             <h1 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
