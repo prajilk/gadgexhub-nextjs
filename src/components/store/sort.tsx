@@ -66,11 +66,15 @@ export const SortSm = () => {
                         pathname
                           ? pathname +
                               `?${
-                                searchParam && `q=${searchParam}`
-                              }&sort=popular`
+                                searchParam
+                                  ? `q=${searchParam}&sort=popular`
+                                  : "sort=popular"
+                              }`
                           : `/store?${
-                              searchParam && `q=${searchParam}`
-                            }&sort=popular`,
+                              searchParam
+                                ? `q=${searchParam}&sort=popular`
+                                : "sort=popular"
+                            }`,
                       );
                       sortParam !== "popular" && setLoading(true);
                     }}
@@ -99,10 +103,16 @@ export const SortSm = () => {
                       router.push(
                         pathname
                           ? pathname +
-                              `?${searchParam && `q=${searchParam}`}&sort=l2h`
+                              `?${
+                                searchParam
+                                  ? `q=${searchParam}&sort=l2h`
+                                  : "sort=l2h"
+                              }`
                           : `/store?${
-                              searchParam && `q=${searchParam}`
-                            }&sort=l2h`,
+                              searchParam
+                                ? `q=${searchParam}&sort=l2h`
+                                : "sort=l2h"
+                            }`,
                       );
                       sortParam !== "l2h" && setLoading(true);
                     }}
@@ -128,10 +138,16 @@ export const SortSm = () => {
                       router.push(
                         pathname
                           ? pathname +
-                              `?${searchParam && `q=${searchParam}`}&sort=h2l`
+                              `?${
+                                searchParam
+                                  ? `q=${searchParam}&sort=h2l`
+                                  : "sort=h2l"
+                              }`
                           : `/store?${
-                              searchParam && `q=${searchParam}`
-                            }&sort=h2l`,
+                              searchParam
+                                ? `q=${searchParam}&sort=h2l`
+                                : "sort=h2l"
+                            }`,
                       );
                       sortParam !== "h2l" && setLoading(true);
                     }}
@@ -158,11 +174,15 @@ export const SortSm = () => {
                         pathname
                           ? pathname +
                               `?${
-                                searchParam && `q=${searchParam}`
-                              }&sort=latest`
+                                searchParam
+                                  ? `q=${searchParam}&sort=latest`
+                                  : "sort=latest"
+                              }`
                           : `/store?${
-                              searchParam && `q=${searchParam}`
-                            }&sort=latest`,
+                              searchParam
+                                ? `q=${searchParam}&sort=latest`
+                                : "sort=latest"
+                            }`,
                       );
                       sortParam !== "latest" && setLoading(true);
                     }}
@@ -216,10 +236,16 @@ export const SortLg = () => {
                   router.push(
                     pathname
                       ? pathname +
-                          `?${searchParam && `q=${searchParam}`}&sort=popular`
+                          `?${
+                            searchParam
+                              ? `q=${searchParam}&sort=popular`
+                              : "sort=popular"
+                          }`
                       : `/store?${
-                          searchParam && `q=${searchParam}`
-                        }&sort=popular`,
+                          searchParam
+                            ? `q=${searchParam}&sort=popular`
+                            : "sort=popular"
+                        }`,
                   );
                   sortParam !== "popular" && setLoading("popular");
                 }}
@@ -237,8 +263,14 @@ export const SortLg = () => {
                   router.push(
                     pathname
                       ? pathname +
-                          `?${searchParam && `q=${searchParam}`}&sort=l2h`
-                      : `/store?${searchParam && `q=${searchParam}`}&sort=l2h`,
+                          `?${
+                            searchParam
+                              ? `q=${searchParam}&sort=l2h`
+                              : "sort=l2h"
+                          }`
+                      : `/store?${
+                          searchParam ? `q=${searchParam}&sort=l2h` : "sort=l2h"
+                        }`,
                   );
                   sortParam !== "l2h" && setLoading("l2h");
                 }}
@@ -256,8 +288,14 @@ export const SortLg = () => {
                   router.push(
                     pathname
                       ? pathname +
-                          `?${searchParam && `q=${searchParam}`}&sort=h2l`
-                      : `/store?${searchParam && `q=${searchParam}`}&sort=h2l`,
+                          `?${
+                            searchParam
+                              ? `q=${searchParam}&sort=h2l`
+                              : "sort=h2l"
+                          }`
+                      : `/store?${
+                          searchParam ? `q=${searchParam}&sort=h2l` : "sort=h2l"
+                        }`,
                   );
                   sortParam !== "h2l" && setLoading("h2l");
                 }}
@@ -275,10 +313,16 @@ export const SortLg = () => {
                   router.push(
                     pathname
                       ? pathname +
-                          `?${searchParam && `q=${searchParam}`}&sort=latest`
+                          `?${
+                            searchParam
+                              ? `q=${searchParam}&sort=latest`
+                              : "sort=latest"
+                          }`
                       : `/store?${
-                          searchParam && `q=${searchParam}`
-                        }&sort=latest`,
+                          searchParam
+                            ? `q=${searchParam}&sort=latest`
+                            : "sort=latest"
+                        }`,
                   );
                   sortParam !== "latest" && setLoading("latest");
                 }}

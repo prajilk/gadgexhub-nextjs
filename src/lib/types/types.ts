@@ -3,7 +3,7 @@ import { z } from "zod";
 import { ZodAddressSchema } from "../zodSchemas";
 import { UseFormReturn } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
-import { BestDeal, Image, Product } from "@prisma/client";
+import { BestDeal, Image, MarqueeOffers, Product } from "@prisma/client";
 
 type Res = {
   user: null | undefined;
@@ -193,4 +193,8 @@ export type CategoryProduct = {
   offerPrice: number;
   basePrice: number;
   stock: number;
+};
+
+export type MarqueeOffersRes = Res & {
+  offers: MarqueeOffers[];
 };

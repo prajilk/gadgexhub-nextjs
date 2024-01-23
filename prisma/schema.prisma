@@ -176,6 +176,7 @@ model Order {
   status           String      @default("pending")
   addressId        Int
   packedDate       DateTime?
+  deliveredDate    DateTime?
   address          Address     @relation(fields: [addressId], references: [address_id])
   user             User        @relation(fields: [userId], references: [id])
   orderItems       OrderItem[]
@@ -219,6 +220,12 @@ model Admin {
   email    String    @unique
   password String
   role     AdminRole @default(SUPERADMIN)
+}
+
+model MarqueeOffers {
+  id    Int    @id @default(autoincrement())
+  title String
+  url   String
 }
 
 enum AdminRole {
