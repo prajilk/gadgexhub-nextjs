@@ -54,7 +54,11 @@ async function createCartWithCartItems({
       userId,
       cartItems: {
         createMany: {
-          data: cartItems,
+          data: cartItems.map((cartItem) => ({
+            productId: cartItem.productId,
+            quantity: cartItem.quantity,
+            color: cartItem.color,
+          })),
         },
       },
     },

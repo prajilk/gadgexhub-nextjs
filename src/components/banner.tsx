@@ -22,7 +22,12 @@ const Banner = async () => {
               </h1>
               {deal?.deal?.imageUrl && (
                 <div className="relative h-60 w-full md:hidden">
-                  <Image src={deal?.deal?.imageUrl} alt="Banner image" fill />
+                  <Image
+                    src={deal?.deal?.imageUrl}
+                    alt="Banner image"
+                    fill
+                    sizes="100vw"
+                  />
                 </div>
               )}
               <p className="my-3 text-sm font-extralight text-gray-400">

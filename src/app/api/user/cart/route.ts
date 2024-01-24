@@ -168,6 +168,8 @@ export async function GET(req: NextRequest) {
     res.cookies.delete("guest-id");
     return res;
   } catch (error) {
+    console.log(error);
+
     return error500({ item: null });
   }
 }
