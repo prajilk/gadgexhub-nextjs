@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
 
     const checkoutCookie = req.cookies.get("checkout")?.value || "";
     const session = await getServerSession(authOptions);
+
     if (!session || !session.user || !session.user.id) {
       return error400("Missing user ID in the session.", { user: null });
     }

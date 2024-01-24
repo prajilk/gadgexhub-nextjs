@@ -21,12 +21,12 @@ function getImageThumbnail(
 function makeUrl(slug: string, pid: string, color: string | null | undefined) {
   if (color) {
     return (
-      `store/${slug}?pid=${pid}` +
+      `/store/${slug}?pid=${pid}` +
       "&" +
       new URLSearchParams({ color: color.toLowerCase() })
     );
   }
-  return `store/${slug}?pid=${pid}`;
+  return `/store/${slug}?pid=${pid}`;
 }
 
 export { getImageThumbnail, makeUrl };

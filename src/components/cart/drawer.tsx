@@ -19,6 +19,7 @@ import SkeletonCartItem from "../skeletons/skeleton-cart-item";
 import { formatCurrency } from "@/lib/utils";
 import Cart from "../navbar/cart";
 import { Button } from "@nextui-org/button";
+import LinkButton from "../shared/link-button";
 
 const Drawer = () => {
   const { cartItems, setCartItems } = useGlobalContext();
@@ -164,9 +165,14 @@ const NoCartItem = () => {
         />
       </svg>
       <h1 className="my-5 text-xl font-medium">Your shopping cart is empty</h1>
-      <Button className="font-medium uppercase" color="primary" size="sm">
+      <LinkButton
+        href="/store"
+        className="font-medium uppercase"
+        color="primary"
+        size="sm"
+      >
         Start Shopping
-      </Button>
+      </LinkButton>
     </div>
   );
 };

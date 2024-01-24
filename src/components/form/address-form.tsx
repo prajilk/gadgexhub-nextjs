@@ -205,7 +205,7 @@ const AddressForm = ({
                   defaultValue={field.value}
                   name=""
                   id=""
-                  className="scrollbar-thin select w-full rounded-lg border bg-gray-50 text-sm"
+                  className="scrollbar-thin select w-full rounded-lg border bg-gray-50 py-2.5 text-sm"
                 >
                   <option value="" disabled hidden>
                     State
